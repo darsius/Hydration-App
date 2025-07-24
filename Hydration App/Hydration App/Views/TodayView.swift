@@ -21,28 +21,28 @@ struct TodayView: View {
                     ZStack(alignment: .bottom) {
                         Image("Glass_empty")
                         Text("200 ml")
-                            .padding(.bottom, 24)
+                            .padding(.bottom, TodayConstants.currentGlassVolume)
                             .font(.bodyText)
                     }
                     
-                    HStack(spacing: 8) {
+                    HStack(spacing: TodayConstants.containerSpacing) {
                         ContainerButtonView(label: "200 ml")
                         ContainerButtonView(label: "400 ml")
                         ContainerButtonView(label: "500 ml")
                     }
-                    .padding(.vertical, 28)
+                    .padding(.vertical, TodayConstants.containerVerticalPadding)
                     
                     Text("Happy you're back to track your healthy habit of staying hydrated.")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 100)
+                        .padding(.horizontal, TodayConstants.motivationalTextHorizontalPadding)
                         .font(.bodyText)
                 }
-                .padding(.top, 40)
+                .padding(.top, TodayConstants.topPadding)
                 
-                VStack(spacing: 0) {
+                VStack {
                     Divider()
-                        .frame(height: 1.5)
+                        .frame(height: TodayConstants.dividerHeight)
                         .background(.GREEN)
                     Spacer()
                 }
