@@ -14,14 +14,13 @@ struct ContainerButtonView: View {
             print("tapped \(label)")
         }) {
             Text(label)
-                .padding(.vertical, 6)
+                .padding(.vertical, 8)
                 .padding(.horizontal, 26)
                 .font(.buttonText)
                 .background(.GREEN)
                 .foregroundStyle(.black)
                 .cornerRadius(4)
         }
-        
     }
 }
 
