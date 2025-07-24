@@ -7,39 +7,42 @@ struct TodayView: View {
                 Image("leaf_background")
                     .resizable()
                     .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .ignoresSafeArea(edges: .horizontal)
                     .blur(radius: 0.7)
                 Color.black.opacity(0.3)
                 
                 VStack {
                     Text("20%")
-                        .font(.system(size: 40))
-                        .fontWeight(.bold)
+                        .font(.glassPercentage)
                         .foregroundStyle(.GREEN)
                     Text("of 2000 ml Goal")
                         .foregroundStyle(.white)
+                        .font(.bodyText)
                     
-                    Image("Glass_empty")
+                    ZStack(alignment: .bottom) {
+                        Image("Glass_empty")
+                        Text("200 ml")
+                            .padding(.bottom, 24)
+                            .font(.bodyText)
+                    }
                     
                     HStack(spacing: 8) {
                         ContainerButtonView(label: "200 ml")
                         ContainerButtonView(label: "400 ml")
                         ContainerButtonView(label: "500 ml")
                     }
-                    .padding(.vertical, 30)
-                    
+                    .padding(.vertical, 28)
                     
                     Text("Happy you're back to track your healthy habit of staying hydrated.")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 70)
+                        .padding(.horizontal, 100)
+                        .font(.bodyText)
                 }
-                .padding(.top, 60)
+                .padding(.top, 40)
                 
                 VStack(spacing: 0) {
                     Divider()
-                        .frame(height: 1)
+                        .frame(height: 1.5)
                         .background(.GREEN)
                     Spacer()
                 }
@@ -50,7 +53,7 @@ struct TodayView: View {
                 Button(action: {
                     print("navigating to settings")
                 }) {
-                    Image(systemName: "ellipsis.vertical.bubble")
+                    Image("Settings")
                 }
             }
             .toolbarBackground(Color(.systemBackground),for: .navigationBar)
