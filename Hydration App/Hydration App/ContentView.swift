@@ -15,6 +15,7 @@ struct ContentView: View {
                     Text("History")
                 }
         }
+        .tint(.GREEN)
     }
 }
 
