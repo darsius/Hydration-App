@@ -3,56 +3,56 @@ import SwiftUI
 struct TodayView: View {
     var body: some View {
         NavigationStack {
-            ZStack {
-                Image("leaf_background")
-                    .resizable()
-                    .scaledToFill()
-                    .blur(radius: 0.7)
-                Color.black.opacity(0.3)
-                
-                VStack {
-                    Text("20%")
-                        .font(.glassPercentage)
-                        .foregroundStyle(.GREEN)
-                    Text("of 2000 ml Goal")
-                        .foregroundStyle(.white)
-                        .font(.bodyText)
+            VStack(spacing: 0) {
+                CustomDivderView()
+                ZStack {
+                    Image("leaf_background")
+                        .resizable()
+                        .scaledToFill()
+                        .blur(radius: 0.7)
+                    Color.black.opacity(0.3)
                     
-                    ZStack(alignment: .bottom) {
-                        Image("Glass_empty")
-                        Text("200 ml")
-                            .padding(.bottom, TodayConstants.currentGlassVolume)
+                    VStack {
+                        Text("20%")
+                            .font(.glassPercentage)
+                            .foregroundStyle(.GREEN)
+                        Text("of 2000 ml Goal")
+                            .foregroundStyle(.white)
+                            .font(.bodyText)
+                        
+                        ZStack(alignment: .bottom) {
+                            Image("Glass_empty")
+                            Text("200 ml")
+                                .padding(.bottom, TodayConstants.currentGlassVolume)
+                                .font(.bodyText)
+                        }
+                        
+                        HStack(spacing: TodayConstants.containerSpacing) {
+                            ContainerButtonView(label: "200 ml")
+                            ContainerButtonView(label: "400 ml")
+                            ContainerButtonView(label: "500 ml")
+                        }
+                        .padding(.vertical, TodayConstants.containerVerticalPadding)
+                        
+                        Text("Happy you're back to track your healthy habit of staying hydrated.")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, TodayConstants.motivationalTextHorizontalPadding)
                             .font(.bodyText)
                     }
-                    
-                    HStack(spacing: TodayConstants.containerSpacing) {
-                        ContainerButtonView(label: "200 ml")
-                        ContainerButtonView(label: "400 ml")
-                        ContainerButtonView(label: "500 ml")
-                    }
-                    .padding(.vertical, TodayConstants.containerVerticalPadding)
-                    
-                    Text("Happy you're back to track your healthy habit of staying hydrated.")
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, TodayConstants.motivationalTextHorizontalPadding)
-                        .font(.bodyText)
+                    .padding(.top, TodayConstants.topPadding)
                 }
-                .padding(.top, TodayConstants.topPadding)
-                
-                CustomDivderView()
-                
-            }
-            .navigationBarTitle("Today's progress", displayMode: .inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(.settings)
+                .navigationBarTitle("Today's progress", displayMode: .inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(destination: SettingsView()) {
+                            Image(.settings)
+                        }
                     }
                 }
+                .toolbarBackground(Color(.systemBackground),for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
             }
-            .toolbarBackground(Color(.systemBackground),for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
 }
@@ -60,4 +60,3 @@ struct TodayView: View {
 #Preview {
     TodayView()
 }
-

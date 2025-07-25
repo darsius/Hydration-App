@@ -13,9 +13,8 @@ struct SettingsView: View {
     var body: some View {
         let plainSpace = "    "
         NavigationStack {
+            CustomDivderView()
             List {
-                CustomDivderView()
-                    .listRowInsets(EdgeInsets())
                 Section("") {
                     HStack {
                         Text(plainSpace + "Units")
@@ -74,7 +73,6 @@ struct SettingsView: View {
                         .font(.listText)
                 }
                 .listRowSeparatorTint(Color(.WHITE))
-                
             }
             .navigationBarBackButtonHidden(true)
             .listStyle(.plain)

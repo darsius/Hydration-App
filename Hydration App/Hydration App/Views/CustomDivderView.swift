@@ -9,12 +9,11 @@ import SwiftUI
 
 struct CustomDivderView: View {
     var body: some View {
-        VStack {
-            Divider()
-                .frame(height: TodayConstants.dividerHeight)
-                .background(.GREEN)
-            Spacer()
-        }
+        Image(.topbarLine)
+            .resizable()
+            .scaledToFit()
+            .frame(maxWidth: .infinity)
+            .clipped()
     }
 }
 
