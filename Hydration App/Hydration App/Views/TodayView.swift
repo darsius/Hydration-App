@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TodayView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Image("leaf_background")
                     .resizable()
@@ -40,12 +40,7 @@ struct TodayView: View {
                 }
                 .padding(.top, TodayConstants.topPadding)
                 
-                VStack {
-                    Divider()
-                        .frame(height: TodayConstants.dividerHeight)
-                        .background(.GREEN)
-                    Spacer()
-                }
+                CustomDivderView()
                 
             }
             .navigationBarTitle("Today's progress", displayMode: .inline)
@@ -65,3 +60,4 @@ struct TodayView: View {
 #Preview {
     TodayView()
 }
+
