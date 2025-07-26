@@ -24,7 +24,6 @@ struct SettingsView: View {
                                 Text("ml")
                                     .font(.listText)
                             }
-                            .padding(.trailing, 10)
                         }
                         
                         NavigationLink(destination: DailyGoalView()){
@@ -46,27 +45,34 @@ struct SettingsView: View {
                     .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
-                        HStack {
-                            Text("Container 1")
-                                .font(.listText)
-                            Spacer()
-                            Text("200 ml")
-                                .font(.listText)
+                        NavigationLink(destination: ContainerView()) {
+                            HStack {
+                                Text("Container 1")
+                                    .font(.listText)
+                                Spacer()
+                                Text("200 ml")
+                                    .font(.listText)
+                            }
                         }
                         .listRowBackground(Color(.GRAY_1))
                         
-                        HStack {
-                            Text("Container 2")
-                            Spacer()
-                            Text("400 ml")
+                        NavigationLink(destination: ContainerView()) {
+                            HStack {
+                                Text("Container 2")
+                                Spacer()
+                                Text("400 ml")
+                            }
                         }
+                        
                         .listRowBackground(Color(.GRAY_1))
                         .font(.listText)
                         
-                        HStack {
-                            Text("Container 3")
-                            Spacer()
-                            Text("500 ml")
+                        NavigationLink(destination: ContainerView()) {
+                            HStack {
+                                Text("Container 3")
+                                Spacer()
+                                Text("500 ml")
+                            }
                         }
                         .font(.listText)
                         .listRowBackground(Color(.GRAY_1))
