@@ -37,8 +37,8 @@ struct SettingsView: View {
                             }
                         }
                     }
-                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                        return viewDimensions[.listRowSeparatorLeading] - 20
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in
+                        return SettingsConstants.listRowDividerLeadingSpacing
                         
                     }
                     .listRowBackground(Color(.GRAY_1))
@@ -76,8 +76,8 @@ struct SettingsView: View {
                     } footer: {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
                     }
-                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                        return viewDimensions[.listRowSeparatorLeading] - 20
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in
+                        return SettingsConstants.listRowDividerLeadingSpacing
                         
                     }
                     .listRowSeparatorTint(Color(.WHITE))
