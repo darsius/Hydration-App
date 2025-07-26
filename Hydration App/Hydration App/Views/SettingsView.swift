@@ -11,7 +11,6 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        let plainSpace = "    "
         NavigationStack {
             VStack {
                 CustomDivderView()
@@ -19,7 +18,7 @@ struct SettingsView: View {
                     Section("") {
                         NavigationLink(destination: UnitsView()){
                             HStack {
-                                Text(plainSpace + "Units")
+                                Text("Units")
                                     .font(.listText)
                                 Spacer()
                                 Text("ml")
@@ -27,60 +26,63 @@ struct SettingsView: View {
                             }
                             .padding(.trailing, 10)
                         }
-                        .listRowInsets(EdgeInsets())
                         
                         NavigationLink(destination: DailyGoalView()){
                             HStack {
-                                Text(plainSpace + "Daily Goal")
+                                Text("Daily Goal")
                                     .font(.listText)
                                 Spacer()
-                                Text("2.000 ml" + plainSpace)
+                                Text("2.000 ml")
                                     .font(.listText)
                             }
                         }
-                        .listRowInsets(EdgeInsets())
                     }
-                        .listRowBackground(Color(.GRAY_1))
-                        .listRowSeparatorTint(Color(.WHITE))
-                        .listSectionSpacing(SettingsConstants.listSectionSpacing)
-                    
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return viewDimensions[.listRowSeparatorLeading] - 20
+                        
+                    }
+                    .listRowBackground(Color(.GRAY_1))
+                    .listRowSeparatorTint(Color(.WHITE))
+                    .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
                         HStack {
-                            Text(plainSpace + "Container 1")
+                            Text("Container 1")
                                 .font(.listText)
                             Spacer()
-                            Text("200 ml" + plainSpace)
+                            Text("200 ml")
                                 .font(.listText)
                         }
-                        .listRowInsets(EdgeInsets())
                         .listRowBackground(Color(.GRAY_1))
                         
                         HStack {
-                            Text(plainSpace + "Container 2")
+                            Text("Container 2")
                             Spacer()
-                            Text("400 ml" + plainSpace)
+                            Text("400 ml")
                         }
-                        .listRowInsets(EdgeInsets())
                         .listRowBackground(Color(.GRAY_1))
                         .font(.listText)
                         
                         HStack {
-                            Text(plainSpace + "Container 3")
+                            Text("Container 3")
                             Spacer()
-                            Text("500 ml" + plainSpace)
+                            Text("500 ml")
                         }
                         .font(.listText)
-                        .listRowInsets(EdgeInsets())
                         .listRowBackground(Color(.GRAY_1))
-            
+                        
                     } header: {
                         Text("Containers")
                     } footer: {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
                     }
+                    .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                        return viewDimensions[.listRowSeparatorLeading] - 20
+                        
+                    }
                     .listRowSeparatorTint(Color(.WHITE))
                 }
+                
                 .navigationBarBackButtonHidden(true)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
