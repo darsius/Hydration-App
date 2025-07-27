@@ -9,6 +9,5 @@ import Foundation
 
 enum SettingsConstants {
     static let listSectionSpacing: CGFloat = 80
-    static let listRowDividerLeadingSpacing: CGFloat = -20
     static let informationalTextHorizontalPadding: CGFloat = -10
 }
