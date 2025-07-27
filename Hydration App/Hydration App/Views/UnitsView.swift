@@ -10,22 +10,32 @@ import SwiftUI
 struct UnitsView: View {
     @Environment(\.dismiss) private var dismiss
     
+    @State private var selectedUnit: UnitType = .ml
+    
     var body: some View {
         VStack {
             CustomDivderView()
             List {
                 Section("") {
-                    HStack {
-                        Text("mililiters (ml)")
-                    }
-                    HStack {
-                        Text("ounces (oz)")
+                    ForEach(UnitType.allCases, id: \.self) { unit in
+                        HStack {
+                            Text(unit.label)
+                            Spacer()
+                            if selectedUnit == unit {
+                                Image(.checkmarkGoal)
+                            }
+                        }
+                        .font(.listText)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectedUnit = unit
+                        }
                     }
                 }
                 .listRowSeparatorTint(Color(.WHITE))
                 .listRowBackground(Color(.GRAY_1))
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
-                    return -20
+                    return ListRowConstants.separatorLeadingOffset
                 }
             }
             .listStyle(.inset)

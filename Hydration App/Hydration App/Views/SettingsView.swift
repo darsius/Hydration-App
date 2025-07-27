@@ -37,7 +37,7 @@ struct SettingsView: View {
                         }
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
-                        return SettingsConstants.listRowDividerLeadingSpacing
+                        return ListRowConstants.separatorLeadingOffset
                         
                     }
                     .listRowBackground(Color(.GRAY_1))
@@ -83,7 +83,7 @@ struct SettingsView: View {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
-                        return SettingsConstants.listRowDividerLeadingSpacing
+                        return ListRowConstants.separatorLeadingOffset
                         
                     }
                     .listRowSeparatorTint(Color(.WHITE))
