@@ -26,7 +26,7 @@ struct SettingsView: View {
                             }
                         }
                         
-                        NavigationLink(destination: DailyGoalView()){
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))){
                             HStack {
                                 Text("Daily Goal")
                                     .font(.listText)
@@ -45,7 +45,7 @@ struct SettingsView: View {
                     .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
-                        NavigationLink(destination: ContainerView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .container(1)))) {
                             HStack {
                                 Text("Container 1")
                                     .font(.listText)
@@ -56,18 +56,17 @@ struct SettingsView: View {
                         }
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: ContainerView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .container(2)))) {
                             HStack {
                                 Text("Container 2")
                                 Spacer()
                                 Text("400 ml")
                             }
                         }
-                        
-                        .listRowBackground(Color(.GRAY_1))
                         .font(.listText)
+                        .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: ContainerView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .container(3)))) {
                             HStack {
                                 Text("Container 3")
                                 Spacer()

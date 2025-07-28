@@ -1,16 +1,16 @@
 //
-//  DailyGoalView.swift
+//  HydrationInputView.swift
 //  Hydration App
 //
-//  Created by Paraschiv, Darius on 25.07.2025.
+//  Created by Paraschiv, Darius on 28.07.2025.
 //
 
 import SwiftUI
 
-struct DailyGoalView: View {
+struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var quantityTextInput = "2000"
     @FocusState private var focus: Bool
+    @Bindable var viewModel: HydrationViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -18,12 +18,12 @@ struct DailyGoalView: View {
             ZStack {
                 BackgroundImageView()
                 VStack(spacing: 100) {
-                    Text("Here you can set your hydration goal based on your preferred unit of measurement")
+                    Text(viewModel.type.informationalDescription)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 100)
-
+                        .padding(.horizontal, 40)
+                    
                     VStack {
-                        TextField("", text: $quantityTextInput)
+                        TextField("", value: $viewModel.amount, formatter: NumberFormatter())
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)
@@ -61,5 +61,5 @@ struct DailyGoalView: View {
 }
 
 #Preview {
-    DailyGoalView()
+    HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))
 }
