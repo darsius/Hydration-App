@@ -93,14 +93,7 @@ struct SettingsView: View {
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
                 .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Image(.back)
-                        }
-                    }
-                    
+                    BackButtonView(dismiss: dismiss)
                 }
             }
         }
