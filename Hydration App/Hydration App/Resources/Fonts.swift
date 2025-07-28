@@ -15,5 +15,5 @@ extension Font {
     static let largeLight = Font.system(size: 36, weight: .light)
     
     static let dailyHidration = Font.system(size: 18, weight: .semibold)
-    static let chartLeged = Font.system(size: 11, weight: .regular)
+    static let chartLegend = Font.system(size: 11, weight: .regular)
 }

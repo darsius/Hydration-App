@@ -4,10 +4,10 @@ struct TodayView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("leaf_background")
-                    .resizable()
-                    .scaledToFill()
-                    .blur(radius: 0.7)
+                VStack(spacing: 0) {
+                    CustomDividerView()
+                    BackgroundImageView()
+                }
                 Color.black.opacity(0.3)
                 
                 VStack {
@@ -39,14 +39,6 @@ struct TodayView: View {
                         .font(.bodyText)
                 }
                 .padding(.top, TodayConstants.topPadding)
-                
-                VStack {
-                    Divider()
-                        .frame(height: TodayConstants.dividerHeight)
-                        .background(.GREEN)
-                    Spacer()
-                }
-                
             }
             .navigationBarTitle("Today's progress", displayMode: .inline)
             .toolbar {
