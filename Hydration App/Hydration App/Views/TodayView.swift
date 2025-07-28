@@ -12,7 +12,7 @@ struct TodayView: View {
                 
                 VStack {
                     Text("20%")
-                        .font(.glassPercentage)
+                        .font(.largeBold)
                         .foregroundStyle(.GREEN)
                     Text("of 2000 ml Goal")
                         .foregroundStyle(.white)
