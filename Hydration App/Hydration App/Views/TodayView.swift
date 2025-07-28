@@ -6,10 +6,7 @@ struct TodayView: View {
             VStack(spacing: 0) {
                 CustomDivderView()
                 ZStack {
-                    Image(.leafBackground)
-                        .resizable()
-                        .scaledToFill()
-                        .blur(radius: 0.7)
+                    BackgroundImageView()
                     Color.black.opacity(0.3)
                     
                     VStack {

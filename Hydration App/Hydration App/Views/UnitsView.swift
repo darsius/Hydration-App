@@ -42,14 +42,7 @@ struct UnitsView: View {
             .navigationBarTitle("Units", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .toolbar{
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(.back)
-                    }
-                }
-                
+                BackButtonView(dismiss: dismiss)
             }
         }
     }
