@@ -3,12 +3,14 @@ import SwiftData
 
 @main
 struct HydrationApp: App {
-    @State private var todayProgressViewModel = TodayProgressViewModel(model: TodayProgress(dailyGoal: 123, currentAmount: 124))
+    @State private var todayViewModel = TodayViewModel()
+    @State private var settingsViewModel = SettingsViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(todayProgressViewModel)
+                .environment(todayViewModel)
+                .environment(settingsViewModel)
         }
     }
 }

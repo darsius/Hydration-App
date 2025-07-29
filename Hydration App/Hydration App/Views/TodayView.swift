@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct TodayView: View {
-    @Environment(TodayProgressViewModel.self) private var viewModel
-    
+    @Environment(TodayViewModel.self) private var viewModel
+    @Environment(SettingsViewModel.self) private var settingsViewModel
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -15,7 +16,7 @@ struct TodayView: View {
                         Text(String(format: "%.0f%%", viewModel.currentGoalPrecentage))
                             .font(.glassPercentage)
                             .foregroundStyle(.GREEN)
-                        Text("of \(viewModel.model.dailyGoal) ml Goal")
+                        Text("of \(viewModel.dailyGoal) ml Goal")
                             .foregroundStyle(.white)
                             .font(.bodyText)
                         
@@ -27,14 +28,14 @@ struct TodayView: View {
                         }
                         
                         HStack(spacing: TodayConstants.containerSpacing) {
-                            ContainerButtonView(label: "200 ml") {
-                                viewModel.addAmount(amount: 200)
+                            ContainerButtonView(label: "\(settingsViewModel.container1.amount) ml") {
+                                viewModel.addAmount(amount: settingsViewModel.container1.amount)
                             }
-                            ContainerButtonView(label: "400 ml") {
-                                viewModel.addAmount(amount: 400)
+                            ContainerButtonView(label: "\(settingsViewModel.container2.amount) ml") {
+                                viewModel.addAmount(amount: settingsViewModel.container2.amount)
                             }
-                            ContainerButtonView(label: "500 ml") {
-                                viewModel.addAmount(amount: 500)
+                            ContainerButtonView(label: "\(settingsViewModel.container3.amount) ml") {
+                                viewModel.addAmount(amount: settingsViewModel.container3.amount)
                             }
                         }
                         .padding(.vertical, TodayConstants.containerVerticalPadding)
@@ -50,7 +51,7 @@ struct TodayView: View {
                 .navigationBarTitle("Today's progress", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink(destination: SettingsView()) {
+                        NavigationLink(destination: SettingsView(viewModel: settingsViewModel)) {
                             Image(.settings)
                         }
                     }

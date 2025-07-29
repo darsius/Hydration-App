@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class TodayProgressViewModel {
+class TodayViewModel {
     private let storageKey = "TodayProgress"
     
     private(set) var model: TodayProgress {
@@ -17,14 +17,15 @@ class TodayProgressViewModel {
         }
     }
     
-    init(model: TodayProgress) {
-        self.model = Self.loadFromUserDefaults() ?? TodayProgress(dailyGoal: 2000, currentAmount: 00)
+    init() {
+//        Self.clearUserDefaults()
+        self.model = Self.loadFromUserDefaults() ?? TodayProgress(dailyGoal: 2000, currentAmount: 100)
     }
     
     var dailyGoal: Int {
         get { model.dailyGoal }
         set {
-            model.dailyGoal = newValue
+            model = TodayProgress(dailyGoal: newValue, currentAmount: currentAmount)
         }
     }
     
@@ -56,4 +57,11 @@ class TodayProgressViewModel {
         return try? JSONDecoder().decode(TodayProgress.self, from: data)
     }
     
+    static func clearUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: "TodayProgress")
+        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_dailyGoal")
+        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_container1")
+        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_container2")
+        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_container3")
+    }
 }
