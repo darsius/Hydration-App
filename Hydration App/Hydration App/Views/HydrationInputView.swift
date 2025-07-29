@@ -13,14 +13,22 @@ struct HydrationInputView: View {
     @Bindable var viewModel: HydrationViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
-            CustomDivderView()
+        GeometryReader { geometry in
             ZStack {
-                BackgroundImageView()
-                VStack(spacing: 100) {
+                VStack(spacing: 0) {
+                    CustomDivderView()
+                    BackgroundImageView()
+                }
+                Color.black.opacity(0.3)
+                
+                VStack(spacing: 0) {
                     Text(viewModel.type.informationalDescription)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
+                        .foregroundStyle(.white)
+                        .font(.bodyText)
+                        .padding(.horizontal, HydrationInputConstants.informationalTextHorizontalPadding)
+                        .padding(.top, HydrationInputConstants.informationalTextTopPadding)
+                    Spacer()
                     
                     VStack {
                         TextField("", value: $viewModel.amount, formatter: NumberFormatter())
@@ -28,20 +36,25 @@ struct HydrationInputView: View {
                             .keyboardType(.numberPad)
                             .focused($focus)
                             .font(.dailyGoal)
-                            .frame(width: 120, height: 70)
+                            .frame(width: HydrationInputConstants.textFieldWidth, height: HydrationInputConstants.textFieldHeight)
                             .overlay {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.GREEN, lineWidth: 3)
+                                RoundedRectangle(cornerRadius: HydrationInputConstants.textFieldCornerRadius)
+                                    .stroke(Color.GREEN, lineWidth: HydrationInputConstants.textFieldBorderWidth)
                             }
+                        
                         Text("mililiters (ml)")
                             .font(.title)
+                            .padding(.bottom, HydrationInputConstants.textBottomPadding)
                     }
                     .onAppear {
                         focus = true
                     }
+                    Spacer()
                 }
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
+        .ignoresSafeArea(.keyboard)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle("Daily Goal", displayMode: .inline)
         .toolbar {
