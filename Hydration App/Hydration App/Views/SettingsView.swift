@@ -26,12 +26,12 @@ struct SettingsView: View {
                             }
                         }
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))){
+                        NavigationLink(destination: HydrationInputView()) {
                             HStack {
                                 Text("Daily Goal")
                                     .font(.listText)
                                 Spacer()
-                                Text("2.000 ml")
+                                Text(" 632 ml")
                                     .font(.listText)
                             }
                         }
@@ -45,7 +45,7 @@ struct SettingsView: View {
                     .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .container(1)))) {
+                        NavigationLink(destination: HydrationInputView()) {
                             HStack {
                                 Text("Container 1")
                                     .font(.listText)
@@ -56,7 +56,7 @@ struct SettingsView: View {
                         }
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .container(2)))) {
+                        NavigationLink(destination: HydrationInputView()) {
                             HStack {
                                 Text("Container 2")
                                 Spacer()
@@ -66,7 +66,7 @@ struct SettingsView: View {
                         .font(.listText)
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .container(3)))) {
+                        NavigationLink(destination: HydrationInputView()) {
                             HStack {
                                 Text("Container 3")
                                 Spacer()

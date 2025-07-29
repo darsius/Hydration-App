@@ -10,7 +10,6 @@ import SwiftUI
 struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
-    @Bindable var viewModel: HydrationViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -22,7 +21,7 @@ struct HydrationInputView: View {
                 Color.black.opacity(0.3)
                 
                 VStack(spacing: 0) {
-                    Text(viewModel.type.informationalDescription)
+                    Text("viewModel.type.informationalDescription")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
                         .font(.bodyText)
@@ -31,16 +30,16 @@ struct HydrationInputView: View {
                     Spacer()
                     
                     VStack {
-                        TextField("", value: $viewModel.amount, formatter: NumberFormatter())
-                            .multilineTextAlignment(.center)
-                            .keyboardType(.numberPad)
-                            .focused($focus)
-                            .font(.dailyGoal)
-                            .frame(width: HydrationInputConstants.textFieldWidth, height: HydrationInputConstants.textFieldHeight)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: HydrationInputConstants.textFieldCornerRadius)
-                                    .stroke(Color.GREEN, lineWidth: HydrationInputConstants.textFieldBorderWidth)
-                            }
+//                        TextField("", value: $viewModel.amount, formatter: NumberFormatter())
+//                            .multilineTextAlignment(.center)
+//                            .keyboardType(.numberPad)
+//                            .focused($focus)
+//                            .font(.dailyGoal)
+//                            .frame(width: HydrationInputConstants.textFieldWidth, height: HydrationInputConstants.textFieldHeight)
+//                            .overlay {
+//                                RoundedRectangle(cornerRadius: HydrationInputConstants.textFieldCornerRadius)
+//                                    .stroke(Color.GREEN, lineWidth: HydrationInputConstants.textFieldBorderWidth)
+//                            }
                         
                         Text("mililiters (ml)")
                             .font(.title)
@@ -72,7 +71,7 @@ struct HydrationInputView: View {
         }
     }
 }
-
-#Preview {
-    HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))
-}
+//
+//#Preview {
+//    HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))
+//}

@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+@Observable
+class TodayProgress: Codable {
+    var dailyGoal: Int
+    var currentAmount: Int
+
+    init(dailyGoal: Int, currentAmount: Int) {
+        self.dailyGoal = dailyGoal
+        self.currentAmount = currentAmount
+    }
+}

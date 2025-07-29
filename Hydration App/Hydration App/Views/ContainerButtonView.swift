@@ -9,10 +9,9 @@ import SwiftUI
 
 struct ContainerButtonView: View {
     let label: String
+    let action: () -> Void
     var body: some View {
-        Button(action: {
-            print("tapped \(label)")
-        }) {
+        Button(action: action) {
             Text(label)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 26)
@@ -25,5 +24,5 @@ struct ContainerButtonView: View {
 }
 
 #Preview {
-    ContainerButtonView(label: "350 ml")
+    ContainerButtonView(label: "350 ml", action: { print("tapped 350 ml button ")})
 }
