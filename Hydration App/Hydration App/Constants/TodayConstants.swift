@@ -8,7 +8,6 @@
 import SwiftUI
 
 enum TodayConstants {
-    static let dividerHeight: CGFloat = 1.5
     static let topPadding: CGFloat = 40
     static let currentGlassVolume: CGFloat = 20
     static let containerSpacing: CGFloat = 8
