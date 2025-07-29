@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct TodayView: View {
+    @Environment(TodayProgressViewModel.self) private var viewModel
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -10,24 +12,30 @@ struct TodayView: View {
                     Color.black.opacity(0.3)
                     
                     VStack {
-                        Text("20%")
+                        Text(String(format: "%.0f%%", viewModel.currentGoalPrecentage))
                             .font(.glassPercentage)
                             .foregroundStyle(.GREEN)
-                        Text("of 2000 ml Goal")
+                        Text("of \(viewModel.model.dailyGoal) ml Goal")
                             .foregroundStyle(.white)
                             .font(.bodyText)
                         
                         ZStack(alignment: .bottom) {
                             Image("Glass_empty")
-                            Text("200 ml")
+                            Text("\(viewModel.currentAmount) ml")
                                 .padding(.bottom, TodayConstants.currentGlassVolume)
                                 .font(.bodyText)
                         }
                         
                         HStack(spacing: TodayConstants.containerSpacing) {
-                            ContainerButtonView(label: "200 ml")
-                            ContainerButtonView(label: "400 ml")
-                            ContainerButtonView(label: "500 ml")
+                            ContainerButtonView(label: "200 ml") {
+                                viewModel.addAmount(amount: 200)
+                            }
+                            ContainerButtonView(label: "400 ml") {
+                                viewModel.addAmount(amount: 400)
+                            }
+                            ContainerButtonView(label: "500 ml") {
+                                viewModel.addAmount(amount: 500)
+                            }
                         }
                         .padding(.vertical, TodayConstants.containerVerticalPadding)
                         
@@ -54,6 +62,6 @@ struct TodayView: View {
     }
 }
 
-#Preview {
-    TodayView()
-}
+//#Preview {
+//    TodayView()
+//}
