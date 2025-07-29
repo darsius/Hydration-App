@@ -11,6 +11,7 @@ struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
     @Bindable var viewModel: HydrationViewModel
+//    @Environment(HydrationViewModel.self) var viewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -31,7 +32,7 @@ struct HydrationInputView: View {
                     Spacer()
                     
                     VStack {
-                        TextField("", value: $viewModel.amount, formatter: NumberFormatter())
+                        TextField("", value: $viewModel.dailyGoal, formatter: NumberFormatter())
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)
@@ -73,6 +74,6 @@ struct HydrationInputView: View {
     }
 }
 
-#Preview {
-    HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))
-}
+//#Preview {
+//    HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))
+//}

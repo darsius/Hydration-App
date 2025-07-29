@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct TodayView: View {
+    @Bindable var viewModel: HydrationViewModel
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -13,7 +14,7 @@ struct TodayView: View {
                         Text("20%")
                             .font(.glassPercentage)
                             .foregroundStyle(.GREEN)
-                        Text("of 2000 ml Goal")
+                        Text("of \(viewModel.dailyGoal) ml Goal")
                             .foregroundStyle(.white)
                             .font(.bodyText)
                         
@@ -42,7 +43,7 @@ struct TodayView: View {
                 .navigationBarTitle("Today's progress", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink(destination: SettingsView()) {
+                        NavigationLink(destination: SettingsView(viewModel: viewModel)) {
                             Image(.settings)
                         }
                     }
@@ -55,5 +56,5 @@ struct TodayView: View {
 }
 
 #Preview {
-    TodayView()
+    TodayView(viewModel: HydrationViewModel(type: .dailyGoal))
 }

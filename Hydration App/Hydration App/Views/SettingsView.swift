@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Bindable var viewModel: HydrationViewModel
     
     var body: some View {
         NavigationStack {
@@ -26,12 +27,12 @@ struct SettingsView: View {
                             }
                         }
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))){
+                        NavigationLink(destination: HydrationInputView(viewModel: viewModel)){
                             HStack {
                                 Text("Daily Goal")
                                     .font(.listText)
                                 Spacer()
-                                Text("2.000 ml")
+                                Text("\(viewModel.dailyGoal) ml")
                                     .font(.listText)
                             }
                         }
@@ -100,5 +101,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: HydrationViewModel(type: .dailyGoal))
 }

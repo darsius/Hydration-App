@@ -34,10 +34,10 @@ enum HydrationViewType: Identifiable, Equatable {
         }
     }
 
-    var defaultAmount: Int {
+    var defaultDailyGoal: Int {
         switch self {
         case .dailyGoal:
-            return 2000
+            return 1999
         case .container(let index):
             switch index {
             case 1: return 200

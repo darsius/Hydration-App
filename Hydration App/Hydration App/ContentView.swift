@@ -3,10 +3,11 @@ import SwiftData
 
 struct ContentView: View {
     @State private var currentTab = 0
+    @State private var viewModel = HydrationViewModel(type: .dailyGoal)
     
     var body: some View {
         TabView(selection: $currentTab) {
-            TodayView()
+            TodayView(viewModel: viewModel)
                 .tabItem {
                     Image(currentTab == 0 ? "Today_green" : "Today")
                     Text("Today")
@@ -21,6 +22,7 @@ struct ContentView: View {
                 .tag(1)
         }
         .tint(.GREEN)
+        .environment(viewModel)
     }
 }
 

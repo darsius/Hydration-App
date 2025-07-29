@@ -10,10 +10,10 @@ import Foundation
 @Observable
 class HydrationViewModel {
     var type: HydrationViewType
-    var amount: Int
+    var dailyGoal: Int
     
     init(type: HydrationViewType) {
         self.type = type
-        self.amount = type.defaultAmount
+        self.dailyGoal = type.defaultDailyGoal
     }
 }
