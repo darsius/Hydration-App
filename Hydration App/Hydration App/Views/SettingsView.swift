@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Bindable var viewModel: SettingsViewModel
     
     var body: some View {
         NavigationStack {
@@ -26,12 +27,12 @@ struct SettingsView: View {
                             }
                         }
                         
-                        NavigationLink(destination: HydrationInputView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.dailyGoal)) {
                             HStack {
                                 Text("Daily Goal")
                                     .font(.listText)
                                 Spacer()
-                                Text(" 632 ml")
+                                Text("\(viewModel.dailyGoal.amount) ml")
                                     .font(.listText)
                             }
                         }
@@ -45,32 +46,32 @@ struct SettingsView: View {
                     .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
-                        NavigationLink(destination: HydrationInputView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.container1)) {
                             HStack {
                                 Text("Container 1")
                                     .font(.listText)
                                 Spacer()
-                                Text("200 ml")
+                                Text("\(viewModel.container1.amount) ml")
                                     .font(.listText)
                             }
                         }
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: HydrationInputView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.container2)) {
                             HStack {
                                 Text("Container 2")
                                 Spacer()
-                                Text("400 ml")
+                                Text("\(viewModel.container2.amount) ml")
                             }
                         }
                         .font(.listText)
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: HydrationInputView()) {
+                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.container3)) {
                             HStack {
                                 Text("Container 3")
                                 Spacer()
-                                Text("500 ml")
+                                Text("\(viewModel.container3.amount) ml")
                             }
                         }
                         .font(.listText)
@@ -99,6 +100,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView()
-}
+//#Preview {
+//    SettingsView()
+//}
