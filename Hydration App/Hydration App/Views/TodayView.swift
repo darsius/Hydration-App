@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TodayView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 VStack(spacing: 0) {
                     CustomDividerView()
@@ -42,10 +42,10 @@ struct TodayView: View {
             }
             .navigationBarTitle("Today's progress", displayMode: .inline)
             .toolbar {
-                Button(action: {
-                    print("navigating to settings")
-                }) {
-                    Image("Settings")
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: SettingsView()) {
+                        Image(.settings)
+                    }
                 }
             }
             .toolbarBackground(Color(.systemBackground),for: .navigationBar)

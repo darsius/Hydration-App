@@ -58,18 +58,9 @@ struct SettingsView: View {
                     }
                     .listRowSeparatorTint(Color(.WHITE))
                 }
-                .navigationBarBackButtonHidden(true)
+                .toolbarRole(.editor)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
-                .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Image(.back)
-                        }
-                    }
-                }
             }
         }
     }
