@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct UnitsView: View {
-    @Environment(\.dismiss) private var dismiss
-    
     @State private var selectedUnit: UnitType = .ml
     
     var body: some View {
@@ -25,7 +23,7 @@ struct UnitsView: View {
                                 Image(.checkmarkGoal)
                             }
                         }
-                        .font(.listText)
+                        .font(.regularText)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedUnit = unit
@@ -35,22 +33,12 @@ struct UnitsView: View {
                 .listRowSeparatorTint(Color(.WHITE))
                 .listRowBackground(Color(.GRAY_1))
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
-                    return ListRowConstants.separatorLeadingOffset
+                    ListRowConstants.separatorLeadingOffset
                 }
             }
+            .toolbarRole(.editor)
             .listStyle(.inset)
             .navigationBarTitle("Units", displayMode: .inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar{
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(.back)
-                    }
-                }
-                
-            }
         }
     }
 }
