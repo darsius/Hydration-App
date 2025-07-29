@@ -14,7 +14,7 @@ struct TodayView: View {
                         Text("20%")
                             .font(.glassPercentage)
                             .foregroundStyle(.GREEN)
-                        Text("of \(viewModel.dailyGoal) ml Goal")
+                        Text("of \(viewModel.item.dailyGoal) ml Goal")
                             .foregroundStyle(.white)
                             .font(.bodyText)
                         
@@ -55,6 +55,6 @@ struct TodayView: View {
     }
 }
 
-#Preview {
-    TodayView(viewModel: HydrationViewModel(type: .dailyGoal))
-}
+//#Preview {
+//    TodayView(viewModel: HydrationViewModel(type: .dailyGoal))
+//}

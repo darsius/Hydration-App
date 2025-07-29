@@ -5,15 +5,23 @@
 //  Created by Paraschiv, Darius on 28.07.2025.
 //
 
-import Foundation
+import SwiftData
 
 @Observable
 class HydrationViewModel {
-    var type: HydrationViewType
-    var dailyGoal: Int
+    var viewType: HydrationViewType
+    var item: HydrationItem
     
-    init(type: HydrationViewType) {
-        self.type = type
-        self.dailyGoal = type.defaultDailyGoal
+    var context: ModelContext
+    
+    init(context: ModelContext) {
+        self.context = context
+        self.viewType = .dailyGoal
+        self.item = HydrationItem(dailyGoal: 1555)
+    }
+    
+    func updateDailyGoal(_ newDailyGoal: Int) {
+        item.dailyGoal = newDailyGoal
+        try? context.save()
     }
 }

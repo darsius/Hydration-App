@@ -6,6 +6,7 @@ struct HydrationApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: HydrationItem.self)
         }
     }
 }

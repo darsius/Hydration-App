@@ -23,7 +23,7 @@ struct HydrationInputView: View {
                 Color.black.opacity(0.3)
                 
                 VStack(spacing: 0) {
-                    Text(viewModel.type.informationalDescription)
+                    Text(viewModel.viewType.informationalDescription)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
                         .font(.bodyText)
@@ -32,7 +32,7 @@ struct HydrationInputView: View {
                     Spacer()
                     
                     VStack {
-                        TextField("", value: $viewModel.dailyGoal, formatter: NumberFormatter())
+                        TextField("", value: $viewModel.item.dailyGoal, formatter: NumberFormatter())
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)

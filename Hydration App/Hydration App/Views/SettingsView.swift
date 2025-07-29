@@ -100,6 +100,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView(viewModel: HydrationViewModel(type: .dailyGoal))
-}
+//#Preview {
+//    SettingsView(viewModel: HydrationViewModel(type: .dailyGoal))
+//}
