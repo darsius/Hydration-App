@@ -20,7 +20,7 @@ class HydrationInputViewModel {
 
     init(type: HydrationViewType) {
         self.viewType = type
-        self.storageKey = "HydrationInputAmount_\(type.id)"
+        self.storageKey = type.id
         self.amount = Self.loadFromUserDefaults(key: storageKey) ?? type.defaultAmount
     }
 
