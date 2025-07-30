@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class TodayViewModel {
-    private let storageKey = "TodayProgress"
+    private let storageKey = "todayProgress"
     
     private(set) var model: TodayProgress {
         didSet {
@@ -19,6 +19,16 @@ class TodayViewModel {
     
     init() {
 //        Self.clearUserDefaults()
+        
+        let defaults = UserDefaults.standard
+        let dict = defaults.dictionaryRepresentation()
+        print("UserDefaults conținut:")
+        for (key, value) in dict {
+            if (key == "dailyGoal" || key == "currentAmount" || key == "container1" || key == "container2" || key == "container3") {
+                print("\(key): \(value)")
+            }
+        }
+        
         self.model = Self.loadFromUserDefaults() ?? TodayProgress(dailyGoal: 2000, currentAmount: 100)
     }
     
@@ -32,7 +42,7 @@ class TodayViewModel {
     var currentAmount: Int {
         get { model.currentAmount }
         set {
-            model.currentAmount = newValue
+            model = TodayProgress(dailyGoal: dailyGoal, currentAmount: newValue)
         }
     }
     
@@ -53,15 +63,16 @@ class TodayViewModel {
     }
     
     private static func loadFromUserDefaults() -> TodayProgress? {
-        guard let data = UserDefaults.standard.data(forKey: "TodayProgress") else { return nil }
+        guard let data = UserDefaults.standard.data(forKey: "todayProgress") else { return nil }
         return try? JSONDecoder().decode(TodayProgress.self, from: data)
     }
     
     static func clearUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: "TodayProgress")
-        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_dailyGoal")
-        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_container1")
-        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_container2")
-        UserDefaults.standard.removeObject(forKey: "HydrationInputAmount_container3")
+        UserDefaults.standard.removeObject(forKey: "todayProgress")
+        UserDefaults.standard.removeObject(forKey: "progress")
+        UserDefaults.standard.removeObject(forKey: "dailyGoal")
+        UserDefaults.standard.removeObject(forKey: "container1")
+        UserDefaults.standard.removeObject(forKey: "container2")
+        UserDefaults.standard.removeObject(forKey: "container3")
     }
 }
