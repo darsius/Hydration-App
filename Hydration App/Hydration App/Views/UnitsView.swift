@@ -19,9 +19,8 @@ struct UnitsView: View {
                         HStack {
                             Text(unit.label)
                             Spacer()
-                            if selectedUnit == unit {
-                                Image(.checkmarkGoal)
-                            }
+                            Image(.checkmarkGoal)
+                                .opacity(selectedUnit == unit ? 1 : 0)
                         }
                         .font(.regularText)
                         .contentShape(Rectangle())
@@ -30,10 +29,10 @@ struct UnitsView: View {
                         }
                     }
                 }
-                .listRowSeparatorTint(Color(.WHITE))
-                .listRowBackground(Color(.GRAY_1))
+                .listRowSeparatorTint(.white)
+                .listRowBackground(Color.lightGray)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
-                    ListRowConstants.separatorLeadingOffset
+                    UIConstants.separatorLeadingOffset
                 }
             }
             .toolbarRole(.editor)
