@@ -21,24 +21,24 @@ struct TodayView: View {
                     ZStack(alignment: .bottom) {
                         Image("Glass_empty")
                         Text("200 ml")
-                            .padding(.bottom, TodayConstants.currentGlassVolume)
+                            .padding(.bottom, UIConstants.currentGlassVolume)
                             .font(.bodyText)
                     }
                     
-                    HStack(spacing: TodayConstants.containerSpacing) {
+                    HStack(spacing: UIConstants.containerSpacing) {
                         ContainerButtonView(label: "200 ml")
                         ContainerButtonView(label: "400 ml")
                         ContainerButtonView(label: "500 ml")
                     }
-                    .padding(.vertical, TodayConstants.containerVerticalPadding)
+                    .padding(.vertical, UIConstants.containerVerticalPadding)
                     
                     Text("Happy you're back to track your healthy habit of staying hydrated.")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, TodayConstants.motivationalTextHorizontalPadding)
+                        .padding(.horizontal, UIConstants.motivationalTextHorizontalPadding)
                         .font(.bodyText)
                 }
-                .padding(.top, TodayConstants.topPadding)
+                .padding(.top, UIConstants.topPadding)
             }
             .navigationBarTitle("Today's progress", displayMode: .inline)
             .toolbar {
