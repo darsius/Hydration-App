@@ -9,8 +9,9 @@ import SwiftUI
 
 struct UnitsView: View {
     @Environment(\.dismiss) private var dismiss
+    var viewModel: UnitsViewModel
     
-    @State private var selectedUnit: UnitType = .ml
+    @Binding var selectedUnit: String
     
     var body: some View {
         VStack {
@@ -21,14 +22,15 @@ struct UnitsView: View {
                         HStack {
                             Text(unit.label)
                             Spacer()
-                            if selectedUnit == unit {
+                            if selectedUnit == unit.rawValue {
                                 Image(.checkmarkGoal)
                             }
                         }
                         .font(.listText)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            selectedUnit = unit
+                            viewModel.convertDailyGoal(to: unit.rawValue)
+                            selectedUnit = unit.rawValue
                         }
                     }
                 }
@@ -48,6 +50,6 @@ struct UnitsView: View {
     }
 }
 
-#Preview {
-    UnitsView()
-}
+//#Preview {
+//    UnitsView()
+//}

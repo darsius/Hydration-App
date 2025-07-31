@@ -14,6 +14,7 @@ struct SettingsView: View {
     @Binding var container1: Int
     @Binding var container2: Int
     @Binding var container3: Int
+    @Binding var unit: String
     
     var body: some View {
         NavigationStack {
@@ -21,12 +22,12 @@ struct SettingsView: View {
                 CustomDivderView()
                 List {
                     Section("") {
-                        NavigationLink(destination: UnitsView()){
+                        NavigationLink(destination: UnitsView(viewModel: UnitsViewModel(unitType: UnitType.ml.rawValue), selectedUnit: $unit)){
                             HStack {
                                 Text("Units")
                                     .font(.listText)
                                 Spacer()
-                                Text("ml")
+                                Text(unit)
                                     .font(.listText)
                             }
                         }
@@ -36,7 +37,7 @@ struct SettingsView: View {
                                 Text("Daily Goal")
                                     .font(.listText)
                                 Spacer()
-                                Text("\(dailyGoal) ml")
+                                Text("\(dailyGoal) \(unit)")
                                     .font(.listText)
                             }
                         }
@@ -55,7 +56,7 @@ struct SettingsView: View {
                                 Text("Container 1")
                                     .font(.listText)
                                 Spacer()
-                                Text("\(container1) ml")
+                                Text("\(container1) \(unit)")
                                     .font(.listText)
                             }
                         }
@@ -65,7 +66,7 @@ struct SettingsView: View {
                             HStack {
                                 Text("Container 2")
                                 Spacer()
-                                Text("\(container2) ml")
+                                Text("\(container2) \(unit)")
                             }
                         }
                         .font(.listText)
@@ -75,14 +76,13 @@ struct SettingsView: View {
                             HStack {
                                 Text("Container 3")
                                 Spacer()
-                                Text("\(container3) ml")
+                                Text("\(container3) \(unit)")
                             }
                         }
                         .font(.listText)
                         .listRowBackground(Color(.GRAY_1))
                         
-                    }
-                        header: {
+                    } header: {
                         Text("Containers")
                     } footer: {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
@@ -99,6 +99,10 @@ struct SettingsView: View {
                 .navigationBarTitle("Settings", displayMode: .inline)
                 .toolbar{
                     BackButtonView(dismiss: dismiss)
+                }
+
+                .onChange(of: unit) { oldValue, newValue in
+                    print("Unit s-a schimbat din \(oldValue) în \(newValue)")
                 }
             }
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HydrationInputView: View {
-    @Bindable var viewModel: HydrationInputViewModel
+    var viewModel: HydrationInputViewModel
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
     
@@ -52,7 +52,6 @@ struct HydrationInputView: View {
                     .onAppear {
                         focus = true
                         textFieldInput = inputValue
-                        print("temporary value is: \(textFieldInput)")
                     }
                     Spacer()
                 }
