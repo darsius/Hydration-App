@@ -15,25 +15,25 @@ struct TodayView: View {
                         Text(String(format: "%.0f%%", viewModel.goalPrecentage))
                             .font(.glassPercentage)
                             .foregroundStyle(.GREEN)
-                        Text("of \(viewModel.dailyGoal) ml Goal")
+                        Text("of \(viewModel.dailyGoal) \(viewModel.unit) Goal")
                             .foregroundStyle(.white)
                             .font(.bodyText)
                         
                         ZStack(alignment: .bottom) {
                             Image("Glass_empty")
-                            Text("\(viewModel.currentAmount) ml")
+                            Text("\(viewModel.currentAmount) \(viewModel.unit)")
                                 .padding(.bottom, TodayConstants.currentGlassVolume)
                                 .font(.bodyText)
                         }
                         
                         HStack(spacing: TodayConstants.containerSpacing) {
-                            ContainerButtonView(label: "\(viewModel.container1) ml") {
+                            ContainerButtonView(label: "\(viewModel.container1) \(viewModel.unit)") {
                                 viewModel.addAmount(amount: viewModel.container1)
                             }
-                            ContainerButtonView(label: "\(viewModel.container2) ml") {
+                            ContainerButtonView(label: "\(viewModel.container2) \(viewModel.unit)") {
                                 viewModel.addAmount(amount: viewModel.container2)
                             }
-                            ContainerButtonView(label: "\(viewModel.container3) ml") {
+                            ContainerButtonView(label: "\(viewModel.container3) \(viewModel.unit)") {
                                 viewModel.addAmount(amount: viewModel.container3)
                             }
                         }
@@ -50,7 +50,12 @@ struct TodayView: View {
                 .navigationBarTitle("Today's progress", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink(destination: SettingsView(dailyGoal: $viewModel.dailyGoal, container1: $viewModel.container1, container2: $viewModel.container2, container3: $viewModel.container3)) {
+                        NavigationLink(
+                            destination: SettingsView(dailyGoal: $viewModel.dailyGoal,
+                                                      container1: $viewModel.container1,
+                                                      container2: $viewModel.container2,
+                                                      container3: $viewModel.container3,
+                                                      unit: $viewModel.unit)) {
                             Image(.settings)
                         }
                     }

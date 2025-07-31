@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UnitType: CaseIterable {
+enum UnitType: String, CaseIterable {
     case ml
     case oz
     
