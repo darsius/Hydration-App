@@ -5,7 +5,7 @@ struct TodayView: View {
         NavigationStack {
             ZStack {
                 VStack(spacing: 0) {
-                    CustomDividerView()
+                    CustomDivderView()
                     BackgroundImageView()
                 }
                 Color.black.opacity(0.3)
@@ -35,7 +35,6 @@ struct TodayView: View {
                     Text("Happy you're back to track your healthy habit of staying hydrated.")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, UIConstants.motivationalTextHorizontalPadding)
                         .font(.bodyText)
                 }
                 .padding(.top, UIConstants.topPadding)
