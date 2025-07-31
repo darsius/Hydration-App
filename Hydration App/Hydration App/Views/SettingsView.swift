@@ -11,6 +11,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Binding var dailyGoal: Int
+    @Binding var container1: Int
+    @Binding var container2: Int
+    @Binding var container3: Int
     
     var body: some View {
         NavigationStack {
@@ -47,39 +50,39 @@ struct SettingsView: View {
                     .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
-                        Text("aasdsad")
-                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.container1)) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(1)), inputValue: $container1)) {
                             HStack {
                                 Text("Container 1")
                                     .font(.listText)
                                 Spacer()
-                                Text("\(viewModel.container1.amount) ml")
+                                Text("\(container1) ml")
                                     .font(.listText)
                             }
                         }
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.container2)) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(2)), inputValue: $container2)) {
                             HStack {
                                 Text("Container 2")
                                 Spacer()
-                                Text("\(viewModel.container2.amount) ml")
+                                Text("\(container2) ml")
                             }
                         }
                         .font(.listText)
                         .listRowBackground(Color(.GRAY_1))
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.container3)) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(3)), inputValue: $container3)) {
                             HStack {
                                 Text("Container 3")
                                 Spacer()
-                                Text("\(viewModel.container3.amount) ml")
+                                Text("\(container3) ml")
                             }
                         }
                         .font(.listText)
                         .listRowBackground(Color(.GRAY_1))
                         
-                    } header: {
+                    }
+                        header: {
                         Text("Containers")
                     } footer: {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
@@ -101,7 +104,7 @@ struct SettingsView: View {
         }
     }
 }
-
-#Preview {
-    SettingsView()
-}
+//
+//#Preview {
+//    SettingsView(dailyGoal: $dail)
+//}
