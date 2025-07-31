@@ -12,7 +12,7 @@ struct TodayView: View {
                     Color.black.opacity(0.3)
                     
                     VStack {
-                        Text(String(format: "%.0f%%", 20))
+                        Text(String(format: "%.0f%%", viewModel.goalPrecentage))
                             .font(.glassPercentage)
                             .foregroundStyle(.GREEN)
                         Text("of \(viewModel.dailyGoal) ml Goal")
@@ -27,14 +27,14 @@ struct TodayView: View {
                         }
                         
                         HStack(spacing: TodayConstants.containerSpacing) {
-                            ContainerButtonView(label: "100 ml") {
-                                viewModel.addAmount(amount: 100)
+                            ContainerButtonView(label: "\(viewModel.container1) ml") {
+                                viewModel.addAmount(amount: viewModel.container1)
                             }
-                            ContainerButtonView(label: "22 ml") {
-                                viewModel.addAmount(amount: 22)
+                            ContainerButtonView(label: "\(viewModel.container2) ml") {
+                                viewModel.addAmount(amount: viewModel.container2)
                             }
-                            ContainerButtonView(label: "44 ml") {
-                                viewModel.addAmount(amount: 44)
+                            ContainerButtonView(label: "\(viewModel.container3) ml") {
+                                viewModel.addAmount(amount: viewModel.container3)
                             }
                         }
                         .padding(.vertical, TodayConstants.containerVerticalPadding)
@@ -50,7 +50,7 @@ struct TodayView: View {
                 .navigationBarTitle("Today's progress", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink(destination: SettingsView(dailyGoal: $viewModel.dailyGoal)) {
+                        NavigationLink(destination: SettingsView(dailyGoal: $viewModel.dailyGoal, container1: $viewModel.container1, container2: $viewModel.container2, container3: $viewModel.container3)) {
                             Image(.settings)
                         }
                     }

@@ -12,7 +12,7 @@ class HydrationInputViewModel {
     let viewType: HydrationViewType
     private let storageKey: String
     
-    weak var todayViewModel: TodayViewModel?
+
 
 //    var amount: Int {
 //        didSet {

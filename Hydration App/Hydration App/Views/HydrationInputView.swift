@@ -61,7 +61,7 @@ struct HydrationInputView: View {
         }
         .ignoresSafeArea(.keyboard)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle("Daily Goal", displayMode: .inline)
+        .navigationBarTitle(viewModel.viewType.navbarTitle, displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button("Cancel") {
