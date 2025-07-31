@@ -8,74 +8,42 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.dismiss) private var dismiss
-    
     var body: some View {
         NavigationStack {
             VStack {
                 CustomDivderView()
                 List {
                     Section("") {
-                        NavigationLink(destination: UnitsView()){
-                            HStack {
-                                Text("Units")
-                                    .font(.listText)
-                                Spacer()
-                                Text("ml")
-                                    .font(.listText)
-                            }
+                        NavigationLink(destination: UnitsView()) {
+                            SettingsRowView(title: "Units", value: "ml")
                         }
                         
-                        NavigationLink(destination: DailyGoalView()){
-                            HStack {
-                                Text("Daily Goal")
-                                    .font(.listText)
-                                Spacer()
-                                Text("2.000 ml")
-                                    .font(.listText)
-                            }
+                        NavigationLink(destination: DailyGoalView()) {
+                            SettingsRowView(title: "Daily Goal", value: "2.000 ml")
                         }
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
-                        return ListRowConstants.separatorLeadingOffset
-                        
+                        UIConstants.separatorLeadingOffset
                     }
-                    .listRowBackground(Color(.GRAY_1))
-                    .listRowSeparatorTint(Color(.WHITE))
-                    .listSectionSpacing(SettingsConstants.listSectionSpacing)
+                    .listRowBackground(Color.lightGray)
+                    .listRowSeparatorTint(.white)
+                    .listSectionSpacing(UIConstants.listSectionSpacing)
                     
                     Section {
                         NavigationLink(destination: ContainerView()) {
-                            HStack {
-                                Text("Container 1")
-                                    .font(.listText)
-                                Spacer()
-                                Text("200 ml")
-                                    .font(.listText)
-                            }
+                            SettingsRowView(title: "Container 1", value: "200 ml")
                         }
-                        .listRowBackground(Color(.GRAY_1))
+                        .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: ContainerView()) {
-                            HStack {
-                                Text("Container 2")
-                                Spacer()
-                                Text("400 ml")
-                            }
+                            SettingsRowView(title: "Container 2", value: "400 ml")
                         }
-                        
-                        .listRowBackground(Color(.GRAY_1))
-                        .font(.listText)
+                        .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: ContainerView()) {
-                            HStack {
-                                Text("Container 3")
-                                Spacer()
-                                Text("500 ml")
-                            }
+                            SettingsRowView(title: "Container 3", value: "500 ml")
                         }
-                        .font(.listText)
-                        .listRowBackground(Color(.GRAY_1))
+                        .listRowBackground(Color.lightGray)
                         
                     } header: {
                         Text("Containers")
@@ -83,20 +51,29 @@ struct SettingsView: View {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
-                        return ListRowConstants.separatorLeadingOffset
-                        
+                        UIConstants.separatorLeadingOffset
                     }
-                    .listRowSeparatorTint(Color(.WHITE))
+                    .listRowSeparatorTint(.white)
                 }
-                
-                .navigationBarBackButtonHidden(true)
+                .toolbarRole(.editor)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
-                .toolbar{
-                    BackButtonView(dismiss: dismiss)
-                }
             }
         }
+    }
+}
+
+struct SettingsRowView: View {
+    let title: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(value)
+        }
+        .font(.regularText)
     }
 }
 
