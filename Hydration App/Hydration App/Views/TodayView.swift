@@ -34,6 +34,7 @@ struct TodayView: View {
                     
                     Text("Happy you're back to track your healthy habit of staying hydrated.")
                         .multilineTextAlignment(.center)
+                        .padding(.horizontal, UIConstants.greetingTextHorizontalPadding)
                         .foregroundStyle(.white)
                         .font(.bodyText)
                 }

@@ -12,6 +12,7 @@ enum UIConstants {
     static let currentGlassVolume: CGFloat = 20
     static let containerSpacing: CGFloat = 8
     static let containerVerticalPadding: CGFloat = 28
+    static let greetingTextHorizontalPadding: CGFloat = 80
     
     static let informationalTextTopPadding: CGFloat = 60
     static let informationalTextHorizontalPadding: CGFloat = 100
