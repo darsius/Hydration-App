@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class TodayProgress: Codable {
+class TodayModel: Codable {
     var dailyGoal: Int
     var currentAmount: Int
 
