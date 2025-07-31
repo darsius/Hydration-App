@@ -13,35 +13,46 @@ struct DailyGoalView: View {
     @FocusState private var focus: Bool
     
     var body: some View {
-        VStack(spacing: 0) {
-            CustomDivderView()
+        GeometryReader { geometry in
             ZStack {
-                BackgroundImageView()
-                VStack(spacing: 100) {
+                VStack(spacing: 0) {
+                    CustomDivderView()
+                    BackgroundImageView()
+                }
+                Color.black.opacity(0.3)
+                
+                VStack(spacing: 0) {
                     Text("Here you can set your hydration goal based on your preferred unit of measurement")
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 100)
-
+                        .font(.bodyText)
+                        .padding(.horizontal, UIConstants.informationalTextHorizontalPadding)
+                        .padding(.top, UIConstants.informationalTextTopPadding)
+                    Spacer()
+                    
                     VStack {
                         TextField("", text: $quantityTextInput)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)
-                            .font(.dailyGoal)
-                            .frame(width: 120, height: 70)
+                            .font(.largeTitle)
+                            .frame(width: UIConstants.textFieldWidth, height:UIConstants.textFieldHeight)
                             .overlay {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.GREEN, lineWidth: 3)
+                                RoundedRectangle(cornerRadius: UIConstants.textFieldCornerRadius)
+                                    .stroke(Color.appGreen, lineWidth: UIConstants.textFieldBorderWidth)
                             }
                         Text("mililiters (ml)")
                             .font(.title)
+                            .padding(.bottom, UIConstants.textBottomPadding)
                     }
                     .onAppear {
                         focus = true
                     }
+                    Spacer()
                 }
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
+        .ignoresSafeArea(.keyboard)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle("Daily Goal", displayMode: .inline)
         .toolbar {
@@ -49,7 +60,7 @@ struct DailyGoalView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                .foregroundStyle(.GREEN)
+                .foregroundStyle(Color.appGreen)
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
@@ -63,3 +74,5 @@ struct DailyGoalView: View {
 #Preview {
     DailyGoalView()
 }
+
+
