@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
-    @Bindable var viewModel: SettingsViewModel
+    
+    @Binding var dailyGoal: Int
     
     var body: some View {
         NavigationStack {
@@ -27,12 +28,12 @@ struct SettingsView: View {
                             }
                         }
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: viewModel.dailyGoal)) {
+                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .dailyGoal), inputValue: $dailyGoal)) {
                             HStack {
                                 Text("Daily Goal")
                                     .font(.listText)
                                 Spacer()
-                                Text("\(viewModel.dailyGoal.amount) ml")
+                                Text("\(dailyGoal) ml")
                                     .font(.listText)
                             }
                         }
@@ -46,6 +47,7 @@ struct SettingsView: View {
                     .listSectionSpacing(SettingsConstants.listSectionSpacing)
                     
                     Section {
+                        Text("aasdsad")
                         NavigationLink(destination: HydrationInputView(viewModel: viewModel.container1)) {
                             HStack {
                                 Text("Container 1")
@@ -100,6 +102,6 @@ struct SettingsView: View {
     }
 }
 
-//#Preview {
-//    SettingsView()
-//}
+#Preview {
+    SettingsView()
+}

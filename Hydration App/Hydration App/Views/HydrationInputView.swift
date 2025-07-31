@@ -9,9 +9,11 @@ import SwiftUI
 
 struct HydrationInputView: View {
     @Bindable var viewModel: HydrationInputViewModel
-    @Environment(TodayViewModel.self) private var todayViewModel
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
+    
+    @Binding var inputValue: Int
+    @State private var textFieldInput: Int = 0
     
     var body: some View {
         GeometryReader { geometry in
@@ -32,7 +34,7 @@ struct HydrationInputView: View {
                     Spacer()
                     
                     VStack {
-                        TextField("", value: $viewModel.amount, formatter: NumberFormatter())
+                        TextField("", value: $textFieldInput, formatter: NumberFormatter())
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)
@@ -49,6 +51,8 @@ struct HydrationInputView: View {
                     }
                     .onAppear {
                         focus = true
+                        textFieldInput = inputValue
+                        print("temporary value is: \(textFieldInput)")
                     }
                     Spacer()
                 }
@@ -67,12 +71,7 @@ struct HydrationInputView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
-                    viewModel.save()
-                    
-                    if viewModel.viewType == .dailyGoal {
-                        todayViewModel.dailyGoal = viewModel.amount
-                    }
-                    
+                    inputValue = textFieldInput
                     dismiss()
                 }
             }

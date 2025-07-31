@@ -9,14 +9,7 @@ import Foundation
 
 @Observable
 class TodayViewModel {
-    private let storageKey = "todayProgress"
-    
-    private(set) var model: TodayProgress {
-        didSet {
-            saveToUserDefaults()
-        }
-    }
-    
+        
     init() {
 //        Self.clearUserDefaults()
         
@@ -29,48 +22,50 @@ class TodayViewModel {
             }
         }
         
-        self.model = Self.loadFromUserDefaults() ?? TodayProgress(dailyGoal: 2000, currentAmount: 100)
     }
     
-    var dailyGoal: Int {
-        get { model.dailyGoal }
-        set {
-            model = TodayProgress(dailyGoal: newValue, currentAmount: currentAmount)
+    var dailyGoal: Int = UserDefaults.standard.integer(forKey: "dailyGoal") {
+           didSet {
+               UserDefaults.standard.set(dailyGoal, forKey: "dailyGoal")
+           }
+       }
+    
+    var currentAmount: Int = UserDefaults.standard.integer(forKey: "currentAmount") {
+        didSet {
+            print("new value is: \(currentAmount)")
+//            saveCurrentAmount(currentAmount)
         }
-    }
-    
-    var currentAmount: Int {
-        get { model.currentAmount }
-        set {
-            model = TodayProgress(dailyGoal: dailyGoal, currentAmount: newValue)
-        }
-    }
-    
-    var currentGoalPrecentage: Double {
-        guard model.dailyGoal > 0 else { return 0 }
-        return Double(model.currentAmount) / Double(model.dailyGoal) * 100
     }
     
     func addAmount(amount: Int) {
-        model.currentAmount += amount
-        saveToUserDefaults()
+        currentAmount += amount
+        saveCurrentAmount(currentAmount)
     }
     
-    private func saveToUserDefaults() {
-        if let data = try? JSONEncoder().encode(model) {
-            UserDefaults.standard.set(data, forKey: storageKey)
-        }
+    private func saveCurrentAmount(_ amount: Int) {
+        UserDefaults.standard.setValue(amount, forKey: "currentAmount")
     }
+//    
+//    var currentGoalPrecentage: Double {
+//        guard todayModel.dailyGoal > 0 else { return 0 }
+//        return Double(todayModel.currentAmount) / Double(todayModel.dailyGoal) * 100
+//    }
+//
+//    
+//    private func saveToUserDefaults() {
+//        if let data = try? JSONEncoder().encode(todayModel) {
+//            UserDefaults.standard.set(data, forKey: storageKey)
+//        }
+//    }
     
-    private static func loadFromUserDefaults() -> TodayProgress? {
-        guard let data = UserDefaults.standard.data(forKey: "todayProgress") else { return nil }
-        return try? JSONDecoder().decode(TodayProgress.self, from: data)
-    }
+//    private static func loadFromUserDefaults() -> TodayModel? {
+//        guard let data = UserDefaults.standard.data(forKey: "dailyGoal") else { return nil }
+//        return try? JSONDecoder().decode(TodayModel.self, from: data)
+//    }
     
     static func clearUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: "todayProgress")
-        UserDefaults.standard.removeObject(forKey: "progress")
         UserDefaults.standard.removeObject(forKey: "dailyGoal")
+        UserDefaults.standard.removeObject(forKey: "currentAmount")
         UserDefaults.standard.removeObject(forKey: "container1")
         UserDefaults.standard.removeObject(forKey: "container2")
         UserDefaults.standard.removeObject(forKey: "container3")
