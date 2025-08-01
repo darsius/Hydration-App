@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UserDefaultsKeys {
+enum UserDefaultsKeys: CaseIterable {
     static let dailyGoal = "dailyGoal"
     static let currentAmount = "currentAmount"
     static let container1 = "container1"
