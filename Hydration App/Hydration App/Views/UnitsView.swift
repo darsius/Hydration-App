@@ -49,7 +49,3 @@ struct UnitsView: View {
         }
     }
 }
-
-//#Preview {
-//    UnitsView()
-//}

@@ -20,7 +20,6 @@ class SettingsViewModel {
     }
     
     func convertedAmount(amount: Int, from oldUnit: String, to newUnit: String) -> Int {
-        print("currUnit: \(oldUnit) si newUnit: \(newUnit)")
         guard oldUnit != newUnit else {
             return amount
         }
