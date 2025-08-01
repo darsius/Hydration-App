@@ -15,18 +15,17 @@ struct UnitsView: View {
     
     var body: some View {
         VStack {
-            CustomDivderView()
+            CustomDividerView()
             List {
                 Section("") {
                     ForEach(UnitType.allCases, id: \.self) { unit in
                         HStack {
                             Text(unit.label)
                             Spacer()
-                            if selectedUnit == unit.rawValue {
-                                Image(.checkmarkGoal)
-                            }
+                            Image(.checkmarkGoal)
+                                .opacity(selectedUnit == unit.rawValue ? 1 : 0)
                         }
-                        .font(.listText)
+                        .font(.regularText)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedUnit = unit.rawValue
@@ -34,18 +33,15 @@ struct UnitsView: View {
                         }
                     }
                 }
-                .listRowSeparatorTint(Color(.WHITE))
-                .listRowBackground(Color(.GRAY_1))
+                .listRowSeparatorTint(.white)
+                .listRowBackground(Color.lightGray)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
-                    return ListRowConstants.separatorLeadingOffset
+                    UIConstants.separatorLeadingOffset
                 }
             }
+            .toolbarRole(.editor)
             .listStyle(.inset)
             .navigationBarTitle("Units", displayMode: .inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar{
-                BackButtonView(dismiss: dismiss)
-            }
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomDivderView: View {
+struct CustomDividerView: View {
     var body: some View {
         Image(.topbarLine)
             .resizable()
@@ -18,5 +18,5 @@ struct CustomDivderView: View {
 }
 
 #Preview {
-    CustomDivderView()
+    CustomDividerView()
 }
