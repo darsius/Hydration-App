@@ -29,7 +29,9 @@ struct UnitsView: View {
                         .font(.listText)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            viewModel.convertDailyGoal(to: unit.rawValue)
+                            viewModel.convertAmount(for: "dailyGoal", to: unit.rawValue, notify: .dailyGoalChanged)
+                            viewModel.convertAmount(for: "container1", to: unit.rawValue, notify: .container1Changed)
+                            viewModel.convertAmount(for: "container2", to: unit.rawValue, notify: .container2Changed)
                             selectedUnit = unit.rawValue
                         }
                     }
