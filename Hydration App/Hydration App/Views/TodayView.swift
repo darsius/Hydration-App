@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TodayView: View {
     @State private var viewModel = TodayViewModel()
-
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -51,13 +51,16 @@ struct TodayView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(
-                            destination: SettingsView(dailyGoal: $viewModel.dailyGoal,
-                                                      container1: $viewModel.container1,
-                                                      container2: $viewModel.container2,
-                                                      container3: $viewModel.container3,
-                                                      unit: $viewModel.unit)) {
-                            Image(.settings)
-                        }
+                            destination: SettingsView(
+                                viewModel: SettingsViewModel(),
+                                dailyGoal: $viewModel.dailyGoal,
+                                container1: $viewModel.container1,
+                                container2: $viewModel.container2,
+                                container3: $viewModel.container3,
+                                unit: $viewModel.unit)) {
+                                    
+                                    Image(.settings)
+                                }
                     }
                 }
                 .toolbarBackground(Color(.systemBackground),for: .navigationBar)
