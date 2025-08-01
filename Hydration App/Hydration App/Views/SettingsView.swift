@@ -11,7 +11,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                CustomDivderView()
+                CustomDividerView()
                 List {
                     Section("") {
                         NavigationLink(destination: UnitsView()) {
