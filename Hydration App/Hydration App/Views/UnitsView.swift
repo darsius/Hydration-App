@@ -12,7 +12,7 @@ struct UnitsView: View {
     
     var body: some View {
         VStack {
-            CustomDivderView()
+            CustomDividerView()
             List {
                 Section("") {
                     ForEach(UnitType.allCases, id: \.self) { unit in
