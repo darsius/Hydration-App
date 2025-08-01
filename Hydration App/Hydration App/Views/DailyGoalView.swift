@@ -16,7 +16,7 @@ struct DailyGoalView: View {
         GeometryReader { geometry in
             ZStack {
                 VStack(spacing: 0) {
-                    CustomDivderView()
+                    CustomDividerView()
                     BackgroundImageView()
                 }
                 Color.black.opacity(0.3)
