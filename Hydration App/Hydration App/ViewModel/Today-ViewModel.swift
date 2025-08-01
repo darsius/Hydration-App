@@ -49,14 +49,14 @@ class TodayViewModel {
     
     init() {
         Self.clearUserDefaults()
-        
-        let dict = userDefaults.dictionaryRepresentation()
-        print("UserDefaults continut:")
-        for (key, value) in dict {
-            if (key == "dailyGoal" || key == "unit") {
-                print("\(key): \(value)")
-            }
-        }
+//        
+//        let dict = userDefaults.dictionaryRepresentation()
+//        print("UserDefaults continut:")
+//        for (key, value) in dict {
+//            if (key == "dailyGoal" || key == "unit") {
+//                print("\(key): \(value)")
+//            }
+//        }
         
         Self.setDefaulValues()
         
@@ -65,16 +65,17 @@ class TodayViewModel {
         container1 = userDefaults.integer(forKey: UserDefaultsKeys.container1)
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
-        unit = userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "ml"
+        unit = userDefaults.string(forKey: UserDefaultsKeys.unit) ?? UserDefaultsKeys.unit
     }
     
     private static func setDefaulValues() {
         let defaults: [String: Any] = [
-            UserDefaultsKeys.unit: Defaults.unit,
             UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
+            UserDefaultsKeys.currentAmount: Defaults.currentAmount,
             UserDefaultsKeys.container1: Defaults.container1,
             UserDefaultsKeys.container2: Defaults.container2,
-            UserDefaultsKeys.container3: Defaults.container3
+            UserDefaultsKeys.container3: Defaults.container3,
+            UserDefaultsKeys.unit: Defaults.unit
         ]
         UserDefaults.standard.register(defaults: defaults)
     }

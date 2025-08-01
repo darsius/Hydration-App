@@ -54,6 +54,7 @@ struct TodayView: View {
                             destination: SettingsView(
                                 viewModel: SettingsViewModel(),
                                 dailyGoal: $viewModel.dailyGoal,
+                                currentAmount: $viewModel.currentAmount,
                                 container1: $viewModel.container1,
                                 container2: $viewModel.container2,
                                 container3: $viewModel.container3,

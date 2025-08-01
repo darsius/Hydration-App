@@ -18,6 +18,7 @@ enum UserDefaultsKeys {
 
 enum Defaults {
     static let dailyGoal = 2000
+    static let currentAmount = 0
     static let container1 = 100
     static let container2 = 200
     static let container3 = 400
