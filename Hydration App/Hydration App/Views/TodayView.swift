@@ -6,14 +6,14 @@ struct TodayView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                CustomDivderView()
+                CustomDividerView()
                 ZStack {
                     BackgroundImageView()
                     Color.black.opacity(0.3)
                     
                     VStack {
                         Text(String(format: "%.0f%%", viewModel.goalPrecentage))
-                            .font(.glassPercentage)
+                            .font(.bodyBold)
                             .foregroundStyle(.GREEN)
                         Text("of \(viewModel.dailyGoal) \(viewModel.unit) Goal")
                             .foregroundStyle(.white)
@@ -23,11 +23,11 @@ struct TodayView: View {
                             GlassView(dailyGoal: viewModel.dailyGoal, currentAmount: viewModel.currentAmount)
                             
                             Text("\(viewModel.currentAmount) \(viewModel.unit)")
-                                .padding(.bottom, TodayConstants.currentGlassVolume)
+                                .padding(.bottom, UIConstants.currentGlassVolume)
                                 .font(.bodyBold)
                         }
                         
-                        HStack(spacing: TodayConstants.containerSpacing) {
+                        HStack(spacing: UIConstants.containerSpacing) {
                             ContainerButtonView(label: "\(viewModel.container1) \(viewModel.unit)") {
                                 viewModel.addAmount(amount: viewModel.container1)
                                 
@@ -39,15 +39,15 @@ struct TodayView: View {
                                 viewModel.addAmount(amount: viewModel.container3)
                             }
                         }
-                        .padding(.vertical, TodayConstants.containerVerticalPadding)
+                        .padding(.vertical, UIConstants.containerVerticalPadding)
                         
                         Text("Happy you're back to track your healthy habit of staying hydrated.")
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.white)
-                            .padding(.horizontal, TodayConstants.motivationalTextHorizontalPadding)
+                            .padding(.horizontal, UIConstants.greetingTextHorizontalPadding)
                             .font(.bodyText)
                     }
-                    .padding(.top, TodayConstants.topPadding)
+                    .padding(.top, UIConstants.topPadding)
                 }
                 .navigationBarTitle("Today's progress", displayMode: .inline)
                 .toolbar {

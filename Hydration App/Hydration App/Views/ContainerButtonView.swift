@@ -15,7 +15,7 @@ struct ContainerButtonView: View {
             Text(label)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 26)
-                .font(.buttonText)
+                .font(.regularText)
                 .background(.GREEN)
                 .foregroundStyle(.black)
                 .cornerRadius(4)

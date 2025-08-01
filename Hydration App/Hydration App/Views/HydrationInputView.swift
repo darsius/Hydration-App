@@ -19,7 +19,7 @@ struct HydrationInputView: View {
         GeometryReader { geometry in
             ZStack {
                 VStack(spacing: 0) {
-                    CustomDivderView()
+                    CustomDividerView()
                     BackgroundImageView()
                 }
                 Color.black.opacity(0.3)
@@ -29,8 +29,8 @@ struct HydrationInputView: View {
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
                         .font(.bodyText)
-                        .padding(.horizontal, HydrationInputConstants.informationalTextHorizontalPadding)
-                        .padding(.top, HydrationInputConstants.informationalTextTopPadding)
+                        .padding(.horizontal, UIConstants.informationalTextHorizontalPadding)
+                        .padding(.top, UIConstants.informationalTextTopPadding)
                     Spacer()
                     
                     VStack {
@@ -38,16 +38,16 @@ struct HydrationInputView: View {
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)
-                            .font(.dailyGoal)
-                            .frame(width: HydrationInputConstants.textFieldWidth, height: HydrationInputConstants.textFieldHeight)
+                            .font(.largeTitle)
+                            .frame(width: UIConstants.textFieldWidth, height:UIConstants.textFieldHeight)
                             .overlay {
-                                RoundedRectangle(cornerRadius: HydrationInputConstants.textFieldCornerRadius)
-                                    .stroke(Color.GREEN, lineWidth: HydrationInputConstants.textFieldBorderWidth)
+                                RoundedRectangle(cornerRadius: UIConstants.textFieldCornerRadius)
+                                    .stroke(Color.appGreen, lineWidth: UIConstants.textFieldBorderWidth)
                             }
                         
                         Text("mililiters (ml)")
                             .font(.title)
-                            .padding(.bottom, HydrationInputConstants.textBottomPadding)
+                            .padding(.bottom, UIConstants.textBottomPadding)
                     }
                     .onAppear {
                         focus = true
@@ -66,7 +66,7 @@ struct HydrationInputView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                .foregroundStyle(.GREEN)
+                .foregroundStyle(Color.appGreen)
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
