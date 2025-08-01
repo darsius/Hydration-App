@@ -13,37 +13,37 @@ class TodayViewModel {
     
     var dailyGoal: Int {
         didSet {
-            userDefaults.set(dailyGoal, forKey: "dailyGoal")
+            userDefaults.set(dailyGoal, forKey: UserDefaultsKeys.dailyGoal)
         }
     }
     
     var currentAmount: Int {
         didSet {
-            userDefaults.setValue(currentAmount, forKey: "currentAmount")
+            userDefaults.setValue(currentAmount, forKey: UserDefaultsKeys.currentAmount)
         }
     }
     
     var container1: Int {
         didSet {
-            userDefaults.set(container1, forKey: "container1")
+            userDefaults.set(container1, forKey: UserDefaultsKeys.container1)
         }
     }
     
     var container2: Int {
         didSet {
-            userDefaults.set(container2, forKey: "container2")
+            userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
         }
     }
     
     var container3: Int {
         didSet {
-            userDefaults.set(container3, forKey: "container3")
+            userDefaults.set(container3, forKey: UserDefaultsKeys.container3)
         }
     }
-
+    
     var unit: String {
         didSet {
-            userDefaults.set(unit, forKey: "unit")
+            userDefaults.set(unit, forKey: UserDefaultsKeys.unit)
         }
     }
     
@@ -57,74 +57,28 @@ class TodayViewModel {
                 print("\(key): \(value)")
             }
         }
-        if userDefaults.object(forKey: "unit") == nil {
-            userDefaults.set("ml", forKey: "unit")
-        }
         
-        if userDefaults.object(forKey: "dailyGoal") == nil {
-            userDefaults.set(2000, forKey: "dailyGoal")
-        }
+        Self.setDefaulValues()
         
-        if userDefaults.object(forKey: "container1") == nil {
-            userDefaults.set(100, forKey: "container1")
-        }
-        
-        if userDefaults.object(forKey: "container2") == nil {
-            userDefaults.set(200, forKey: "container2")
-        }
-        
-        if userDefaults.object(forKey: "container3") == nil {
-            userDefaults.set(400, forKey: "container3")
-        }
-        
-        dailyGoal = userDefaults.integer(forKey: "dailyGoal") 
-        currentAmount = userDefaults.integer(forKey: "currentAmount")
-        container1 = userDefaults.integer(forKey: "container1")
-        container2 = userDefaults.integer(forKey: "container2")
-        container3 = userDefaults.integer(forKey: "container3")
-        unit = userDefaults.string(forKey: "unit") ?? "ml"
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDailyGoal), name: .dailyGoalChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateContainer1), name: .container1Changed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateContainer2), name: .container2Changed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateContainer3), name: .container3Changed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUnit), name: .unitChanged, object: nil)
+        dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
+        currentAmount = userDefaults.integer(forKey: UserDefaultsKeys.currentAmount)
+        container1 = userDefaults.integer(forKey: UserDefaultsKeys.container1)
+        container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
+        container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
+        unit = userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "ml"
     }
     
-    @objc private func updateDailyGoal() {
-        let storedAmount = userDefaults.integer(forKey: "dailyGoal")
-        if storedAmount != dailyGoal {
-            self.dailyGoal = storedAmount
-        }
+    private static func setDefaulValues() {
+        let defaults: [String: Any] = [
+            UserDefaultsKeys.unit: Defaults.unit,
+            UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
+            UserDefaultsKeys.container1: Defaults.container1,
+            UserDefaultsKeys.container2: Defaults.container2,
+            UserDefaultsKeys.container3: Defaults.container3
+        ]
+        UserDefaults.standard.register(defaults: defaults)
     }
     
-    @objc private func updateContainer1() {
-        let storedAmount = userDefaults.integer(forKey: "container1")
-        if storedAmount != container1 {
-            self.container1 = storedAmount
-        }
-    }
-    
-    @objc private func updateContainer2() {
-        let storedAmount = userDefaults.integer(forKey: "container2")
-        if storedAmount != container2 {
-            self.container2 = storedAmount
-        }
-    }
-    
-    @objc private func updateContainer3() {
-        let storedAmount = userDefaults.integer(forKey: "container3")
-        if storedAmount != container3 {
-            self.container3 = storedAmount
-        }
-    }
-    
-    @objc private func updateUnit() {
-        let storedtUnit = userDefaults.string(forKey: "unit") ?? "ml"
-        if storedtUnit != unit {
-            self.unit = storedtUnit
-        }
-    }
     
     func addAmount(amount: Int) {
         currentAmount += amount
@@ -136,23 +90,11 @@ class TodayViewModel {
     }
     
     static func clearUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: "dailyGoal")
-        UserDefaults.standard.removeObject(forKey: "currentAmount")
-        UserDefaults.standard.removeObject(forKey: "container1")
-        UserDefaults.standard.removeObject(forKey: "container2")
-        UserDefaults.standard.removeObject(forKey: "container3")
-        UserDefaults.standard.removeObject(forKey: "unit")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.dailyGoal)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.currentAmount)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container1)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container2)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container3)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.unit)
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-}
-
-extension Notification.Name {
-    static let dailyGoalChanged = Notification.Name("dailyGoalChanged")
-    static let container1Changed = Notification.Name("container1Changed")
-    static let container2Changed = Notification.Name("container2Changed")
-    static let container3Changed = Notification.Name("container3Changed")
-    static let unitChanged = Notification.Name("unitChanged")
 }

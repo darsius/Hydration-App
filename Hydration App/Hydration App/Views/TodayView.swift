@@ -58,7 +58,6 @@ struct TodayView: View {
                                 container2: $viewModel.container2,
                                 container3: $viewModel.container3,
                                 unit: $viewModel.unit)) {
-                                    
                                     Image(.settings)
                                 }
                     }

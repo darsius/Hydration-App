@@ -20,3 +20,7 @@ class UnitsViewModel {
         NotificationCenter.default.post(name: .unitChanged, object: nil)
     }
 }
+
+extension Notification.Name {
+    static let unitChanged = Notification.Name("unitChanged")
+}
