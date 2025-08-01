@@ -1,55 +1,73 @@
 import SwiftUI
 
 struct TodayView: View {
+    @State private var viewModel = TodayViewModel()
+    
     var body: some View {
         NavigationStack {
-            ZStack {
-                VStack(spacing: 0) {
-                    CustomDividerView()
+            VStack(spacing: 0) {
+                CustomDividerView()
+                ZStack {
                     BackgroundImageView()
-                }
-                Color.black.opacity(0.3)
-                
-                VStack {
-                    Text("20%")
-                        .font(.largeBold)
-                        .foregroundStyle(.GREEN)
-                    Text("of 2000 ml Goal")
-                        .foregroundStyle(.white)
-                        .font(.bodyText)
+                    Color.black.opacity(0.3)
                     
-                    ZStack(alignment: .bottom) {
-                        Image("Glass_empty")
-                        Text("200 ml")
-                            .padding(.bottom, UIConstants.currentGlassVolume)
+                    VStack {
+                        Text(String(format: "%.0f%%", viewModel.goalPrecentage))
+                            .font(.bodyBold)
+                            .foregroundStyle(.GREEN)
+                        Text("of \(viewModel.dailyGoal) \(viewModel.unit) Goal")
+                            .foregroundStyle(.white)
+                            .font(.bodyText)
+                        
+                        ZStack(alignment: .bottom) {
+                            GlassView(dailyGoal: viewModel.dailyGoal, currentAmount: viewModel.currentAmount)
+                            
+                            Text("\(viewModel.currentAmount) \(viewModel.unit)")
+                                .padding(.bottom, UIConstants.currentGlassVolume)
+                                .font(.bodyBold)
+                        }
+                        
+                        HStack(spacing: UIConstants.containerSpacing) {
+                            ContainerButtonView(label: "\(viewModel.container1) \(viewModel.unit)") {
+                                viewModel.addAmount(amount: viewModel.container1)
+                                
+                            }
+                            ContainerButtonView(label: "\(viewModel.container2) \(viewModel.unit)") {
+                                viewModel.addAmount(amount: viewModel.container2)
+                            }
+                            ContainerButtonView(label: "\(viewModel.container3) \(viewModel.unit)") {
+                                viewModel.addAmount(amount: viewModel.container3)
+                            }
+                        }
+                        .padding(.vertical, UIConstants.containerVerticalPadding)
+                        
+                        Text("Happy you're back to track your healthy habit of staying hydrated.")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, UIConstants.greetingTextHorizontalPadding)
                             .font(.bodyText)
                     }
-                    
-                    HStack(spacing: UIConstants.containerSpacing) {
-                        ContainerButtonView(label: "200 ml")
-                        ContainerButtonView(label: "400 ml")
-                        ContainerButtonView(label: "500 ml")
-                    }
-                    .padding(.vertical, UIConstants.containerVerticalPadding)
-                    
-                    Text("Happy you're back to track your healthy habit of staying hydrated.")
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, UIConstants.greetingTextHorizontalPadding)
-                        .foregroundStyle(.white)
-                        .font(.bodyText)
+                    .padding(.top, UIConstants.topPadding)
                 }
-                .padding(.top, UIConstants.topPadding)
-            }
-            .navigationBarTitle("Today's progress", displayMode: .inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(.settings)
+                .navigationBarTitle("Today's progress", displayMode: .inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(
+                            destination: SettingsView(
+                                viewModel: SettingsViewModel(),
+                                dailyGoal: $viewModel.dailyGoal,
+                                currentAmount: $viewModel.currentAmount,
+                                container1: $viewModel.container1,
+                                container2: $viewModel.container2,
+                                container3: $viewModel.container3,
+                                unit: $viewModel.unit)) {
+                                    Image(.settings)
+                                }
                     }
                 }
+                .toolbarBackground(Color(.systemBackground),for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
             }
-            .toolbarBackground(Color(.systemBackground),for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
 }

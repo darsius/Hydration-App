@@ -10,6 +10,7 @@ import SwiftUI
 extension Font {
     static let regularText = Font.system(size: 16, weight: .regular)
     static let bodyText = Font.system(size: 14, weight: .regular)
+    static let bodyBold = Font.system(size: 14, weight: .semibold)
     
     static let largeBold = Font.system(size: 36, weight: .bold)
     static let largeLight = Font.system(size: 36, weight: .light)

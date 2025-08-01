@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct UnitsView: View {
-    @State private var selectedUnit: UnitType = .ml
+    @Environment(\.dismiss) private var dismiss
+    var viewModel: UnitsViewModel
+    
+    @Binding var selectedUnit: String
     
     var body: some View {
         VStack {
@@ -20,12 +23,13 @@ struct UnitsView: View {
                             Text(unit.label)
                             Spacer()
                             Image(.checkmarkGoal)
-                                .opacity(selectedUnit == unit ? 1 : 0)
+                                .opacity(selectedUnit == unit.rawValue ? 1 : 0)
                         }
                         .font(.regularText)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            selectedUnit = unit
+                            selectedUnit = unit.rawValue
+                            viewModel.notifyUnitChanged()
                         }
                     }
                 }
@@ -40,8 +44,4 @@ struct UnitsView: View {
             .navigationBarTitle("Units", displayMode: .inline)
         }
     }
-}
-
-#Preview {
-    UnitsView()
 }
