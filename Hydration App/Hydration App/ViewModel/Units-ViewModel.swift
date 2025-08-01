@@ -24,27 +24,25 @@ class UnitsViewModel {
         Int(round(Double(value) * unitConverter))
     }
     
-    func convertDailyGoal(to newUnit: String) {
+    func convertAmount(for key: String, to newUnit: String, notify notification: Notification.Name? = nil) {
         let currentUnit = UserDefaults.standard.string(forKey: "unit") ?? "ml"
-        guard currentUnit != newUnit else { return }
+        let currentValue = UserDefaults.standard.object(forKey: key) as? Int ?? 0
         
-        let currentGoal = UserDefaults.standard.object(forKey: "dailyGoal") as? Int ?? 2000
-        print("valoarea curenta din goal este: \(currentGoal)")
-        let newGoal: Int
+        let newValue: Int
         
-        if newUnit == "oz" {
-            newGoal = convertMlToOz(currentGoal)
-        } else {
-            newGoal = convertOzToMl(currentGoal)
-        }
+        newValue = newUnit == "oz" ? convertMlToOz(currentValue) : convertOzToMl(currentValue)
+ 
+        guard currentUnit != newUnit || currentValue != newValue else { return }
         
-        UserDefaults.standard.set(newGoal, forKey: "dailyGoal")
+        UserDefaults.standard.set(newValue, forKey: key)
         UserDefaults.standard.set(newUnit, forKey: "unit")
         
         unitType = newUnit
-        print("valoarea noua din goal este: \(newGoal)")
+        print("valoarea noua este: \(newValue)")
         
-        NotificationCenter.default.post(name: .dailyGoalChanged, object: nil)
+        if let notification {
+            NotificationCenter.default.post(name: notification, object: nil)
+        }
     }
     
 }
