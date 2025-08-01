@@ -2,7 +2,7 @@
 //  BackgroundImageView.swift
 //  Hydration App
 //
-//  Created by Paraschiv, Darius on 28.07.2025.
+//  Created by Paraschiv, Darius on 27.07.2025.
 //
 
 import SwiftUI
