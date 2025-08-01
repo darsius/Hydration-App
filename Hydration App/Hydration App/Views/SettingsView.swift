@@ -104,7 +104,6 @@ struct SettingsView: View {
                 }
 
                 .onChange(of: unit) { oldValue, newValue in
-                    print("Unit s-a schimbat din \(oldValue) în \(newValue)")
                     
                     let convertedDailyGoal = viewModel.convertedAmount(amount: dailyGoal, from: oldValue, to: newValue)
                     viewModel.saveConvertedAmount(convertedDailyGoal, for: "dailyGoal", newUnit: newValue)
@@ -121,13 +120,8 @@ struct SettingsView: View {
                     let convertedContainer3 = viewModel.convertedAmount(amount: container3, from: oldValue, to: newValue)
                     viewModel.saveConvertedAmount(convertedContainer3, for: "container3", newUnit: newValue)
                     container3 = convertedContainer3
-                    
                 }
             }
         }
     }
 }
-//
-//#Preview {
-//    SettingsView(dailyGoal: $dail)
-//}

@@ -29,7 +29,7 @@ class SettingsViewModel {
 
     func saveConvertedAmount(_ amount: Int, for key: String, newUnit: String) {
         UserDefaults.standard.set(amount, forKey: key)
-        UserDefaults.standard.set(newUnit, forKey: "unit")
+        UserDefaults.standard.set(newUnit, forKey: UserDefaultsKeys.unit)
     }
     
 }
