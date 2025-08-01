@@ -19,6 +19,7 @@ extension Font {
     static let chartLeged = Font.system(size: 11, weight: .regular)
     
     static let bodyText = Font.system(size: 14, weight: .regular)
+    static let bodyBold = Font.system(size: 14, weight: .semibold)
     
     static let glassPercentage = Font.system(size: 36, weight: .bold)
     static let dailyGoal = Font.system(size: 36, weight: .light)

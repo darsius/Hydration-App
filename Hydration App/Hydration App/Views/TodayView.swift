@@ -20,15 +20,17 @@ struct TodayView: View {
                             .font(.bodyText)
                         
                         ZStack(alignment: .bottom) {
-                            Image("Glass_empty")
+                            GlassView(dailyGoal: viewModel.dailyGoal, currentAmount: viewModel.currentAmount)
+                            
                             Text("\(viewModel.currentAmount) \(viewModel.unit)")
                                 .padding(.bottom, TodayConstants.currentGlassVolume)
-                                .font(.bodyText)
+                                .font(.bodyBold)
                         }
                         
                         HStack(spacing: TodayConstants.containerSpacing) {
                             ContainerButtonView(label: "\(viewModel.container1) \(viewModel.unit)") {
                                 viewModel.addAmount(amount: viewModel.container1)
+                                
                             }
                             ContainerButtonView(label: "\(viewModel.container2) \(viewModel.unit)") {
                                 viewModel.addAmount(amount: viewModel.container2)

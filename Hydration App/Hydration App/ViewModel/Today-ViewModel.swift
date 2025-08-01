@@ -48,15 +48,7 @@ class TodayViewModel {
     }
     
     init() {
-        Self.clearUserDefaults()
-//        
-//        let dict = userDefaults.dictionaryRepresentation()
-//        print("UserDefaults continut:")
-//        for (key, value) in dict {
-//            if (key == "dailyGoal" || key == "unit") {
-//                print("\(key): \(value)")
-//            }
-//        }
+//        Self.clearUserDefaults()
         
         Self.setDefaulValues()
         
