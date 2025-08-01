@@ -77,7 +77,3 @@ struct HydrationInputView: View {
         }
     }
 }
-//
-//#Preview {
-//    HydrationInputView(viewModel: HydrationViewModel(type: .dailyGoal))
-//}
