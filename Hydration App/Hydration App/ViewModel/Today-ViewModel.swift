@@ -14,7 +14,6 @@ class TodayViewModel {
     var dailyGoal: Int {
         didSet {
             userDefaults.set(dailyGoal, forKey: "dailyGoal")
-            NotificationCenter.default.post(name: .dailyGoalChanged, object: nil)
         }
     }
     
@@ -27,14 +26,12 @@ class TodayViewModel {
     var container1: Int {
         didSet {
             userDefaults.set(container1, forKey: "container1")
-            NotificationCenter.default.post(name: .container1Changed, object: nil)
         }
     }
     
     var container2: Int {
         didSet {
             userDefaults.set(container2, forKey: "container2")
-            NotificationCenter.default.post(name: .container2Changed, object: nil)
         }
     }
     
@@ -51,14 +48,17 @@ class TodayViewModel {
     }
     
     init() {
-//        Self.clearUserDefaults()
+        Self.clearUserDefaults()
         
         let dict = userDefaults.dictionaryRepresentation()
         print("UserDefaults continut:")
         for (key, value) in dict {
-            if (key == "dailyGoal" || key == "currentAmount" || key == "container1" || key == "container2" || key == "container3" || key == "unit") {
+            if (key == "dailyGoal" || key == "unit") {
                 print("\(key): \(value)")
             }
+        }
+        if userDefaults.object(forKey: "unit") == nil {
+            userDefaults.set("ml", forKey: "unit")
         }
         
         if userDefaults.object(forKey: "dailyGoal") == nil {
@@ -88,6 +88,7 @@ class TodayViewModel {
         NotificationCenter.default.addObserver(self, selector: #selector(updateContainer1), name: .container1Changed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateContainer2), name: .container2Changed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateContainer3), name: .container3Changed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUnit), name: .unitChanged, object: nil)
     }
     
     @objc private func updateDailyGoal() {
@@ -118,6 +119,13 @@ class TodayViewModel {
         }
     }
     
+    @objc private func updateUnit() {
+        let storedtUnit = userDefaults.string(forKey: "unit") ?? "ml"
+        if storedtUnit != unit {
+            self.unit = storedtUnit
+        }
+    }
+    
     func addAmount(amount: Int) {
         currentAmount += amount
     }
@@ -127,7 +135,7 @@ class TodayViewModel {
         return Double(currentAmount) / Double(dailyGoal) * 100
     }
     
-    func clearUserDefaults() {
+    static func clearUserDefaults() {
         UserDefaults.standard.removeObject(forKey: "dailyGoal")
         UserDefaults.standard.removeObject(forKey: "currentAmount")
         UserDefaults.standard.removeObject(forKey: "container1")
@@ -146,4 +154,5 @@ extension Notification.Name {
     static let container1Changed = Notification.Name("container1Changed")
     static let container2Changed = Notification.Name("container2Changed")
     static let container3Changed = Notification.Name("container3Changed")
+    static let unitChanged = Notification.Name("unitChanged")
 }
