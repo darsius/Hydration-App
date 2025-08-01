@@ -13,6 +13,7 @@ struct SettingsView: View {
     @State var viewModel: SettingsViewModel
     
     @Binding var dailyGoal: Int
+    @Binding var currentAmount: Int
     @Binding var container1: Int
     @Binding var container2: Int
     @Binding var container3: Int
@@ -108,6 +109,10 @@ struct SettingsView: View {
                     let convertedDailyGoal = viewModel.convertedAmount(amount: dailyGoal, from: oldValue, to: newValue)
                     viewModel.saveConvertedAmount(convertedDailyGoal, for: "dailyGoal", newUnit: newValue)
                     dailyGoal = convertedDailyGoal
+                    
+                    let convertedCurrentAmount = viewModel.convertedAmount(amount: currentAmount, from: oldValue, to: newValue)
+                    viewModel.saveConvertedAmount(convertedCurrentAmount, for: UserDefaultsKeys.currentAmount, newUnit: newValue)
+                    currentAmount = convertedCurrentAmount
                     
                     let convertedContainer1 = viewModel.convertedAmount(amount: container1, from: oldValue, to: newValue)
                     viewModel.saveConvertedAmount(convertedContainer1, for: "container1", newUnit: newValue)
