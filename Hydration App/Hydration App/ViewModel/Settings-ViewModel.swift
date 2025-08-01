@@ -19,17 +19,32 @@ class SettingsViewModel {
         Int(round(Double(value) * unitConverter))
     }
     
-    func convertedAmount(amount: Int, from oldUnit: String, to newUnit: String) -> Int {
+    func convertAll(
+        dailyGoal: inout Int,
+        currentAmount: inout Int,
+        container1: inout Int,
+        container2: inout Int,
+        container3: inout Int,
+        from oldUnit: String,
+        to newUnit: String
+    ) {
+        dailyGoal = convert(amount: dailyGoal, for: UserDefaultsKeys.dailyGoal, from: oldUnit, to: newUnit)
+        currentAmount = convert(amount: currentAmount, for: UserDefaultsKeys.currentAmount, from: oldUnit, to: newUnit)
+        container1 = convert(amount: container1, for: UserDefaultsKeys.container1, from: oldUnit, to: newUnit)
+        container2 = convert(amount: container2, for: UserDefaultsKeys.container2, from: oldUnit, to: newUnit)
+        container3 = convert(amount: container3, for: UserDefaultsKeys.container3, from: oldUnit, to: newUnit)
+
+        UserDefaults.standard.set(newUnit, forKey: UserDefaultsKeys.unit)
+    }
+    
+    private func convert(amount: Int, for key: String, from oldUnit: String, to newUnit: String) -> Int {
         guard oldUnit != newUnit else {
             return amount
         }
+        let convertedAmount = newUnit == "oz" ? convertMlToOz(amount) : convertOzToMl(amount)
         
-        return newUnit == "oz" ? convertMlToOz(amount) : convertOzToMl(amount)
-    }
-
-    func saveConvertedAmount(_ amount: Int, for key: String, newUnit: String) {
-        UserDefaults.standard.set(amount, forKey: key)
-        UserDefaults.standard.set(newUnit, forKey: UserDefaultsKeys.unit)
+        UserDefaults.standard.set(convertedAmount, forKey: key)
+        return convertedAmount
     }
     
 }

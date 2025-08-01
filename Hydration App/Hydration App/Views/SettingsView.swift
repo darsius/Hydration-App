@@ -74,27 +74,14 @@ struct SettingsView: View {
                 .navigationBarTitle("Settings", displayMode: .inline)
                 
                 .onChange(of: unit) { oldValue, newValue in
-                    
-                    let convertedDailyGoal = viewModel.convertedAmount(amount: dailyGoal, from: oldValue, to: newValue)
-                    viewModel.saveConvertedAmount(convertedDailyGoal, for: UserDefaultsKeys.dailyGoal, newUnit: newValue)
-                    dailyGoal = convertedDailyGoal
-                    
-                    let convertedCurrentAmount = viewModel.convertedAmount(amount: currentAmount, from: oldValue, to: newValue)
-                    viewModel.saveConvertedAmount(convertedCurrentAmount, for: UserDefaultsKeys.currentAmount, newUnit: newValue)
-                    currentAmount = convertedCurrentAmount
-                    
-                    let convertedContainer1 = viewModel.convertedAmount(amount: container1, from: oldValue, to: newValue)
-                    viewModel.saveConvertedAmount(convertedContainer1, for: UserDefaultsKeys.container1, newUnit: newValue)
-                    container1 = convertedContainer1
-                    
-                    let convertedContainer2 = viewModel.convertedAmount(amount: container2, from: oldValue, to: newValue)
-                    viewModel.saveConvertedAmount(convertedContainer2, for: UserDefaultsKeys.container2, newUnit: newValue)
-                    container2 = convertedContainer2
-                    
-                    let convertedContainer3 = viewModel.convertedAmount(amount: container3, from: oldValue, to: newValue)
-                    viewModel.saveConvertedAmount(convertedContainer3, for: UserDefaultsKeys.container3, newUnit: newValue)
-                    container3 = convertedContainer3
-                    
+                    viewModel.convertAll(
+                        dailyGoal: &dailyGoal,
+                        currentAmount: &currentAmount,
+                        container1: &container1,
+                        container2: &container2,
+                        container3: &container3,
+                        from: oldValue,
+                        to: newValue)
                 }
             }
         }
