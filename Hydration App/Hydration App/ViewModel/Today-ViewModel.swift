@@ -60,6 +60,10 @@ class TodayViewModel {
         unit = userDefaults.string(forKey: UserDefaultsKeys.unit) ?? UserDefaultsKeys.unit
     }
     
+    func convertCurrentAmount(from oldUnit: String, to newUnit: String) {
+        currentAmount = Converter.convert(amount: currentAmount, for: UserDefaultsKeys.currentAmount, from: oldUnit, to: newUnit)
+    }
+    
     private static func setDefaulValues() {
         let defaults: [String: Any] = [
             UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
