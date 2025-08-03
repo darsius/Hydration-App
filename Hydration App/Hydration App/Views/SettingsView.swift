@@ -13,7 +13,6 @@ struct SettingsView: View {
     @State var viewModel: SettingsViewModel
     
     @Binding var dailyGoal: Int
-    @Binding var currentAmount: Int
     @Binding var container1: Int
     @Binding var container2: Int
     @Binding var container3: Int
@@ -76,7 +75,6 @@ struct SettingsView: View {
                 .onChange(of: unit) { oldValue, newValue in
                     viewModel.convertAll(
                         dailyGoal: &dailyGoal,
-                        currentAmount: &currentAmount,
                         container1: &container1,
                         container2: &container2,
                         container3: &container3,

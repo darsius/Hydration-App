@@ -56,7 +56,6 @@ struct TodayView: View {
                             destination: SettingsView(
                                 viewModel: SettingsViewModel(),
                                 dailyGoal: $viewModel.dailyGoal,
-                                currentAmount: $viewModel.currentAmount,
                                 container1: $viewModel.container1,
                                 container2: $viewModel.container2,
                                 container3: $viewModel.container3,
@@ -67,6 +66,10 @@ struct TodayView: View {
                 }
                 .toolbarBackground(Color(.systemBackground),for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
+                
+                .onChange(of: viewModel.unit) { oldValue, newValue in
+                    viewModel.convertCurrentAmount(from: oldValue, to: newValue)
+                }
             }
         }
     }
