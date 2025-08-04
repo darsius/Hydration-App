@@ -13,7 +13,7 @@ struct TodayView: View {
                     
                     VStack {
                         Text(String(format: "%.0f%%", viewModel.goalPrecentage))
-                            .font(.bodyBold)
+                            .font(.largeBold)
                             .foregroundStyle(.GREEN)
                         Text("of \(viewModel.dailyGoal) \(viewModel.unit) Goal")
                             .foregroundStyle(.white)
