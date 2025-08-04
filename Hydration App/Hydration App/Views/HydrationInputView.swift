@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct HydrationInputView: View {
-    var viewModel: HydrationInputViewModel
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
     
     @Binding var inputValue: Int
     @Binding var unit: String
     @State private var textFieldInput: Int = 0
+    
+    let viewType: HydrationViewType
     
     var body: some View {
         GeometryReader { geometry in
@@ -26,7 +27,7 @@ struct HydrationInputView: View {
                 Color.black.opacity(0.3)
                 
                 VStack(spacing: 0) {
-                    Text(viewModel.informationalDescription)
+                    Text(viewType.informationalDescription)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)
                         .font(.bodyText)
@@ -61,7 +62,7 @@ struct HydrationInputView: View {
         }
         .ignoresSafeArea(.keyboard)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle(viewModel.viewType.navbarTitle, displayMode: .inline)
+        .navigationBarTitle(viewType.navbarTitle, displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button("Cancel") {

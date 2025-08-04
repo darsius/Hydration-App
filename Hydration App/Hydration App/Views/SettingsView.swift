@@ -10,8 +10,6 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @State var viewModel: SettingsViewModel
-    
     @Binding var dailyGoal: Int
     @Binding var container1: Int
     @Binding var container2: Int
@@ -30,9 +28,9 @@ struct SettingsView: View {
                         }
                         
                         NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(type: .dailyGoal),
                             inputValue: $dailyGoal,
-                            unit: $unit)) {
+                            unit: $unit,
+                            viewType: .dailyGoal)) {
                                 SettingsRowView(title: "Daily Goal", value: "\(dailyGoal) \(unit)")
                         }
                     }
@@ -45,25 +43,25 @@ struct SettingsView: View {
                     
                     Section {
                         NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(type: .container(1)),
                             inputValue: $container1,
-                            unit: $unit)) {
+                            unit: $unit,
+                            viewType: .container(1))) {
                                 SettingsRowView(title: "Container 1", value: "\(container1) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(type: .container(2)),
                             inputValue: $container2,
-                            unit: $unit)) {
+                            unit: $unit,
+                            viewType: .container(2))) {
                                 SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(type: .container(3)),
                             inputValue: $container3,
-                            unit: $unit)) {
+                            unit: $unit,
+                            viewType: .container(3))) {
                                 SettingsRowView(title: "Container 3", value: "\(container3) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
@@ -81,9 +79,8 @@ struct SettingsView: View {
                 .toolbarRole(.editor)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
-                
                 .onChange(of: unit) { oldValue, newValue in
-                    viewModel.convertAll(
+                    Converter.convertAll(
                         dailyGoal: &dailyGoal,
                         container1: &container1,
                         container2: &container2,
