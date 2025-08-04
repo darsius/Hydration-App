@@ -15,27 +15,27 @@ struct TodayView: View {
                         Text(String(format: "%.0f%%", viewModel.goalPrecentage))
                             .font(.largeBold)
                             .foregroundStyle(.GREEN)
-                        Text("of \(viewModel.dailyGoal) \(viewModel.unit) Goal")
+                        Text("of \(viewModel.dailyGoal) \(viewModel.unit.rawValue) Goal")
                             .foregroundStyle(.white)
                             .font(.bodyText)
                         
                         ZStack(alignment: .bottom) {
                             GlassView(dailyGoal: viewModel.dailyGoal, currentAmount: viewModel.currentAmount)
                             
-                            Text("\(viewModel.currentAmount) \(viewModel.unit)")
+                            Text("\(viewModel.currentAmount) \(viewModel.unit.rawValue)")
                                 .padding(.bottom, UIConstants.currentGlassVolume)
                                 .font(.bodyBold)
                         }
                         
                         HStack(spacing: UIConstants.containerSpacing) {
-                            ContainerButtonView(label: "\(viewModel.container1) \(viewModel.unit)") {
+                            ContainerButtonView(label: "\(viewModel.container1) \(viewModel.unit.rawValue)") {
                                 viewModel.addAmount(amount: viewModel.container1)
                                 
                             }
-                            ContainerButtonView(label: "\(viewModel.container2) \(viewModel.unit)") {
+                            ContainerButtonView(label: "\(viewModel.container2) \(viewModel.unit.rawValue)") {
                                 viewModel.addAmount(amount: viewModel.container2)
                             }
-                            ContainerButtonView(label: "\(viewModel.container3) \(viewModel.unit)") {
+                            ContainerButtonView(label: "\(viewModel.container3) \(viewModel.unit.rawValue)") {
                                 viewModel.addAmount(amount: viewModel.container3)
                             }
                         }

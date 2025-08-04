@@ -12,7 +12,7 @@ struct HydrationInputView: View {
     @FocusState private var focus: Bool
     
     @Binding var inputValue: Int
-    @Binding var unit: String
+    @Binding var unit: UnitType
     @State private var textFieldInput: Int = 0
     
     let viewType: HydrationViewType
@@ -47,7 +47,7 @@ struct HydrationInputView: View {
                                     .stroke(Color.appGreen, lineWidth: UIConstants.textFieldBorderWidth)
                             }
                         
-                        Text(unit == "ml" ? "mililiters (ml)" : "ounces (oz)")
+                        Text(unit.label)
                             .font(.title)
                             .padding(.bottom, UIConstants.textBottomPadding)
                     }

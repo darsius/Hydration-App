@@ -14,7 +14,7 @@ struct SettingsView: View {
     @Binding var container1: Int
     @Binding var container2: Int
     @Binding var container3: Int
-    @Binding var unit: String
+    @Binding var unit: UnitType
     
     var body: some View {
         NavigationStack {
@@ -24,7 +24,7 @@ struct SettingsView: View {
                     Section("") {
                         NavigationLink(destination: UnitsView(
                             selectedUnit: $unit)) {
-                                SettingsRowView(title: "Units", value: unit)
+                                SettingsRowView(title: "Units", value: unit.rawValue)
                         }
                         
                         NavigationLink(destination: HydrationInputView(

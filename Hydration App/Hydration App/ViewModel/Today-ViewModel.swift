@@ -41,9 +41,9 @@ class TodayViewModel {
         }
     }
     
-    var unit: String {
+    var unit: UnitType {
         didSet {
-            userDefaults.set(unit, forKey: UserDefaultsKeys.unit)
+            userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
         }
     }
     
@@ -57,10 +57,10 @@ class TodayViewModel {
         container1 = userDefaults.integer(forKey: UserDefaultsKeys.container1)
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
-        unit = userDefaults.string(forKey: UserDefaultsKeys.unit) ?? UserDefaultsKeys.unit
+        unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
     }
     
-    func convertCurrentAmount(from oldUnit: String, to newUnit: String) {
+    func convertCurrentAmount(from oldUnit: UnitType, to newUnit: UnitType) {
         currentAmount = Converter.convert(amount: currentAmount, for: UserDefaultsKeys.currentAmount, from: oldUnit, to: newUnit)
     }
     
@@ -71,7 +71,7 @@ class TodayViewModel {
             UserDefaultsKeys.container1: Defaults.container1,
             UserDefaultsKeys.container2: Defaults.container2,
             UserDefaultsKeys.container3: Defaults.container3,
-            UserDefaultsKeys.unit: Defaults.unit
+            UserDefaultsKeys.unit: UnitType.ml.rawValue
         ]
         UserDefaults.standard.register(defaults: defaults)
     }
