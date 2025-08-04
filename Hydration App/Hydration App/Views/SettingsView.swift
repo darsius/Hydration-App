@@ -24,12 +24,15 @@ struct SettingsView: View {
                 CustomDividerView()
                 List {
                     Section("") {
-                        NavigationLink(destination: UnitsView(viewModel: UnitsViewModel(unitType: UnitType.ml.rawValue), selectedUnit: $unit)){
-                            SettingsRowView(title: "Units", value: unit)
+                        NavigationLink(destination: UnitsView(
+                            selectedUnit: $unit)) {
+                                SettingsRowView(title: "Units", value: unit)
                         }
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .dailyGoal), inputValue: $dailyGoal)) {
-                            SettingsRowView(title: "Daily Goal", value: "\(dailyGoal) \(unit)")
+                        NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(type: .dailyGoal),
+                            inputValue: $dailyGoal)) {
+                                SettingsRowView(title: "Daily Goal", value: "\(dailyGoal) \(unit)")
                         }
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
@@ -40,19 +43,24 @@ struct SettingsView: View {
                     .listSectionSpacing(UIConstants.listSectionSpacing)
                     
                     Section {
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(1)), inputValue: $container1)) {
-                            SettingsRowView(title: "Container 1", value: "\(container1) \(unit)")
-                            
+                        NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(type: .container(1)),
+                            inputValue: $container1)) {
+                                SettingsRowView(title: "Container 1", value: "\(container1) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(2)), inputValue: $container2)) {
-                            SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
+                        NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(type: .container(2)),
+                            inputValue: $container2)) {
+                                SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
-                        NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(3)), inputValue: $container3)) {
-                            SettingsRowView(title: "Container 3", value: "\(container3) \(unit)")
+                        NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(type: .container(3)),
+                            inputValue: $container3)) {
+                                SettingsRowView(title: "Container 3", value: "\(container3) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
