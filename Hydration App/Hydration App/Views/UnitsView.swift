@@ -9,7 +9,6 @@ import SwiftUI
 
 struct UnitsView: View {
     @Environment(\.dismiss) private var dismiss
-    var viewModel: UnitsViewModel
     
     @Binding var selectedUnit: String
     
@@ -29,7 +28,6 @@ struct UnitsView: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedUnit = unit.rawValue
-                            viewModel.notifyUnitChanged()
                         }
                     }
                 }
