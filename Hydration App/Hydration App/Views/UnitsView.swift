@@ -10,7 +10,7 @@ import SwiftUI
 struct UnitsView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @Binding var selectedUnit: String
+    @Binding var selectedUnit: UnitType
     
     var body: some View {
         VStack {
@@ -22,12 +22,12 @@ struct UnitsView: View {
                             Text(unit.label)
                             Spacer()
                             Image(.checkmarkGoal)
-                                .opacity(selectedUnit == unit.rawValue ? 1 : 0)
+                                .opacity(selectedUnit == unit ? 1 : 0)
                         }
                         .font(.regularText)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            selectedUnit = unit.rawValue
+                            selectedUnit = unit
                         }
                     }
                 }

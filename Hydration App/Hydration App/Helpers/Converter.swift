@@ -18,11 +18,11 @@ struct Converter {
         Int(round(Double(value) * unitConverter))
     }
     
-    static func convert(amount: Int, for key: String, from oldUnit: String, to newUnit: String) -> Int {
+    static func convert(amount: Int, for key: String, from oldUnit: UnitType, to newUnit: UnitType) -> Int {
         guard oldUnit != newUnit else {
             return amount
         }
-        let convertedAmount = newUnit == "oz" ? convertMlToOz(amount) : convertOzToMl(amount)
+        let convertedAmount = newUnit == UnitType.oz ? convertMlToOz(amount) : convertOzToMl(amount)
         
         UserDefaults.standard.set(convertedAmount, forKey: key)
         return convertedAmount
@@ -33,14 +33,14 @@ struct Converter {
         container1: inout Int,
         container2: inout Int,
         container3: inout Int,
-        from oldUnit: String,
-        to newUnit: String
+        from oldUnit: UnitType,
+        to newUnit: UnitType
     ) {
         dailyGoal = convert(amount: dailyGoal, for: UserDefaultsKeys.dailyGoal, from: oldUnit, to: newUnit)
         container1 = convert(amount: container1, for: UserDefaultsKeys.container1, from: oldUnit, to: newUnit)
         container2 = convert(amount: container2, for: UserDefaultsKeys.container2, from: oldUnit, to: newUnit)
         container3 = convert(amount: container3, for: UserDefaultsKeys.container3, from: oldUnit, to: newUnit)
 
-        UserDefaults.standard.set(newUnit, forKey: UserDefaultsKeys.unit)
+        UserDefaults.standard.set(newUnit.rawValue, forKey: UserDefaultsKeys.unit)
     }
 }
