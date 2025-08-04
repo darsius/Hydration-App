@@ -46,8 +46,6 @@ struct SettingsView: View {
                         }
                         .listRowBackground(Color.lightGray)
                         
-                        
-                        
                         NavigationLink(destination: HydrationInputView(viewModel: HydrationInputViewModel(type: .container(2)), inputValue: $container2)) {
                             SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
                         }
