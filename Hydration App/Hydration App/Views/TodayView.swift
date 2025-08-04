@@ -54,7 +54,6 @@ struct TodayView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(
                             destination: SettingsView(
-                                viewModel: SettingsViewModel(),
                                 dailyGoal: $viewModel.dailyGoal,
                                 container1: $viewModel.container1,
                                 container2: $viewModel.container2,
