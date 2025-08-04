@@ -31,7 +31,8 @@ struct SettingsView: View {
                         
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(type: .dailyGoal),
-                            inputValue: $dailyGoal)) {
+                            inputValue: $dailyGoal,
+                            unit: $unit)) {
                                 SettingsRowView(title: "Daily Goal", value: "\(dailyGoal) \(unit)")
                         }
                     }
@@ -45,21 +46,24 @@ struct SettingsView: View {
                     Section {
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(type: .container(1)),
-                            inputValue: $container1)) {
+                            inputValue: $container1,
+                            unit: $unit)) {
                                 SettingsRowView(title: "Container 1", value: "\(container1) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(type: .container(2)),
-                            inputValue: $container2)) {
+                            inputValue: $container2,
+                            unit: $unit)) {
                                 SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(type: .container(3)),
-                            inputValue: $container3)) {
+                            inputValue: $container3,
+                            unit: $unit)) {
                                 SettingsRowView(title: "Container 3", value: "\(container3) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
