@@ -3,19 +3,18 @@ import Charts
 import SwiftData
 
 struct HistoryView: View {
-    @Query() private var chartDays: [ChartDay]
-    @Environment(\.modelContext) private var context
+    @StateObject var viewModel = HistoryViewModel(
+        dataSource: ChartDayDataSource(
+            container: ContextManager.shared.container,
+            context: ContextManager.shared.context),
+        chartDayGenerator: ChartDayGenerator())
     
     var maxDaily: Int {
-        chartDays.map { $0.dailyGoal }.max() ?? 2000
-    }
-    
-    var allEmptyDays: Bool {
-        chartDays.allSatisfy { $0.isEmpty }
+        viewModel.chartDays.map { $0.dailyGoal }.max() ?? 2000
     }
     
     var body: some View {
-        let sortedChartDays = chartDays.sorted { $0.date < $1.date }
+        let sortedChartDays = viewModel.chartDays.sorted { $0.date < $1.date }
         let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
         let lastDate = sortedChartDays.last?.date.startOfDay ?? Date().startOfDay
         NavigationStack {
@@ -28,7 +27,7 @@ struct HistoryView: View {
                             .font(.regularText)
                             .padding(.horizontal, 20)
                         
-                        Chart(chartDays, id: \.id) { chartDay in
+                        Chart(viewModel.chartDays, id: \.id) { chartDay in
                             BarMark(
                                 x: .value("Day", chartDay.date, unit: .day),
                                 yStart: .value("Zero", 0),
@@ -46,7 +45,7 @@ struct HistoryView: View {
                             .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.appYellow : Color.appGreen)
                         }
                         .chartXAxis {
-                            AxisMarks(values: chartDays.map { $0.date.startOfDay }) { value in
+                            AxisMarks(values: viewModel.chartDays.map { $0.date.startOfDay }) { value in
                                 if let date = value.as(Date.self) {
                                     let isFirst = date.startOfDay == firstDate
                                     let isLast = date.startOfDay == lastDate
@@ -123,10 +122,8 @@ struct HistoryView: View {
                         .padding(.horizontal, 12)
                     }
                     .onAppear {
-//                        emptyContext()
-                        if chartDays.isEmpty {
-                            generateChartDays()
-                        }
+//                        viewModel.deleteAllChartDays()
+                        viewModel.generateInitialChartDays()
                         print(maxDaily)
                     }
                     .navigationBarTitle("History", displayMode: .inline)
@@ -134,51 +131,6 @@ struct HistoryView: View {
                 .padding(.top, 20)
             }
         }
-    }
-    
-    func generateChartDays(count: Int = 30) {
-        
-        let calendar = Calendar.current
-        
-        let emptyModel = ChartDay(
-            dailyGoal: 0,
-            currentAmount: 0,
-            date: calendar.date(byAdding: .day, value: -3, to: Date())!
-        )
-        context.insert(emptyModel)
-        
-        for i in 0..<count {
-            if (i != 3) {
-                let model = ChartDay(
-                    dailyGoal: Int.random(in: 1600...2300),
-                    currentAmount: Int.random(in: 1400...2300),
-                    date: calendar.date(byAdding: .day, value: -i, to: Date())!
-                )
-                context.insert(model)
-            }
-        }
-    }
-    
-    
-    func deleteAll<T: PersistentModel>(_ modelType: T.Type, in context: ModelContext) {
-        let descriptor = FetchDescriptor<T>()
-        
-        do {
-            let results = try context.fetch(descriptor)
-            for object in results {
-                context.delete(object)
-            }
-            try context.save()
-        } catch {
-            print("Eroare la ștergerea tuturor obiectelor: \(error)")
-        }
-    }
-    
-    private func emptyContext() {
-        do {
-            try context.delete(model: ChartDay.self)
-            try context.save()
-        } catch {}
     }
 }
 
