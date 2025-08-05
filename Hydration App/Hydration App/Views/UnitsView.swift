@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct UnitsView: View {
-    @State private var selectedUnit: UnitType = .ml
+    @Environment(\.dismiss) private var dismiss
+    
+    @Binding var selectedUnit: UnitType
     
     var body: some View {
         VStack {
@@ -40,8 +42,4 @@ struct UnitsView: View {
             .navigationBarTitle("Units", displayMode: .inline)
         }
     }
-}
-
-#Preview {
-    UnitsView()
 }

@@ -1,16 +1,21 @@
 //
-//  DailyGoalView.swift
+//  HydrationInputView.swift
 //  Hydration App
 //
-//  Created by Paraschiv, Darius on 25.07.2025.
+//  Created by Paraschiv, Darius on 28.07.2025.
 //
 
 import SwiftUI
 
-struct DailyGoalView: View {
+struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var quantityTextInput = "2000"
     @FocusState private var focus: Bool
+    
+    @Binding var inputValue: Int
+    @Binding var unit: UnitType
+    @State private var textFieldInput: Int = 0
+    
+    let viewType: HydrationViewType
     
     var body: some View {
         GeometryReader { geometry in
@@ -22,15 +27,16 @@ struct DailyGoalView: View {
                 Color.black.opacity(0.3)
                 
                 VStack(spacing: 0) {
-                    Text("Here you can set your hydration goal based on your preferred unit of measurement")
+                    Text(viewType.informationalDescription)
                         .multilineTextAlignment(.center)
+                        .foregroundStyle(.white)
                         .font(.bodyText)
                         .padding(.horizontal, UIConstants.informationalTextHorizontalPadding)
                         .padding(.top, UIConstants.informationalTextTopPadding)
                     Spacer()
                     
                     VStack {
-                        TextField("", text: $quantityTextInput)
+                        TextField("", value: $textFieldInput, formatter: NumberFormatter())
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
                             .focused($focus)
@@ -40,12 +46,14 @@ struct DailyGoalView: View {
                                 RoundedRectangle(cornerRadius: UIConstants.textFieldCornerRadius)
                                     .stroke(Color.appGreen, lineWidth: UIConstants.textFieldBorderWidth)
                             }
-                        Text("mililiters (ml)")
+                        
+                        Text(unit.label)
                             .font(.title)
                             .padding(.bottom, UIConstants.textBottomPadding)
                     }
                     .onAppear {
                         focus = true
+                        textFieldInput = inputValue
                     }
                     Spacer()
                 }
@@ -54,7 +62,7 @@ struct DailyGoalView: View {
         }
         .ignoresSafeArea(.keyboard)
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle("Daily Goal", displayMode: .inline)
+        .navigationBarTitle(viewType.navbarTitle, displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button("Cancel") {
@@ -64,15 +72,10 @@ struct DailyGoalView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
-                    print("Saving...")
+                    inputValue = textFieldInput
+                    dismiss()
                 }
             }
         }
     }
 }
-
-#Preview {
-    DailyGoalView()
-}
-
-

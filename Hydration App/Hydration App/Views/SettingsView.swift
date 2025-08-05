@@ -8,18 +8,30 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.dismiss) private var dismiss
+    
+    @Binding var dailyGoal: Int
+    @Binding var container1: Int
+    @Binding var container2: Int
+    @Binding var container3: Int
+    @Binding var unit: UnitType
+    
     var body: some View {
         NavigationStack {
             VStack {
                 CustomDividerView()
                 List {
                     Section("") {
-                        NavigationLink(destination: UnitsView()) {
-                            SettingsRowView(title: "Units", value: "ml")
+                        NavigationLink(destination: UnitsView(
+                            selectedUnit: $unit)) {
+                                SettingsRowView(title: "Units", value: unit.rawValue)
                         }
                         
-                        NavigationLink(destination: DailyGoalView()) {
-                            SettingsRowView(title: "Daily Goal", value: "2.000 ml")
+                        NavigationLink(destination: HydrationInputView(
+                            inputValue: $dailyGoal,
+                            unit: $unit,
+                            viewType: .dailyGoal)) {
+                                SettingsRowView(title: "Daily Goal", value: "\(dailyGoal) \(unit)")
                         }
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
@@ -30,18 +42,27 @@ struct SettingsView: View {
                     .listSectionSpacing(UIConstants.listSectionSpacing)
                     
                     Section {
-                        NavigationLink(destination: ContainerView()) {
-                            SettingsRowView(title: "Container 1", value: "200 ml")
+                        NavigationLink(destination: HydrationInputView(
+                            inputValue: $container1,
+                            unit: $unit,
+                            viewType: .container(1))) {
+                                SettingsRowView(title: "Container 1", value: "\(container1) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
-                        NavigationLink(destination: ContainerView()) {
-                            SettingsRowView(title: "Container 2", value: "400 ml")
+                        NavigationLink(destination: HydrationInputView(
+                            inputValue: $container2,
+                            unit: $unit,
+                            viewType: .container(2))) {
+                                SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
-                        NavigationLink(destination: ContainerView()) {
-                            SettingsRowView(title: "Container 3", value: "500 ml")
+                        NavigationLink(destination: HydrationInputView(
+                            inputValue: $container3,
+                            unit: $unit,
+                            viewType: .container(3))) {
+                                SettingsRowView(title: "Container 3", value: "\(container3) \(unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
@@ -58,6 +79,15 @@ struct SettingsView: View {
                 .toolbarRole(.editor)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
+                .onChange(of: unit) { oldValue, newValue in
+                    Converter.convertAll(
+                        dailyGoal: &dailyGoal,
+                        container1: &container1,
+                        container2: &container2,
+                        container3: &container3,
+                        from: oldValue,
+                        to: newValue)
+                }
             }
         }
     }
@@ -75,8 +105,4 @@ struct SettingsRowView: View {
         }
         .font(.regularText)
     }
-}
-
-#Preview {
-    SettingsView()
 }
