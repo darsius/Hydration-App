@@ -18,99 +18,120 @@ struct HistoryView: View {
         let sortedChartDays = chartDays.sorted { $0.date < $1.date }
         let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
         let lastDate = sortedChartDays.last?.date.startOfDay ?? Date().startOfDay
-        
-        ScrollView{
-            LazyVStack(spacing: 10) {
-                Text("Here you can see your hydration data for the last 30 days")
-                    .multilineTextAlignment(.center)
-                
-                Chart(chartDays, id: \.id) { chartDay in
-                    BarMark(
-                        x: .value("Day", chartDay.date, unit: .day),
-                        yStart: .value("Zero", 0),
-                        yEnd: .value("Goal", chartDay.dailyGoal),
-                        width: .ratio(0.4)
-                    )
-                    .foregroundStyle(Color.gray.opacity(0.3))
-                    
-                    BarMark(
-                        x: .value("Day", chartDay.date, unit: .day),
-                        yStart: .value("Zero", 0),
-                        yEnd: .value("Amount", chartDay.currentAmount),
-                        width: .ratio(0.4)
-                    )
-                    .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.orange : Color.green)
-                }
-                .chartXAxis {
-                    AxisMarks(values: chartDays.map { $0.date.startOfDay }) { value in
-                        if let date = value.as(Date.self) {
-                            let isFirst = date.startOfDay == firstDate
-                            let isLast = date.startOfDay == lastDate
-    
-                            AxisValueLabel() {
-                                Image(systemName: "square.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 5, height: 5)
-                                    .foregroundColor(isFirst || isLast ? .white : .gray)
+        NavigationStack {
+            VStack(spacing: 0) {
+                CustomDividerView()
+                ScrollView {
+                    LazyVStack() {
+                        Text("Here you can see your hydration data for the last 30 days")
+                            .multilineTextAlignment(.center)
+                            .font(.regularText)
+                            .padding(.horizontal, 20)
+                        
+                        Chart(chartDays, id: \.id) { chartDay in
+                            BarMark(
+                                x: .value("Day", chartDay.date, unit: .day),
+                                yStart: .value("Zero", 0),
+                                yEnd: .value("Goal", chartDay.dailyGoal),
+                                width: .ratio(0.4)
+                            )
+                            .foregroundStyle(Color.lightGray)
+                            
+                            BarMark(
+                                x: .value("Day", chartDay.date, unit: .day),
+                                yStart: .value("Zero", 0),
+                                yEnd: .value("Amount", chartDay.currentAmount),
+                                width: .ratio(0.4)
+                            )
+                            .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.appYellow : Color.appGreen)
+                        }
+                        .chartXAxis {
+                            AxisMarks(values: chartDays.map { $0.date.startOfDay }) { value in
+                                if let date = value.as(Date.self) {
+                                    let isFirst = date.startOfDay == firstDate
+                                    let isLast = date.startOfDay == lastDate
+                                    
+                                    AxisValueLabel() {
+                                        Image(systemName: "square.fill")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 5, height: 5)
+                                            .foregroundColor(isFirst || isLast ? .white : .gray)
+                                    }
+                                }
+                            }
+                            
+                            AxisMarks(values: [firstDate, lastDate]) { value in
+                                if let date = value.as(Date.self) {
+                                    AxisValueLabel(
+                                        anchor: value.index == 1 ? .topTrailing : .topLeading
+                                    ) {
+                                        Text(date.shortFormat)
+                                            .padding(.top, 10)
+                                            .font(.chartLegend)
+                                            .foregroundStyle(Color.white)
+                                            .offset(x: value.index == 1 ? 15 : 0)
+                                    }
+                                }
                             }
                         }
-                    }
-                    
-                    AxisMarks(values: [firstDate, lastDate]) { value in
-                        if let date = value.as(Date.self) {
-                            AxisValueLabel(
-                                anchor: value.index == 1 ? .topTrailing : .topLeading
-                            ) {
-                                Text(date.shortFormat)
-                                    .padding(.top, 10)
-                                    .offset(x: value.index == 1 ? 15 : 0)
+                        .chartYAxis {
+                            AxisMarks(position: .leading, values: [
+                                0,
+                                maxDaily / 4,
+                                maxDaily / 2,
+                                3 * maxDaily / 4,
+                                maxDaily
+                            ]) { value in
+                                AxisGridLine()
+                                AxisValueLabel()
                             }
                         }
-                    }
-                }
-                .chartYAxis {
-                    AxisMarks(position: .leading, values: [
-                        0,
-                        maxDaily / 4,
-                        maxDaily / 2,
-                        3 * maxDaily / 4,
-                        maxDaily
-                    ]) { value in
-                        AxisGridLine()
-                        AxisValueLabel()
-                    }
-                }
-                .frame(height: 300)
-                .padding(.horizontal, 10)
-                
-                VStack {
-                    ForEach(sortedChartDays, id: \.id) { chartDay in
-                        VStack(alignment: .leading) {
-                            VStack(alignment: .leading) {
-                                Text(chartDay.date.longFormat)
-                                    .foregroundStyle(Color.gray)
-                                Text("\(chartDay.currentAmount) ml")
-                                    .font(.title2)
-                                Text("75 % ")
-                                    .foregroundStyle(.white) +
-                                Text("\(chartDay.dailyGoal) ml Goal")
-                                    .foregroundStyle(.gray)
+                        .frame(height: 300)
+                        .padding(.horizontal, 10)
+                        
+                        VStack {
+                            // TODO: display of a missed day
+                            ForEach(sortedChartDays.reversed(), id: \.id) { chartDay in
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(chartDay.date.longFormat)
+                                                .font(.dailyHidration)
+                                                .foregroundStyle(.gray)
+                                            Text("\(chartDay.currentAmount) ml")
+                                                .font(.title3)
+                                            Text("75 % ")
+                                                .foregroundStyle(.white)
+                                                .font(.bodyBold) +
+                                            Text("out of \(chartDay.dailyGoal) ml Goal")
+                                                .foregroundStyle(.gray)
+                                                .font(.bodyBold)
+                                        }
+                                        Spacer()
+                                        Image(.checkmarkGoal)
+                                            .opacity(chartDay.currentAmount >= chartDay.dailyGoal ? 1 : 0)
+                                    }
+                                    .padding(.horizontal, 20)
+                                    Divider()
+                                        .frame(height: 2)
+                                        .background(Color.lightGray)
+                                }
                             }
-                            .padding(.leading, 20)
-                            Divider()
-                                .background(Color.gray)
                         }
+                        .padding(.top, 2)
+                        .padding(.horizontal, 12)
                     }
+                    .onAppear {
+//                        emptyContext()
+                        if chartDays.isEmpty {
+                            generateChartDays()
+                        }
+                        print(maxDaily)
+                    }
+                    .navigationBarTitle("History", displayMode: .inline)
                 }
-                .padding(.top, 2)
-                .padding(.horizontal, 12)
-                
-            }
-            .task {
-                if chartDays.isEmpty {
-                    generateChartDays()
-                }
+                .padding(.top, 20)
             }
         }
     }
