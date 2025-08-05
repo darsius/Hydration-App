@@ -7,5 +7,6 @@ struct HydrationApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: ChartDay.self)
     }
 }
