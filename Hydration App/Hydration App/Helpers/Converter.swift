@@ -28,6 +28,14 @@ struct Converter {
         return convertedAmount
     }
     
+    static func convertValue(amount: Int, from oldUnit: String, to newUnit: String) -> Int {
+        guard oldUnit != newUnit else {
+            return amount
+        }
+        let convertedAmount = newUnit == "oz" ? convertMlToOz(amount) : convertOzToMl(amount)
+        return convertedAmount
+    }
+    
     static func convertAll(
         dailyGoal: inout Int,
         container1: inout Int,

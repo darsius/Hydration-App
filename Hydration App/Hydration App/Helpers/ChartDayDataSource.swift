@@ -45,6 +45,8 @@ extension ChartDayDataSource {
         do {
             if let chartDays = try context?.fetch(fetchDescriptor) {
                 for day in chartDays {
+                    day.dailyGoal = Converter.convertValue(amount: day.dailyGoal, from: day.unit, to: newUnit)
+                    day.currentAmount = Converter.convertValue(amount: day.currentAmount, from: day.unit, to: newUnit)
                     day.unit = newUnit
                 }
                 try context?.save()
