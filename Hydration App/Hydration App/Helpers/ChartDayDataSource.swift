@@ -20,20 +20,20 @@ class ChartDayDataSource {
 }
 
 extension ChartDayDataSource {
-    func insert(_ entity: ChartDay) {
+    func insert(_ entity: HydrationDay) {
         self.container?.mainContext.insert(entity)
         try? self.container?.mainContext.save()
     }
     
-    func fetchChartDays() -> [ChartDay] {
-        let fetchDescriptor = FetchDescriptor<ChartDay>(
-            sortBy: [SortDescriptor(\ChartDay.date)])
+    func fetchChartDays() -> [HydrationDay] {
+        let fetchDescriptor = FetchDescriptor<HydrationDay>(
+            sortBy: [SortDescriptor(\HydrationDay.date)])
         let chartDays = try? self.container?.mainContext.fetch(fetchDescriptor)
         return chartDays ?? []
     }
     
     func deleteAllChartDays() {
-        let fetchDescriptor = FetchDescriptor<ChartDay>()
+        let fetchDescriptor = FetchDescriptor<HydrationDay>()
         if let chartDays = try? self.container?.mainContext.fetch(fetchDescriptor) {
             chartDays.forEach { self.container?.mainContext.delete($0) }
             try? self.context?.save()
@@ -41,7 +41,7 @@ extension ChartDayDataSource {
     }
     
     func updateUnitForAllChartDays(to newUnit: String) {
-        let fetchDescriptor = FetchDescriptor<ChartDay>()
+        let fetchDescriptor = FetchDescriptor<HydrationDay>()
         do {
             if let chartDays = try context?.fetch(fetchDescriptor) {
                 for day in chartDays {

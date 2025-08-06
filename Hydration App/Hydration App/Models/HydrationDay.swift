@@ -9,11 +9,18 @@ import Foundation
 import SwiftData
 
 @Model
-class ChartDay: Identifiable {
+class HydrationDay: Identifiable {
     var dailyGoal: Int
     var currentAmount: Int
     var date: Date
     var unit: String
+    
+    var identity: Int {
+        var hasher = Hasher()
+        hasher.combine(unit)
+        hasher.combine(id)
+        return hasher.finalize()
+    }
     
     init(dailyGoal: Int, currentAmount: Int, date: Date, unit: String) {
         self.dailyGoal = dailyGoal
@@ -23,7 +30,7 @@ class ChartDay: Identifiable {
     }
 }
 
-extension ChartDay {
+extension HydrationDay {
     var goalPrecentage: Int {
         guard dailyGoal > 0 else { return 0 }
         return min(100, Int(Double(currentAmount) / Double(dailyGoal) * 100))

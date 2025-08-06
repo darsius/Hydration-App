@@ -10,9 +10,8 @@ import Foundation
 class HistoryViewModel: ObservableObject {
     private let dataSource: ChartDayDataSource
     private let chartDayGenerator: ChartDayGenerator
-    
-    
-    @Published var chartDays: [ChartDay] = []
+        
+    @Published var chartDays: [HydrationDay] = []
     
     init(dataSource: ChartDayDataSource, chartDayGenerator: ChartDayGenerator) {
         self.dataSource = dataSource
@@ -68,7 +67,7 @@ class HistoryViewModel: ObservableObject {
         }
     }
     
-    func generateEmptyChartDays(count: Int = 30) -> [ChartDay] {
+    func generateEmptyChartDays(count: Int = 30) -> [HydrationDay] {
         (0..<count).map { chartDayGenerator.generateEmptyChartDay($0) }
     }
 }
