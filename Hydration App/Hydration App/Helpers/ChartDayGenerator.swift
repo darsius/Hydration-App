@@ -14,7 +14,8 @@ struct ChartDayGenerator {
         return ChartDay(
             dailyGoal: Int.random(in: 1600...2300),
             currentAmount: Int.random(in: 1400...2300),
-            date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!
+            date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!,
+            unit: "ml"
         )
     }
     
@@ -22,7 +23,8 @@ struct ChartDayGenerator {
         return ChartDay(
             dailyGoal: 0,
             currentAmount: 0,
-            date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!
+            date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!,
+            unit: "ml"
         )
     }
 }
