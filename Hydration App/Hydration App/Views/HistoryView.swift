@@ -17,6 +17,7 @@ struct HistoryView: View {
         let sortedChartDays = viewModel.chartDays.sorted { $0.date < $1.date }
         let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
         let lastDate = sortedChartDays.last?.date.startOfDay ?? Date().startOfDay
+
         NavigationStack {
             VStack(spacing: 0) {
                 CustomDividerView()
@@ -28,6 +29,7 @@ struct HistoryView: View {
                             .padding(.horizontal, 20)
                         
                         Chart(viewModel.chartDays, id: \.id) { chartDay in
+                            
                             BarMark(
                                 x: .value("Day", chartDay.date, unit: .day),
                                 yStart: .value("Zero", 0),
@@ -96,20 +98,20 @@ struct HistoryView: View {
                                     HStack {
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text(chartDay.date.longFormat)
-                                                .font(.dailyHidration)
+                                                .font(.bodyText)
                                                 .foregroundStyle(.gray)
-                                            Text("\(chartDay.currentAmount) ml")
-                                                .font(.title3)
-                                            Text("75 % ")
+                                            Text("\(chartDay.currentAmount) \(chartDay.unit)")
+                                                .font(.regularText)
+                                            Text("\(chartDay.goalPrecentage) % ")
                                                 .foregroundStyle(.white)
                                                 .font(.bodyBold) +
-                                            Text("out of \(chartDay.dailyGoal) ml Goal")
+                                            Text("out of \(chartDay.dailyGoal) \(chartDay.unit) Goal")
                                                 .foregroundStyle(.gray)
-                                                .font(.bodyBold)
+                                                .font(.bodyText)
                                         }
                                         Spacer()
                                         Image(.checkmarkGoal)
-                                            .opacity(chartDay.currentAmount >= chartDay.dailyGoal ? 1 : 0)
+                                            .opacity((chartDay.currentAmount >= chartDay.dailyGoal) && chartDay.dailyGoal != 0 ? 1 : 0)
                                     }
                                     .padding(.horizontal, 20)
                                     Divider()
@@ -124,7 +126,13 @@ struct HistoryView: View {
                     .onAppear {
 //                        viewModel.deleteAllChartDays()
                         viewModel.generateInitialChartDays()
-                        print(maxDaily)
+                        
+                        
+//                        viewModel.didGenerateRandomChartDay()
+//                        viewModel.didGenerateRandomChartDay()
+//                        viewModel.didGenerateEmptyChartDay()
+//                        viewModel.didGenerateRandomChartDay()
+//                        viewModel.didGenerateEmptyChartDay()
                     }
                     .navigationBarTitle("History", displayMode: .inline)
                 }

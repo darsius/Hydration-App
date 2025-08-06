@@ -32,11 +32,25 @@ extension ChartDayDataSource {
         return chartDays ?? []
     }
     
-    func deleteAllCharDays() {
+    func deleteAllChartDays() {
         let fetchDescriptor = FetchDescriptor<ChartDay>()
         if let chartDays = try? self.container?.mainContext.fetch(fetchDescriptor) {
             chartDays.forEach { self.container?.mainContext.delete($0) }
             try? self.context?.save()
+        }
+    }
+    
+    func updateUnitForAllChartDays(to newUnit: String) {
+        let fetchDescriptor = FetchDescriptor<ChartDay>()
+        do {
+            if let chartDays = try context?.fetch(fetchDescriptor) {
+                for day in chartDays {
+                    day.unit = newUnit
+                }
+                try context?.save()
+            }
+        } catch {
+            print("Failed to update units: \(error)")
         }
     }
 }

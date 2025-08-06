@@ -11,6 +11,7 @@ class HistoryViewModel: ObservableObject {
     private let dataSource: ChartDayDataSource
     private let chartDayGenerator: ChartDayGenerator
     
+    
     @Published var chartDays: [ChartDay] = []
     
     init(dataSource: ChartDayDataSource, chartDayGenerator: ChartDayGenerator) {
@@ -19,7 +20,18 @@ class HistoryViewModel: ObservableObject {
         
         Task { @MainActor in
             chartDays = dataSource.fetchChartDays()
-            print("avem in VM atatea chartDays: \(chartDays.count)")
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name("unitChanged"), object: nil)
+    }
+    
+    @objc func unitChanged(_ notification: Notification) {
+        let newUnit = UserDefaults.standard.string(forKey: "selectedUnit") ?? "ml"
+        print("noul unit este \(newUnit)")
+        
+        Task { @MainActor in
+            dataSource.updateUnitForAllChartDays(to: newUnit)
+            chartDays = dataSource.fetchChartDays()
         }
     }
     
@@ -51,9 +63,12 @@ class HistoryViewModel: ObservableObject {
     
     func deleteAllChartDays() {
         Task { @MainActor in
-            dataSource.deleteAllCharDays()
+            dataSource.deleteAllChartDays()
             chartDays = []
-            print("S au sters toate ")
         }
+    }
+    
+    func generateEmptyChartDays(count: Int = 30) -> [ChartDay] {
+        (0..<count).map { chartDayGenerator.generateEmptyChartDay($0) }
     }
 }
