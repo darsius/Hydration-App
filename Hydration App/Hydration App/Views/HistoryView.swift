@@ -10,7 +10,7 @@ struct HistoryView: View {
         chartDayGenerator: ChartDayGenerator())
     
     var body: some View {
-        let sortedChartDays = viewModel.chartDays.sorted { $0.date < $1.date }
+        let sortedChartDays = viewModel.hydrationDays.sorted { $0.date < $1.date }
         let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
         let lastDate = sortedChartDays.last?.date.startOfDay ?? Date().startOfDay
 
@@ -24,72 +24,81 @@ struct HistoryView: View {
                             .font(.regularText)
                             .padding(.horizontal, 20)
                         
-                        Chart(viewModel.chartDays, id: \.id) { chartDay in
-                            
-                            BarMark(
-                                x: .value("Day", chartDay.date, unit: .day),
-                                yStart: .value("Zero", 0),
-                                yEnd: .value("Goal", chartDay.dailyGoal),
-                                width: .ratio(0.4)
-                            )
-                            .foregroundStyle(Color.lightGray)
-                            
-                            BarMark(
-                                x: .value("Day", chartDay.date, unit: .day),
-                                yStart: .value("Zero", 0),
-                                yEnd: .value("Amount", chartDay.currentAmount),
-                                width: .ratio(0.4)
-                            )
-                            .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.appYellow : Color.appGreen)
+                        if viewModel.hasOnlyEmptyDays {
+                            Text("No data from the last few days")
+                                .multilineTextAlignment(.center)
+                                .font(.title2)
+                                .padding(.top, 20)
                         }
-                        .chartXAxis {
-                            AxisMarks(values: viewModel.chartDays.map { $0.date.startOfDay }) { value in
-                                if let date = value.as(Date.self) {
-                                    let isFirst = date.startOfDay == firstDate
-                                    let isLast = date.startOfDay == lastDate
-                                    
-                                    AxisValueLabel() {
-                                        Image(systemName: "square.fill")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 5, height: 5)
-                                            .foregroundColor(isFirst || isLast ? .white : .gray)
+                        
+                        else {
+                            Chart(viewModel.hydrationDays, id: \.id) { chartDay in
+                                
+                                BarMark(
+                                    x: .value("Day", chartDay.date, unit: .day),
+                                    yStart: .value("Zero", 0),
+                                    yEnd: .value("Goal", chartDay.dailyGoal),
+                                    width: .ratio(0.4)
+                                )
+                                .foregroundStyle(Color.lightGray)
+                                
+                                BarMark(
+                                    x: .value("Day", chartDay.date, unit: .day),
+                                    yStart: .value("Zero", 0),
+                                    yEnd: .value("Amount", chartDay.currentAmount),
+                                    width: .ratio(0.4)
+                                )
+                                .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.appYellow : Color.appGreen)
+                            }
+                            .chartXAxis {
+                                AxisMarks(values: viewModel.hydrationDays.map { $0.date.startOfDay }) { value in
+                                    if let date = value.as(Date.self) {
+                                        let isFirst = date.startOfDay == firstDate
+                                        let isLast = date.startOfDay == lastDate
+                                        
+                                        AxisValueLabel() {
+                                            Image(systemName: "square.fill")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 5, height: 5)
+                                                .foregroundColor(isFirst || isLast ? .white : .gray)
+                                        }
+                                    }
+                                }
+                                
+                                AxisMarks(values: [firstDate, lastDate]) { value in
+                                    if let date = value.as(Date.self) {
+                                        AxisValueLabel(
+                                            anchor: value.index == 1 ? .topTrailing : .topLeading
+                                        ) {
+                                            Text(date.shortFormat)
+                                                .padding(.top, 10)
+                                                .font(.chartLegend)
+                                                .foregroundStyle(Color.white)
+                                                .offset(x: value.index == 1 ? 15 : 0)
+                                        }
                                     }
                                 }
                             }
-                            
-                            AxisMarks(values: [firstDate, lastDate]) { value in
-                                if let date = value.as(Date.self) {
-                                    AxisValueLabel(
-                                        anchor: value.index == 1 ? .topTrailing : .topLeading
-                                    ) {
-                                        Text(date.shortFormat)
-                                            .padding(.top, 10)
-                                            .font(.chartLegend)
-                                            .foregroundStyle(Color.white)
-                                            .offset(x: value.index == 1 ? 15 : 0)
-                                    }
+                            .chartYAxis {
+                                AxisMarks(position: .leading, values: [
+                                    0,
+                                    viewModel.maxDailyGoal / 4,
+                                    viewModel.maxDailyGoal / 2,
+                                    3 * viewModel.maxDailyGoal / 4,
+                                    viewModel.maxDailyGoal
+                                ]) { value in
+                                    AxisGridLine()
+                                    AxisValueLabel()
                                 }
                             }
+                            .frame(height: 300)
+                            .padding(.horizontal, 10)
                         }
-                        .chartYAxis {
-                            AxisMarks(position: .leading, values: [
-                                0,
-                                viewModel.maxDailyGoal / 4,
-                                viewModel.maxDailyGoal / 2,
-                                3 * viewModel.maxDailyGoal / 4,
-                                viewModel.maxDailyGoal
-                            ]) { value in
-                                AxisGridLine()
-                                AxisValueLabel()
-                            }
-                        }
-                        .frame(height: 300)
-                        .padding(.horizontal, 10)
                         
                         VStack {
                             // TODO: display of a missed day
-                            ForEach(viewModel.chartDays.reversed(), id: \.identity) { chartDay in
+                            ForEach(viewModel.hydrationDays.reversed(), id: \.identity) { chartDay in
                                 if chartDay.dailyGoal > 0 {
                                     makeListRow(chartDay: chartDay)
                                 }
@@ -100,7 +109,7 @@ struct HistoryView: View {
                     }
                     .onAppear {
 //                        viewModel.deleteAllChartDays()
-                        viewModel.generateInitialChartDays(count: 6)
+//                        viewModel.generateInitialChartDays(count: 2)
                     }
                     .navigationBarTitle("History", displayMode: .inline)
                 }
