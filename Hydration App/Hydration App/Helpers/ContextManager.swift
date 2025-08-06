@@ -16,7 +16,7 @@ class ContextManager {
     
     private init() {
         do {
-            container = try ModelContainer(for: ChartDay.self)
+            container = try ModelContainer(for: HydrationDay.self)
             if let container {
                 context = ModelContext(container)
             }

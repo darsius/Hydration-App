@@ -93,31 +93,9 @@ struct HistoryView: View {
                         
                         VStack {
                             // TODO: display of a missed day
-                            ForEach(sortedChartDays.reversed(), id: \.id) { chartDay in
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(chartDay.date.longFormat)
-                                                .font(.bodyText)
-                                                .foregroundStyle(.gray)
-                                            Text("\(chartDay.currentAmount) \(chartDay.unit)")
-                                                .font(.regularText)
-                                            Text("\(chartDay.goalPrecentage) % ")
-                                                .foregroundStyle(.white)
-                                                .font(.bodyBold) +
-                                            Text("out of \(chartDay.dailyGoal) \(chartDay.unit) Goal")
-                                                .foregroundStyle(.gray)
-                                                .font(.bodyText)
-                                        }
-                                        Spacer()
-                                        Image(.checkmarkGoal)
-                                            .opacity((chartDay.currentAmount >= chartDay.dailyGoal) && chartDay.dailyGoal != 0 ? 1 : 0)
-                                    }
-                                    .padding(.horizontal, 20)
-                                    Divider()
-                                        .frame(height: 2)
-                                        .background(Color.lightGray)
-                                }
+                            ForEach(viewModel.chartDays.reversed(), id: \.identity) { chartDay in
+                                makeListRow(chartDay: chartDay)
+//                                    .id(chartDay.identity)
                             }
                         }
                         .padding(.top, 2)
@@ -138,6 +116,33 @@ struct HistoryView: View {
                 }
                 .padding(.top, 20)
             }
+        }
+    }
+    
+    func makeListRow(chartDay: HydrationDay) -> some View {
+        VStack(alignment: .leading) {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(chartDay.date.longFormat)
+                        .font(.bodyText)
+                        .foregroundStyle(.gray)
+                    Text("\(chartDay.currentAmount) \(chartDay.unit)")
+                        .font(.regularText)
+                    Text("\(chartDay.goalPrecentage) % ")
+                        .foregroundStyle(.white)
+                        .font(.bodyBold) +
+                    Text("out of \(chartDay.dailyGoal) \(chartDay.unit) Goal")
+                        .foregroundStyle(.gray)
+                        .font(.bodyText)
+                }
+                Spacer()
+                Image(.checkmarkGoal)
+                    .opacity((chartDay.currentAmount >= chartDay.dailyGoal) && chartDay.dailyGoal != 0 ? 1 : 0)
+            }
+            .padding(.horizontal, 20)
+            Divider()
+                .frame(height: 2)
+                .background(Color.lightGray)
         }
     }
 }
