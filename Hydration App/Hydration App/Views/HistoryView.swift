@@ -9,10 +9,6 @@ struct HistoryView: View {
             context: ContextManager.shared.context),
         chartDayGenerator: ChartDayGenerator())
     
-    var maxDaily: Int {
-        viewModel.chartDays.map { $0.dailyGoal }.max() ?? 2000
-    }
-    
     var body: some View {
         let sortedChartDays = viewModel.chartDays.sorted { $0.date < $1.date }
         let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
@@ -79,10 +75,10 @@ struct HistoryView: View {
                         .chartYAxis {
                             AxisMarks(position: .leading, values: [
                                 0,
-                                maxDaily / 4,
-                                maxDaily / 2,
-                                3 * maxDaily / 4,
-                                maxDaily
+                                viewModel.maxDailyGoal / 4,
+                                viewModel.maxDailyGoal / 2,
+                                3 * viewModel.maxDailyGoal / 4,
+                                viewModel.maxDailyGoal
                             ]) { value in
                                 AxisGridLine()
                                 AxisValueLabel()
@@ -94,8 +90,9 @@ struct HistoryView: View {
                         VStack {
                             // TODO: display of a missed day
                             ForEach(viewModel.chartDays.reversed(), id: \.identity) { chartDay in
-                                makeListRow(chartDay: chartDay)
-//                                    .id(chartDay.identity)
+                                if chartDay.dailyGoal > 0 {
+                                    makeListRow(chartDay: chartDay)
+                                }
                             }
                         }
                         .padding(.top, 2)
@@ -103,14 +100,7 @@ struct HistoryView: View {
                     }
                     .onAppear {
 //                        viewModel.deleteAllChartDays()
-                        viewModel.generateInitialChartDays()
-                        
-                        
-//                        viewModel.didGenerateRandomChartDay()
-//                        viewModel.didGenerateRandomChartDay()
-//                        viewModel.didGenerateEmptyChartDay()
-//                        viewModel.didGenerateRandomChartDay()
-//                        viewModel.didGenerateEmptyChartDay()
+                        viewModel.generateInitialChartDays(count: 6)
                     }
                     .navigationBarTitle("History", displayMode: .inline)
                 }
