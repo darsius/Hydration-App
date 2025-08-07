@@ -40,7 +40,7 @@ class HistoryViewModel: ObservableObject {
     var hasOnlyEmptyDays = true
     
     var maxDailyGoal: Int {
-        hydrationDays.map { $0.dailyGoal }.max() ?? 2000
+        chartDays.map { $0.dailyGoal }.max() ?? 2000
     }
     
     init(dataSource: ChartDayDataSource, chartDayGenerator: ChartDayGenerator) {
@@ -72,8 +72,8 @@ class HistoryViewModel: ObservableObject {
             print(day.dailyGoal, day.date)
         }
         if hydrationDays.isEmpty {
-            for i in 0..<count {
-                let day = chartDayGenerator.generateRandomHydrationDay(i + 1)
+            for i in 1...count {
+                let day = chartDayGenerator.generateRandomHydrationDay(i)
                 dataSource.insert(day)
             }
         }

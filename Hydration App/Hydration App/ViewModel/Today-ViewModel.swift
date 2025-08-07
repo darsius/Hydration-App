@@ -59,7 +59,7 @@ class TodayViewModel {
     }
     
     init(dataSource: ChartDayDataSource) {
-        //        Self.clearUserDefaults()
+        Self.clearUserDefaults()
         
         Self.setDefaulValues()
         
@@ -93,7 +93,7 @@ class TodayViewModel {
                     print("il avem in db, facem update")
                 }
             } else {
-                print("cream today")
+                print("se creeaza today")
                 let newDay = HydrationDay(
                     dailyGoal: dailyGoal,
                     currentAmount: currentAmount,
@@ -104,7 +104,7 @@ class TodayViewModel {
                 try context.save()
             }
         } catch {
-            print("err")
+            print("error\(error.localizedDescription)")
         }
     }
     
