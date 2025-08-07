@@ -15,13 +15,6 @@ class HydrationDay: Identifiable {
     var date: Date
     var unit: String
     
-    var identity: Int {
-        var hasher = Hasher()
-        hasher.combine(unit)
-        hasher.combine(id)
-        return hasher.finalize()
-    }
-    
     init(dailyGoal: Int, currentAmount: Int, date: Date, unit: String) {
         self.dailyGoal = dailyGoal
         self.currentAmount = currentAmount

@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct TodayView: View {
-    @State private var viewModel = TodayViewModel()
+    @State private var viewModel = TodayViewModel(dataSource: ChartDayDataSource(
+        container: ContextManager.shared.container,
+        context: ContextManager.shared.context))
     
     var body: some View {
         NavigationStack {

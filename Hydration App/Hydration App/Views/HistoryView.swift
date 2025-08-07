@@ -96,7 +96,6 @@ struct HistoryView: View {
                         }
                         
                         VStack {
-                            // TODO: display of a missed day
                             ForEach(viewModel.chartDays, id: \.id) { chartDay in
                                 if chartDay.dailyGoal > 0 {
                                     makeListRow(chartDay: chartDay)
