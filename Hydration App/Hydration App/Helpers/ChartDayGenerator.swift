@@ -10,7 +10,7 @@ import Foundation
 struct ChartDayGenerator {
     let calendar = Calendar.current
     
-    func generateRandomChartDay(_ daysAgo: Int) -> HydrationDay {
+    func generateRandomHydrationDay(_ daysAgo: Int) -> HydrationDay {
         return HydrationDay(
             dailyGoal: Int.random(in: 1600...2300),
             currentAmount: Int.random(in: 1400...2300),
@@ -19,11 +19,11 @@ struct ChartDayGenerator {
         )
     }
     
-    func generateEmptyChartDay(_ daysAgo: Int) -> HydrationDay {
-        return HydrationDay(
+    func generateEmptyChartDay(_ daysAgo: Int) -> ChartDay {
+        return ChartDay (
             dailyGoal: 0,
             currentAmount: 0,
-            date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!.startOfDay,
+            date: calendar.date(byAdding: .day, value: -daysAgo , to: Date())!.startOfDay,
             unit: "ml"
         )
     }

@@ -8,11 +8,17 @@
 import Foundation
 
 struct ChartDay: Identifiable {
-    var id: Int
     var dailyGoal: Int
     var currentAmount: Int
     var date: Date
     var unit: String
+    
+    var id: Int {
+        var hasher = Hasher()
+        hasher.combine(unit)
+        hasher.combine(date)
+        return hasher.finalize()
+    }
 }
 
 extension ChartDay {
@@ -43,7 +49,7 @@ class HistoryViewModel: ObservableObject {
         
         Task { @MainActor in
 //            dataSource.deleteAllChartDays()
-            generateInitialChartDays(count: 5)
+            generateInitialChartDays(count: 2)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name("unitChanged"), object: nil)
@@ -62,10 +68,12 @@ class HistoryViewModel: ObservableObject {
     
     @MainActor func generateInitialChartDays(count: Int = 30) {
         hydrationDays = dataSource.fetchChartDays()
-        
+        hydrationDays.forEach { day in
+            print(day.dailyGoal, day.date)
+        }
         if hydrationDays.isEmpty {
             for i in 0..<count {
-                let day = chartDayGenerator.generateRandomChartDay(i)
+                let day = chartDayGenerator.generateRandomHydrationDay(i + 1)
                 dataSource.insert(day)
             }
         }
@@ -74,8 +82,8 @@ class HistoryViewModel: ObservableObject {
     }
     
     
-    func generateEmptyChartDays(count: Int = 30) -> [HydrationDay] {
-        (0..<count).map { chartDayGenerator.generateEmptyChartDay($0) }
+    func generateEmptyChartDays(count: Int = 31) -> [ChartDay] {
+        (1..<count).map { chartDayGenerator.generateEmptyChartDay($0) }
     }
     
     func mapHydrationDaysToChartDays(_ days: [HydrationDay]) -> [ChartDay] {
@@ -84,7 +92,6 @@ class HistoryViewModel: ObservableObject {
             if let existingDay = days.first(where: { $0.date.startOfDay == emptyDay.date.startOfDay }) {
 
                 return ChartDay(
-                    id: existingDay.identity,
                     dailyGoal: existingDay.dailyGoal,
                     currentAmount: existingDay.currentAmount,
                     date: existingDay.date,
@@ -92,7 +99,6 @@ class HistoryViewModel: ObservableObject {
                 )
             } else {
                 return ChartDay(
-                    id: emptyDay.identity,
                     dailyGoal: emptyDay.dailyGoal,
                     currentAmount: emptyDay.currentAmount,
                     date: emptyDay.date,

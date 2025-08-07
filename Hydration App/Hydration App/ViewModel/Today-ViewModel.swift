@@ -6,20 +6,28 @@
 //
 
 import Foundation
+import SwiftData
 
 @Observable
 class TodayViewModel {
     private let userDefaults = UserDefaults.standard
+    private let dataSource: ChartDayDataSource
     
     var dailyGoal: Int {
         didSet {
             userDefaults.set(dailyGoal, forKey: UserDefaultsKeys.dailyGoal)
+            Task { @MainActor in
+                saveCurrentDay()
+            }
         }
     }
     
     var currentAmount: Int {
         didSet {
             userDefaults.setValue(currentAmount, forKey: UserDefaultsKeys.currentAmount)
+            Task { @MainActor in
+                saveCurrentDay()
+            }
         }
     }
     
@@ -44,13 +52,17 @@ class TodayViewModel {
     var unit: UnitType {
         didSet {
             userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
+            Task { @MainActor in
+                saveCurrentDay()
+            }
         }
     }
     
-    init() {
-//        Self.clearUserDefaults()
+    init(dataSource: ChartDayDataSource) {
+        //        Self.clearUserDefaults()
         
         Self.setDefaulValues()
+        
         
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
         currentAmount = userDefaults.integer(forKey: UserDefaultsKeys.currentAmount)
@@ -58,6 +70,42 @@ class TodayViewModel {
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
+        
+        self.dataSource = dataSource
+    }
+    
+    @MainActor func saveCurrentDay() {
+        guard let context = ContextManager.shared.context else {
+            print("no context")
+            return
+        }
+        
+        let todayDate = Date().startOfDay
+        let fetchDescriptor = FetchDescriptor<HydrationDay>(predicate: #Predicate { $0.date == todayDate }
+        )
+        do {
+            let results = try ContextManager.shared.context?.fetch(fetchDescriptor)
+            
+            if let existingDay = results?.first {
+                if let model = context.model(for: existingDay.persistentModelID) as? HydrationDay {
+                    model.dailyGoal = dailyGoal
+                    try context.save()
+                    print("il avem in db, facem update")
+                }
+            } else {
+                print("cream today")
+                let newDay = HydrationDay(
+                    dailyGoal: dailyGoal,
+                    currentAmount: currentAmount,
+                    date: todayDate,
+                    unit: unit.rawValue
+                )
+                context.insert(newDay)
+                try context.save()
+            }
+        } catch {
+            print("err")
+        }
     }
     
     func convertCurrentAmount(from oldUnit: UnitType, to newUnit: UnitType) {
