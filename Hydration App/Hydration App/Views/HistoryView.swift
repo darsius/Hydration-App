@@ -10,7 +10,7 @@ struct HistoryView: View {
         chartDayGenerator: ChartDayGenerator())
     
     var body: some View {
-        let sortedChartDays = viewModel.hydrationDays.sorted { $0.date < $1.date }
+        let sortedChartDays = viewModel.chartDays.sorted { $0.date < $1.date }
         let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
         let lastDate = sortedChartDays.last?.date.startOfDay ?? Date().startOfDay
 
@@ -24,7 +24,7 @@ struct HistoryView: View {
                             .font(.regularText)
                             .padding(.horizontal, 20)
                         
-                        if viewModel.hasOnlyEmptyDays {
+                        if viewModel.chartDays.isEmpty {
                             Text("No data from the last few days")
                                 .multilineTextAlignment(.center)
                                 .font(.title2)
@@ -32,8 +32,7 @@ struct HistoryView: View {
                         }
                         
                         else {
-                            Chart(viewModel.hydrationDays, id: \.id) { chartDay in
-                                
+                            Chart(viewModel.chartDays, id: \.id) { chartDay in
                                 BarMark(
                                     x: .value("Day", chartDay.date, unit: .day),
                                     yStart: .value("Zero", 0),
@@ -51,7 +50,7 @@ struct HistoryView: View {
                                 .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.appYellow : Color.appGreen)
                             }
                             .chartXAxis {
-                                AxisMarks(values: viewModel.hydrationDays.map { $0.date.startOfDay }) { value in
+                                AxisMarks(values: viewModel.chartDays.map { $0.date.startOfDay }) { value in
                                     if let date = value.as(Date.self) {
                                         let isFirst = date.startOfDay == firstDate
                                         let isLast = date.startOfDay == lastDate
@@ -98,7 +97,7 @@ struct HistoryView: View {
                         
                         VStack {
                             // TODO: display of a missed day
-                            ForEach(viewModel.hydrationDays.reversed(), id: \.identity) { chartDay in
+                            ForEach(viewModel.chartDays, id: \.id) { chartDay in
                                 if chartDay.dailyGoal > 0 {
                                     makeListRow(chartDay: chartDay)
                                 }
@@ -108,8 +107,6 @@ struct HistoryView: View {
                         .padding(.horizontal, 12)
                     }
                     .onAppear {
-//                        viewModel.deleteAllChartDays()
-//                        viewModel.generateInitialChartDays(count: 2)
                     }
                     .navigationBarTitle("History", displayMode: .inline)
                 }
@@ -118,7 +115,7 @@ struct HistoryView: View {
         }
     }
     
-    func makeListRow(chartDay: HydrationDay) -> some View {
+    func makeListRow(chartDay: ChartDay) -> some View {
         VStack(alignment: .leading) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
