@@ -8,14 +8,15 @@
 import Foundation
 
 struct ChartDayGenerator {
-    let calendar = Calendar.current
+    private let calendar = Calendar.current
+    private(set) var currentUnit: String = UserDefaults.standard.string(forKey: "selectedUnit") ?? "ml"
     
     func generateRandomHydrationDay(_ daysAgo: Int) -> HydrationDay {
         return HydrationDay(
             dailyGoal: Int.random(in: 1600...2300),
             currentAmount: Int.random(in: 1400...2300),
             date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!.startOfDay,
-            unit: "ml"
+            unit: currentUnit
         )
     }
     
@@ -24,7 +25,7 @@ struct ChartDayGenerator {
             dailyGoal: 0,
             currentAmount: 0,
             date: calendar.date(byAdding: .day, value: -daysAgo , to: Date())!.startOfDay,
-            unit: "ml"
+            unit: currentUnit
         )
     }
 }
