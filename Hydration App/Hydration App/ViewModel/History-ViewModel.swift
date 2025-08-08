@@ -48,7 +48,7 @@ class HistoryViewModel: ObservableObject {
         self.chartDayGenerator = chartDayGenerator
         
         Task { @MainActor in
-//            dataSource.deleteAllChartDays()
+//            deleteAllChartDays()
             generateInitialChartDays(count: 2)
         }
         
@@ -69,7 +69,7 @@ class HistoryViewModel: ObservableObject {
     @MainActor func generateInitialChartDays(count: Int = 30) {
         hydrationDays = dataSource.fetchChartDays()
         hydrationDays.forEach { day in
-            print(day.dailyGoal, day.date)
+            print(day.dailyGoal, day.currentAmount, day.date)
         }
         if hydrationDays.isEmpty {
             for i in 1...count {

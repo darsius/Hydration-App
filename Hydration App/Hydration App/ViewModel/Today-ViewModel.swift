@@ -59,7 +59,7 @@ class TodayViewModel {
     }
     
     init(dataSource: ChartDayDataSource) {
-        Self.clearUserDefaults()
+//        Self.clearUserDefaults()
         
         Self.setDefaulValues()
         
@@ -87,8 +87,10 @@ class TodayViewModel {
             let results = try ContextManager.shared.context?.fetch(fetchDescriptor)
             
             if let existingDay = results?.first {
-                if let model = context.model(for: existingDay.persistentModelID) as? HydrationDay {
+                if let model = context.registeredModel(for: existingDay.persistentModelID) as HydrationDay? {
                     model.dailyGoal = dailyGoal
+                    model.currentAmount = currentAmount
+                    model.unit = unit.rawValue
                     try context.save()
                     print("il avem in db, facem update")
                 }
