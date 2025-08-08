@@ -9,12 +9,12 @@ import Foundation
 
 struct ChartDayGenerator {
     private let calendar = Calendar.current
-    private(set) var currentUnit: String = UserDefaults.standard.string(forKey: "selectedUnit") ?? "ml"
+    private(set) var currentUnit: String = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
     
     func generateRandomHydrationDay(_ daysAgo: Int) -> HydrationDay {
         return HydrationDay(
-            dailyGoal: Int.random(in: 1600...2300),
-            currentAmount: Int.random(in: 1400...2300),
+            dailyGoal: currentUnit == "ml" ? Int.random(in: 1600...2300) : Int.random(in: 54...78),
+            currentAmount: currentUnit == "ml" ? Int.random(in: 1600...2300) : Int.random(in: 54...78),
             date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!.startOfDay,
             unit: currentUnit
         )

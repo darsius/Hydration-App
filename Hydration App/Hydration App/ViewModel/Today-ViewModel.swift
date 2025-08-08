@@ -15,7 +15,6 @@ class TodayViewModel: ObservableObject {
     
     @Published var dailyGoal: Int {
         didSet {
-            userDefaults.set(dailyGoal, forKey: UserDefaultsKeys.dailyGoal)
             Task { @MainActor in
                 saveCurrentDay()
             }
@@ -31,23 +30,9 @@ class TodayViewModel: ObservableObject {
         }
     }
     
-    @Published var container1: Int {
-        didSet {
-            userDefaults.set(container1, forKey: UserDefaultsKeys.container1)
-        }
-    }
-    
-    @Published var container2: Int {
-        didSet {
-            userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
-        }
-    }
-    
-    @Published var container3: Int {
-        didSet {
-            userDefaults.set(container3, forKey: UserDefaultsKeys.container3)
-        }
-    }
+    @Published var container1: Int
+    @Published var container2: Int
+    @Published var container3: Int
     
     @Published var unit: UnitType {
         didSet {
@@ -59,7 +44,7 @@ class TodayViewModel: ObservableObject {
     }
     
     init(dataSource: ChartDayDataSource) {
-        Self.clearUserDefaults()
+        //        Self.clearUserDefaults()
         
         Self.setDefaulValues()
         
@@ -74,6 +59,30 @@ class TodayViewModel: ObservableObject {
         self.dataSource = dataSource
         
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(dailyGoalChanged(_:)), name: Notification.Name(UserDefaultsKeys.dailyGoal), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container1Changed(_:)), name: Notification.Name(UserDefaultsKeys.container1), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container2Changed(_:)), name: Notification.Name(UserDefaultsKeys.container2), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container3Changed(_:)), name: Notification.Name(UserDefaultsKeys.container3), object: nil)
+    }
+    
+    @objc func container3Changed(_ notification: Notification) {
+        let newValue = userDefaults.integer(forKey: UserDefaultsKeys.container3)
+        container3 = newValue
+    }
+    
+    @objc func container2Changed(_ notification: Notification) {
+        let newValue = userDefaults.integer(forKey: UserDefaultsKeys.container2)
+        container2 = newValue
+    }
+    
+    @objc func container1Changed(_ notification: Notification) {
+        let newValue = userDefaults.integer(forKey: UserDefaultsKeys.container1)
+        container1 = newValue
+    }
+    
+    @objc func dailyGoalChanged(_ notification: Notification) {
+        let newValue = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
+        dailyGoal = newValue
     }
     
     @objc func unitChanged(_ notification: Notification) {
