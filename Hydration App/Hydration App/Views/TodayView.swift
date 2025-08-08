@@ -1,9 +1,8 @@
 import SwiftUI
 
 struct TodayView: View {
-    @StateObject private var viewModel = TodayViewModel(dataSource: ChartDayDataSource(
-        container: ContextManager.shared.container,
-        context: ContextManager.shared.context))
+    @StateObject private var viewModel = TodayViewModel(
+        dataSource: ChartDayDataSource(container: ContextManager.shared.container))
     
     var body: some View {
         NavigationStack {
@@ -56,8 +55,8 @@ struct TodayView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(
                             destination: SettingsView(viewModel: SettingsViewModel())) {
-                                    Image(.settings)
-                                }
+                                Image(.settings)
+                            }
                     }
                 }
                 .toolbarBackground(Color(.systemBackground),for: .navigationBar)
