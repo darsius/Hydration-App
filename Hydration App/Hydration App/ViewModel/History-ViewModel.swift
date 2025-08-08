@@ -52,12 +52,11 @@ class HistoryViewModel: ObservableObject {
             generateInitialChartDays(count: 2)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name("unitChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
     }
     
     @objc func unitChanged(_ notification: Notification) {
-        let newUnit = UserDefaults.standard.string(forKey: "selectedUnit") ?? "ml"
-        print("noul unit este \(newUnit)")
+        let newUnit = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
         
         Task { @MainActor in
             dataSource.updateUnitForAllChartDays(to: newUnit)
@@ -111,6 +110,7 @@ class HistoryViewModel: ObservableObject {
     
     @MainActor func deleteAllChartDays() {
         dataSource.deleteAllChartDays()
+        hydrationDays.removeAll()
         chartDays = []
         hydrationDays = []
     }

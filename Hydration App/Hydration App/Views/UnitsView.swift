@@ -28,8 +28,8 @@ struct UnitsView: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedUnit = unit
-                            UserDefaults.standard.set(unit.rawValue, forKey: "selectedUnit")
-                            NotificationCenter.default.post(Notification(name: Notification.Name("unitChanged"), object: nil))
+                            UserDefaults.standard.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
+                            NotificationCenter.default.post(Notification(name: Notification.Name(UserDefaultsKeys.unit), object: nil))
                         }
                     }
                 }
