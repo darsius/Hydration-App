@@ -10,11 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @Binding var dailyGoal: Int
-    @Binding var container1: Int
-    @Binding var container2: Int
-    @Binding var container3: Int
-    @Binding var unit: UnitType
+    @StateObject var viewModel: SettingsViewModel
     
     var body: some View {
         NavigationStack {
@@ -23,15 +19,15 @@ struct SettingsView: View {
                 List {
                     Section("") {
                         NavigationLink(destination: UnitsView(
-                            selectedUnit: $unit)) {
-                                SettingsRowView(title: "Units", value: unit.rawValue)
+                            selectedUnit: $viewModel.unit)) {
+                                SettingsRowView(title: "Units", value:  viewModel.unit.rawValue)
                         }
                         
                         NavigationLink(destination: HydrationInputView(
-                            inputValue: $dailyGoal,
-                            unit: $unit,
+                            inputValue: $viewModel.dailyGoal,
+                            unit: $viewModel.unit,
                             viewType: .dailyGoal)) {
-                                SettingsRowView(title: "Daily Goal", value: "\(dailyGoal) \(unit)")
+                                SettingsRowView(title: "Daily Goal", value: "\(viewModel.dailyGoal) \(viewModel.unit)")
                         }
                     }
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
@@ -43,30 +39,31 @@ struct SettingsView: View {
                     
                     Section {
                         NavigationLink(destination: HydrationInputView(
-                            inputValue: $container1,
-                            unit: $unit,
+                            inputValue: $viewModel.container1,
+                            unit: $viewModel.unit,
                             viewType: .container(1))) {
-                                SettingsRowView(title: "Container 1", value: "\(container1) \(unit)")
+                                SettingsRowView(title: "Container 1", value: "\(viewModel.container1) \(viewModel.unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
-                            inputValue: $container2,
-                            unit: $unit,
+                            inputValue: $viewModel.container2,
+                            unit: $viewModel.unit,
                             viewType: .container(2))) {
-                                SettingsRowView(title: "Container 2", value: "\(container2) \(unit)")
+                                SettingsRowView(title: "Container 2", value: "\(viewModel.container2) \(viewModel.unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
-                            inputValue: $container3,
-                            unit: $unit,
+                            inputValue: $viewModel.container3,
+                            unit: $viewModel.unit,
                             viewType: .container(3))) {
-                                SettingsRowView(title: "Container 3", value: "\(container3) \(unit)")
+                                SettingsRowView(title: "Container 3", value: "\(viewModel.container3) \(viewModel.unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
-                    } header: {
+                    }
+                    header: {
                         Text("Containers")
                     } footer: {
                         Text("These containers will appear on your main screen so you can easily tap on them and track your intake.")
@@ -79,12 +76,12 @@ struct SettingsView: View {
                 .toolbarRole(.editor)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
-                .onChange(of: unit) { oldValue, newValue in
+                .onChange(of: viewModel.unit) { oldValue, newValue in
                     Converter.convertAll(
-                        dailyGoal: &dailyGoal,
-                        container1: &container1,
-                        container2: &container2,
-                        container3: &container3,
+                        dailyGoal: &viewModel.dailyGoal,
+                        container1: &viewModel.container1,
+                        container2: &viewModel.container2,
+                        container3: &viewModel.container3,
                         from: oldValue,
                         to: newValue)
                 }

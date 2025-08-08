@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TodayView: View {
-    @State private var viewModel = TodayViewModel(dataSource: ChartDayDataSource(
+    @StateObject private var viewModel = TodayViewModel(dataSource: ChartDayDataSource(
         container: ContextManager.shared.container,
         context: ContextManager.shared.context))
     
@@ -55,12 +55,7 @@ struct TodayView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(
-                            destination: SettingsView(
-                                dailyGoal: $viewModel.dailyGoal,
-                                container1: $viewModel.container1,
-                                container2: $viewModel.container2,
-                                container3: $viewModel.container3,
-                                unit: $viewModel.unit)) {
+                            destination: SettingsView(viewModel: SettingsViewModel())) {
                                     Image(.settings)
                                 }
                     }
@@ -69,7 +64,13 @@ struct TodayView: View {
                 .toolbarBackground(.visible, for: .navigationBar)
                 
                 .onChange(of: viewModel.unit) { oldValue, newValue in
-                    viewModel.convertCurrentAmount(from: oldValue, to: newValue)
+                    Converter.convertAll(
+                        dailyGoal: &viewModel.dailyGoal,
+                        container1: &viewModel.container1,
+                        container2: &viewModel.container2,
+                        container3: &viewModel.container3,
+                        from: oldValue,
+                        to: newValue)
                 }
             }
         }

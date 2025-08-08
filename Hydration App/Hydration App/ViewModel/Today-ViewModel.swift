@@ -8,12 +8,12 @@
 import Foundation
 import SwiftData
 
-@Observable
-class TodayViewModel {
+
+class TodayViewModel: ObservableObject {
     private let userDefaults = UserDefaults.standard
     private let dataSource: ChartDayDataSource
     
-    var dailyGoal: Int {
+    @Published var dailyGoal: Int {
         didSet {
             userDefaults.set(dailyGoal, forKey: UserDefaultsKeys.dailyGoal)
             Task { @MainActor in
@@ -22,7 +22,7 @@ class TodayViewModel {
         }
     }
     
-    var currentAmount: Int {
+    @Published var currentAmount: Int {
         didSet {
             userDefaults.setValue(currentAmount, forKey: UserDefaultsKeys.currentAmount)
             Task { @MainActor in
@@ -31,25 +31,25 @@ class TodayViewModel {
         }
     }
     
-    var container1: Int {
+    @Published var container1: Int {
         didSet {
             userDefaults.set(container1, forKey: UserDefaultsKeys.container1)
         }
     }
     
-    var container2: Int {
+    @Published var container2: Int {
         didSet {
             userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
         }
     }
     
-    var container3: Int {
+    @Published var container3: Int {
         didSet {
             userDefaults.set(container3, forKey: UserDefaultsKeys.container3)
         }
     }
     
-    var unit: UnitType {
+    @Published var unit: UnitType {
         didSet {
             userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
             Task { @MainActor in
@@ -59,7 +59,7 @@ class TodayViewModel {
     }
     
     init(dataSource: ChartDayDataSource) {
-//        Self.clearUserDefaults()
+        Self.clearUserDefaults()
         
         Self.setDefaulValues()
         
@@ -72,6 +72,20 @@ class TodayViewModel {
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
         
         self.dataSource = dataSource
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
+    }
+    
+    @objc func unitChanged(_ notification: Notification) {
+        let oldUnit = unit
+        guard let newUnitRaw = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit),
+              let newUnit = UnitType(rawValue: newUnitRaw),
+              newUnit != oldUnit else {
+            return
+        }
+        print("\(oldUnit) -> \(newUnit)")
+        convertCurrentAmount(from: oldUnit, to: newUnit)
+        unit = newUnit
     }
     
     @MainActor func saveCurrentDay() {
