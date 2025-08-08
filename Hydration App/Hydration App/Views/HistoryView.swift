@@ -4,9 +4,7 @@ import SwiftData
 
 struct HistoryView: View {
     @StateObject var viewModel = HistoryViewModel(
-        dataSource: ChartDayDataSource(
-            container: ContextManager.shared.container,
-            context: ContextManager.shared.context),
+        dataSource: ChartDayDataSource(container: ContextManager.shared.container),
         chartDayGenerator: ChartDayGenerator())
     
     var body: some View {

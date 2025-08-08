@@ -98,7 +98,7 @@ class TodayViewModel: ObservableObject {
     }
     
     @MainActor func saveCurrentDay() {
-        guard let context = ContextManager.shared.context else {
+        guard let context = ContextManager.shared.container?.mainContext else {
             print("no context")
             return
         }
@@ -107,14 +107,14 @@ class TodayViewModel: ObservableObject {
         let fetchDescriptor = FetchDescriptor<HydrationDay>(predicate: #Predicate { $0.date == todayDate }
         )
         do {
-            let results = try ContextManager.shared.context?.fetch(fetchDescriptor)
+            let results = try context.fetch(fetchDescriptor)
             
-            if let existingDay = results?.first {
+            if let existingDay = results.first {
                 if let model = context.registeredModel(for: existingDay.persistentModelID) as HydrationDay? {
                     model.dailyGoal = dailyGoal
                     model.currentAmount = currentAmount
                     model.unit = unit.rawValue
-//                    try context.save()
+                    try context.save()
                     print("il avem in db, facem update")
                 }
             } else {
@@ -126,7 +126,7 @@ class TodayViewModel: ObservableObject {
                     unit: unit.rawValue
                 )
                 context.insert(newDay)
-//                try context.save()
+                try context.save()
             }
         } catch {
             print("error\(error.localizedDescription)")
