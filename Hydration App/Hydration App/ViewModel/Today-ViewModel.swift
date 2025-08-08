@@ -30,10 +30,6 @@ class TodayViewModel: ObservableObject {
         }
     }
     
-    @Published var container1: Int
-    @Published var container2: Int
-    @Published var container3: Int
-    
     @Published var unit: UnitType {
         didSet {
             userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
@@ -43,10 +39,14 @@ class TodayViewModel: ObservableObject {
         }
     }
     
+    @Published var container1: Int
+    @Published var container2: Int
+    @Published var container3: Int
+    
     init(dataSource: ChartDayDataSource) {
-        //        Self.clearUserDefaults()
+//                Self.clearUserDefaults()
         
-        Self.setDefaulValues()
+        Self.setDefaultValues()
         
         
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
@@ -92,8 +92,8 @@ class TodayViewModel: ObservableObject {
               newUnit != oldUnit else {
             return
         }
-        print("\(oldUnit) -> \(newUnit)")
-        convertCurrentAmount(from: oldUnit, to: newUnit)
+
+        currentAmount = Converter.convert(amount: currentAmount, for: UserDefaultsKeys.currentAmount, from: oldUnit, to: newUnit)
         unit = newUnit
     }
     
@@ -114,7 +114,7 @@ class TodayViewModel: ObservableObject {
                     model.dailyGoal = dailyGoal
                     model.currentAmount = currentAmount
                     model.unit = unit.rawValue
-                    try context.save()
+//                    try context.save()
                     print("il avem in db, facem update")
                 }
             } else {
@@ -126,18 +126,14 @@ class TodayViewModel: ObservableObject {
                     unit: unit.rawValue
                 )
                 context.insert(newDay)
-                try context.save()
+//                try context.save()
             }
         } catch {
             print("error\(error.localizedDescription)")
         }
     }
     
-    func convertCurrentAmount(from oldUnit: UnitType, to newUnit: UnitType) {
-        currentAmount = Converter.convert(amount: currentAmount, for: UserDefaultsKeys.currentAmount, from: oldUnit, to: newUnit)
-    }
-    
-    private static func setDefaulValues() {
+    private static func setDefaultValues() {
         let defaults: [String: Any] = [
             UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
             UserDefaultsKeys.currentAmount: Defaults.currentAmount,
