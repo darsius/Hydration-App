@@ -28,11 +28,11 @@ extension ChartDay {
     }
 }
 
+@MainActor
 class HistoryViewModel: ObservableObject {
     private let dataSource: ChartDayDataSource
     private let chartDayGenerator: ChartDayGenerator
     
-    private var hydrationDays: [HydrationDay] = []
     @Published var chartDays: [ChartDay] = []
     
     
@@ -47,10 +47,10 @@ class HistoryViewModel: ObservableObject {
         self.dataSource = dataSource
         self.chartDayGenerator = chartDayGenerator
         
-        Task { @MainActor in
+//        Task { @MainActor in
 //            deleteAllChartDays()
             generateInitialChartDays(count: 2)
-        }
+//        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
     }
@@ -60,13 +60,13 @@ class HistoryViewModel: ObservableObject {
         
         Task { @MainActor in
             dataSource.updateUnitForAllChartDays(to: newUnit)
-            hydrationDays = dataSource.fetchChartDays()
+            let hydrationDays = dataSource.fetchChartDays()
             chartDays = mapHydrationDaysToChartDays(hydrationDays)
         }
     }
     
     @MainActor func generateInitialChartDays(count: Int = 30) {
-        hydrationDays = dataSource.fetchChartDays()
+        var hydrationDays = dataSource.fetchChartDays()
         hydrationDays.forEach { day in
             print(day.dailyGoal, day.currentAmount, day.date)
         }
@@ -74,6 +74,7 @@ class HistoryViewModel: ObservableObject {
             for i in 1...count {
                 let day = chartDayGenerator.generateRandomHydrationDay(i)
                 dataSource.insert(day)
+                hydrationDays.append(day)
             }
         }
         
@@ -110,8 +111,6 @@ class HistoryViewModel: ObservableObject {
     
     @MainActor func deleteAllChartDays() {
         dataSource.deleteAllChartDays()
-        hydrationDays.removeAll()
         chartDays = []
-        hydrationDays = []
     }
 }
