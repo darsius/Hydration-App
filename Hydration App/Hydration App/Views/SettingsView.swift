@@ -26,6 +26,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             inputValue: $viewModel.dailyGoal,
                             unit: $viewModel.unit,
+                            userDefaultsKey: UserDefaultsKeys.dailyGoal,
                             viewType: .dailyGoal)) {
                                 SettingsRowView(title: "Daily Goal", value: "\(viewModel.dailyGoal) \(viewModel.unit)")
                         }
@@ -41,6 +42,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             inputValue: $viewModel.container1,
                             unit: $viewModel.unit,
+                            userDefaultsKey: UserDefaultsKeys.container1,
                             viewType: .container(1))) {
                                 SettingsRowView(title: "Container 1", value: "\(viewModel.container1) \(viewModel.unit)")
                         }
@@ -49,6 +51,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             inputValue: $viewModel.container2,
                             unit: $viewModel.unit,
+                            userDefaultsKey: UserDefaultsKeys.container2,
                             viewType: .container(2))) {
                                 SettingsRowView(title: "Container 2", value: "\(viewModel.container2) \(viewModel.unit)")
                         }
@@ -57,6 +60,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             inputValue: $viewModel.container3,
                             unit: $viewModel.unit,
+                            userDefaultsKey: UserDefaultsKeys.container3,
                             viewType: .container(3))) {
                                 SettingsRowView(title: "Container 3", value: "\(viewModel.container3) \(viewModel.unit)")
                         }

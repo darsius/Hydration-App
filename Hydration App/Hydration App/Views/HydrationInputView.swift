@@ -15,6 +15,8 @@ struct HydrationInputView: View {
     @Binding var unit: UnitType
     @State private var textFieldInput: Int = 0
     
+    let userDefaultsKey: String
+    
     let viewType: HydrationViewType
     
     var body: some View {
@@ -73,6 +75,8 @@ struct HydrationInputView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
                     inputValue = textFieldInput
+                    UserDefaults.standard.set(textFieldInput, forKey: userDefaultsKey)
+                    NotificationCenter.default.post(Notification(name: Notification.Name(userDefaultsKey), object: nil))
                     dismiss()
                 }
             }
