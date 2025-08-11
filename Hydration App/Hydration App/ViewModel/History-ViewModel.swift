@@ -47,17 +47,15 @@ class HistoryViewModel: ObservableObject {
         self.dataSource = dataSource
         self.chartDayGenerator = chartDayGenerator
         
-//        Task { @MainActor in
-//            deleteAllChartDays()
-            generateInitialChartDays(count: 2)
-//        }
+//        deleteAllChartDays()
+        generateInitialChartDays(count: 2)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
     }
     
     @objc func unitChanged(_ notification: Notification?) {
         let newUnit = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
-        print("noul unit: \(newUnit)")
+        print("noul unit: \(newUnit)") //
         Task { @MainActor in
             dataSource.updateUnitForAllChartDays(to: newUnit)
             let hydrationDays = dataSource.fetchChartDays()
@@ -65,7 +63,7 @@ class HistoryViewModel: ObservableObject {
         }
     }
     
-    @MainActor func generateInitialChartDays(count: Int = 30) {
+    private func generateInitialChartDays(count: Int = 30) {
         var hydrationDays = dataSource.fetchChartDays()
         hydrationDays.forEach { day in
             print(day.dailyGoal, day.currentAmount, day.date)
@@ -81,16 +79,11 @@ class HistoryViewModel: ObservableObject {
         chartDays = mapHydrationDaysToChartDays(hydrationDays)
     }
     
-    
-    func generateEmptyChartDays(count: Int = 31) -> [ChartDay] {
-        (1..<count).map { chartDayGenerator.generateEmptyChartDay($0) }
-    }
-    
-    func mapHydrationDaysToChartDays(_ days: [HydrationDay]) -> [ChartDay] {
+    private func mapHydrationDaysToChartDays(_ days: [HydrationDay]) -> [ChartDay] {
         let emptyDays = generateEmptyChartDays()
         return emptyDays.map { emptyDay in
             if let existingDay = days.first(where: { $0.date.startOfDay == emptyDay.date.startOfDay }) {
-
+                
                 return ChartDay(
                     dailyGoal: existingDay.dailyGoal,
                     currentAmount: existingDay.currentAmount,
@@ -109,7 +102,11 @@ class HistoryViewModel: ObservableObject {
         }
     }
     
-    @MainActor func deleteAllChartDays() {
+    private func generateEmptyChartDays(count: Int = 31) -> [ChartDay] {
+        (1..<count).map { chartDayGenerator.generateEmptyChartDay($0) }
+    }
+    
+    private func deleteAllChartDays() {
         dataSource.deleteAllChartDays()
         chartDays = []
     }

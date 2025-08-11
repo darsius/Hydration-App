@@ -1,5 +1,5 @@
 //
-//  Settings-ViewModel.swift
+//  SettingsViewModel.swift
 //  Hydration App
 //
 //  Created by Paraschiv, Darius on 08.08.2025.

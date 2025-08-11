@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @StateObject var viewModel: SettingsViewModel
+    @StateObject var viewModel: SettingsViewModel // Nu isi are sensul daca nu face altceva (save, post notif)
     
     var body: some View {
         NavigationStack {
@@ -24,9 +24,12 @@ struct SettingsView: View {
                         }
                         
                         NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(
+                                initialValue: viewModel.dailyGoal,
+                                userDefaultsKey: UserDefaultsKeys.dailyGoal,
+                                notificationName: .dailyGoalDidChange),
                             inputValue: $viewModel.dailyGoal,
                             unit: $viewModel.unit,
-                            userDefaultsKey: UserDefaultsKeys.dailyGoal,
                             viewType: .dailyGoal)) {
                                 SettingsRowView(title: "Daily Goal", value: "\(viewModel.dailyGoal) \(viewModel.unit)")
                         }
@@ -40,27 +43,36 @@ struct SettingsView: View {
                     
                     Section {
                         NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(
+                                initialValue: viewModel.container1,
+                                userDefaultsKey: UserDefaultsKeys.container1,
+                                notificationName: .container1DidChange),
                             inputValue: $viewModel.container1,
                             unit: $viewModel.unit,
-                            userDefaultsKey: UserDefaultsKeys.container1,
                             viewType: .container(1))) {
                                 SettingsRowView(title: "Container 1", value: "\(viewModel.container1) \(viewModel.unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(
+                                initialValue: viewModel.container2,
+                                userDefaultsKey: UserDefaultsKeys.container2,
+                                notificationName: .container2DidChange),
                             inputValue: $viewModel.container2,
                             unit: $viewModel.unit,
-                            userDefaultsKey: UserDefaultsKeys.container2,
                             viewType: .container(2))) {
                                 SettingsRowView(title: "Container 2", value: "\(viewModel.container2) \(viewModel.unit)")
                         }
                         .listRowBackground(Color.lightGray)
                         
                         NavigationLink(destination: HydrationInputView(
+                            viewModel: HydrationInputViewModel(
+                                initialValue: viewModel.container3,
+                                userDefaultsKey: UserDefaultsKeys.container3,
+                                notificationName: .container3DidChange),
                             inputValue: $viewModel.container3,
                             unit: $viewModel.unit,
-                            userDefaultsKey: UserDefaultsKeys.container3,
                             viewType: .container(3))) {
                                 SettingsRowView(title: "Container 3", value: "\(viewModel.container3) \(viewModel.unit)")
                         }

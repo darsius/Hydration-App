@@ -11,13 +11,15 @@ struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
     
+    @ObservedObject var viewModel : HydrationInputViewModel
+    
     @Binding var inputValue: Int
     @Binding var unit: UnitType
     @State private var textFieldInput: Int = 0
     
-    let userDefaultsKey: String
-    
     let viewType: HydrationViewType
+    // ori closure
+    // ori view model care sa faca save si post notif
     
     var body: some View {
         GeometryReader { geometry in
@@ -75,8 +77,7 @@ struct HydrationInputView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
                     inputValue = textFieldInput
-                    UserDefaults.standard.set(textFieldInput, forKey: userDefaultsKey)
-                    NotificationCenter.default.post(Notification(name: Notification.Name(userDefaultsKey), object: nil))
+                    viewModel.saveValue(textFieldInput)
                     dismiss()
                 }
             }

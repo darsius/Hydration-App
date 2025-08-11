@@ -29,7 +29,7 @@ struct HistoryView: View {
                                 .padding(.top, 20)
                         }
                         
-                        else {
+                        else { // Extrage chart separat
                             Chart(viewModel.chartDays, id: \.id) { chartDay in
                                 BarMark(
                                     x: .value("Day", chartDay.date, unit: .day),
