@@ -24,7 +24,7 @@ struct Converter {
         }
         let convertedAmount = newUnit == UnitType.oz ? convertMlToOz(amount) : convertOzToMl(amount)
         
-        UserDefaults.standard.set(convertedAmount, forKey: key)
+        UserDefaults.standard.set(convertedAmount, forKey: key) // R
         return convertedAmount
     }
     
@@ -49,6 +49,6 @@ struct Converter {
         container2 = convert(amount: container2, for: UserDefaultsKeys.container2, from: oldUnit, to: newUnit)
         container3 = convert(amount: container3, for: UserDefaultsKeys.container3, from: oldUnit, to: newUnit)
 
-        UserDefaults.standard.set(newUnit.rawValue, forKey: UserDefaultsKeys.unit)
+        UserDefaults.standard.set(newUnit.rawValue, forKey: UserDefaultsKeys.unit) // R
     }
 }

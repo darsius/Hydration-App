@@ -63,6 +63,7 @@ struct TodayView: View {
                 .toolbarBackground(.visible, for: .navigationBar)
                 
                 .onChange(of: viewModel.unit) { oldValue, newValue in
+                    // Muta in VM
                     Converter.convertAll(
                         dailyGoal: &viewModel.dailyGoal,
                         container1: &viewModel.container1,

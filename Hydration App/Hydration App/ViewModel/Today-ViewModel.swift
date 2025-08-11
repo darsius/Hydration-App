@@ -58,11 +58,11 @@ class TodayViewModel: ObservableObject {
         
         self.dataSource = dataSource
         
-        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(dailyGoalChanged(_:)), name: Notification.Name(UserDefaultsKeys.dailyGoal), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(container1Changed(_:)), name: Notification.Name(UserDefaultsKeys.container1), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(container2Changed(_:)), name: Notification.Name(UserDefaultsKeys.container2), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(container3Changed(_:)), name: Notification.Name(UserDefaultsKeys.container3), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(dailyGoalChanged(_:)), name: .dailyGoalDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container1Changed(_:)), name: .container1DidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container2Changed(_:)), name: .container2DidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container3Changed(_:)), name: .container3DidChange, object: nil)
     }
     
     @objc func container3Changed(_ notification: Notification) {
@@ -114,7 +114,6 @@ class TodayViewModel: ObservableObject {
                     model.dailyGoal = dailyGoal
                     model.currentAmount = currentAmount
                     model.unit = unit.rawValue
-                    try context.save()
                     print("il avem in db, facem update")
                 }
             } else {
@@ -126,7 +125,6 @@ class TodayViewModel: ObservableObject {
                     unit: unit.rawValue
                 )
                 context.insert(newDay)
-                try context.save()
             }
         } catch {
             print("error\(error.localizedDescription)")
