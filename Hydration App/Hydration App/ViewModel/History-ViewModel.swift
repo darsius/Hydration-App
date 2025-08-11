@@ -55,9 +55,9 @@ class HistoryViewModel: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: Notification.Name(UserDefaultsKeys.unit), object: nil)
     }
     
-    @objc func unitChanged(_ notification: Notification) {
+    @objc func unitChanged(_ notification: Notification?) {
         let newUnit = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
-        
+        print("noul unit: \(newUnit)")
         Task { @MainActor in
             dataSource.updateUnitForAllChartDays(to: newUnit)
             let hydrationDays = dataSource.fetchChartDays()

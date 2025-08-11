@@ -22,15 +22,3 @@ class HydrationDay: Identifiable {
         self.unit = unit
     }
 }
-
-extension HydrationDay {
-    var goalPrecentage: Int {
-        guard dailyGoal > 0 else { return 0 }
-        return min(100, Int(Double(currentAmount) / Double(dailyGoal) * 100))
-    }
-    
-    var isEmpty: Bool {
-        dailyGoal == 0 && currentAmount == 0
-    }
-}
-
