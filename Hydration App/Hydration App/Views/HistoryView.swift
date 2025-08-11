@@ -104,6 +104,7 @@ struct HistoryView: View {
                         .padding(.horizontal, 12)
                     }
                     .onAppear {
+                        viewModel.unitChanged(nil)
                     }
                     .navigationBarTitle("History", displayMode: .inline)
                 }
