@@ -7,40 +7,16 @@
 
 import Foundation
 
-struct ChartDay: Identifiable {
-    var dailyGoal: Int
-    var currentAmount: Int
-    var date: Date
-    var unit: String
-    
-    var id: Int {
-        var hasher = Hasher()
-        hasher.combine(unit)
-        hasher.combine(date)
-        return hasher.finalize()
-    }
-}
-
-extension ChartDay {
-    var goalPrecentage: Int {
-        guard dailyGoal > 0 else { return 0 }
-        return min(100, Int(Double(currentAmount) / Double(dailyGoal) * 100))
-    }
-}
-
 @MainActor
 class HistoryViewModel: ObservableObject {
+    @Published var chartDays: [ChartDay] = []
     private let dataSource: ChartDayDataSource
     private let chartDayGenerator: ChartDayGenerator
-    
-    @Published var chartDays: [ChartDay] = []
-    
-    
     private var hasGeneratedInitialDays = false
     var hasOnlyEmptyDays = true
     
     var maxDailyGoal: Int {
-        chartDays.map { $0.dailyGoal }.max() ?? 2000
+        chartDays.map { $0.currentAmount }.max() ?? Defaults.dailyGoal
     }
     
     init(dataSource: ChartDayDataSource, chartDayGenerator: ChartDayGenerator) {
@@ -82,7 +58,6 @@ class HistoryViewModel: ObservableObject {
         
         return emptyDays.map { emptyDay in
             if let existingDay = days.first(where: { $0.date.startOfDay == emptyDay.date.startOfDay }) {
-                
                 return ChartDay(
                     dailyGoal: existingDay.dailyGoal,
                     currentAmount: existingDay.currentAmount,
@@ -97,7 +72,6 @@ class HistoryViewModel: ObservableObject {
                     unit: emptyDay.unit
                 )
             }
-            
         }
     }
     
