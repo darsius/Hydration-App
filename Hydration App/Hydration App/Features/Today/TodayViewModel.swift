@@ -115,10 +115,7 @@ class TodayViewModel: ObservableObject {
     }
     
     @MainActor func saveCurrentDay() {
-        guard let context = ContextManager.shared.container?.mainContext else {
-            print("no context")
-            return
-        }
+        guard let context = ContextManager.shared.container?.mainContext else { return }
         
         let todayDate = Date().startOfDay
         let fetchDescriptor = FetchDescriptor<HydrationDay>(predicate: #Predicate { $0.date == todayDate }
@@ -131,10 +128,8 @@ class TodayViewModel: ObservableObject {
                     model.dailyGoal = dailyGoal
                     model.currentAmount = currentAmount
                     model.unit = unit.rawValue
-                    print("il avem in db, facem update")
                 }
             } else {
-                print("se creeaza today")
                 let newDay = HydrationDay(
                     dailyGoal: dailyGoal,
                     currentAmount: currentAmount,

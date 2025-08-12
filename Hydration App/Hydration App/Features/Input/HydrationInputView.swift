@@ -18,8 +18,6 @@ struct HydrationInputView: View {
     @State private var textFieldInput: Int = 0
     
     let viewType: HydrationViewType
-    // ori closure
-    // ori view model care sa faca save si post notif
     
     var body: some View {
         GeometryReader { geometry in

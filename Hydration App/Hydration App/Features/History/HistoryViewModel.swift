@@ -55,7 +55,7 @@ class HistoryViewModel: ObservableObject {
     
     @objc func unitChanged(_ notification: Notification?) {
         let newUnit = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
-        print("noul unit: \(newUnit)") //
+
         Task { @MainActor in
             dataSource.updateUnitForAllChartDays(to: newUnit)
             let hydrationDays = dataSource.fetchChartDays()
@@ -65,9 +65,7 @@ class HistoryViewModel: ObservableObject {
     
     private func generateInitialChartDays(count: Int = 30) {
         var hydrationDays = dataSource.fetchChartDays()
-        hydrationDays.forEach { day in
-            print(day.dailyGoal, day.currentAmount, day.date)
-        }
+
         if hydrationDays.isEmpty {
             for i in 1...count {
                 let day = chartDayGenerator.generateRandomHydrationDay(i)
