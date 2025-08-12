@@ -93,7 +93,24 @@ class TodayViewModel: ObservableObject {
             return
         }
 
-        currentAmount = Converter.convert(amount: currentAmount, for: UserDefaultsKeys.currentAmount, from: oldUnit, to: newUnit)
+        currentAmount = Converter.convert(amount: currentAmount, from: oldUnit, to: newUnit)
+        
+        Converter.convertAll(
+            dailyGoal: &dailyGoal,
+            container1: &container1,
+            container2: &container2,
+            container3: &container3,
+            from: oldUnit,
+            to: newUnit)
+        
+        saveToUserDefaults(
+            currentAmount: currentAmount,
+            dailyGoal: dailyGoal,
+            container1: container1,
+            container2: container2,
+            container3: container3,
+            unit: newUnit)
+        
         unit = newUnit
     }
     
@@ -131,6 +148,22 @@ class TodayViewModel: ObservableObject {
         }
     }
     
+    private func saveToUserDefaults(
+        currentAmount: Int,
+        dailyGoal: Int,
+        container1: Int,
+        container2: Int,
+        container3: Int,
+        unit: UnitType
+    ) {
+        userDefaults.set(currentAmount, forKey: UserDefaultsKeys.currentAmount)
+        userDefaults.set(dailyGoal, forKey: UserDefaultsKeys.dailyGoal)
+        userDefaults.set(container1, forKey: UserDefaultsKeys.container1)
+        userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
+        userDefaults.set(container3, forKey: UserDefaultsKeys.container3)
+        userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
+    }
+    
     private static func setDefaultValues() {
         let defaults: [String: Any] = [
             UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
@@ -142,7 +175,6 @@ class TodayViewModel: ObservableObject {
         ]
         UserDefaults.standard.register(defaults: defaults)
     }
-    
     
     func addAmount(amount: Int) {
         currentAmount += amount

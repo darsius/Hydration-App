@@ -92,15 +92,6 @@ struct SettingsView: View {
                 .toolbarRole(.editor)
                 .listStyle(.inset)
                 .navigationBarTitle("Settings", displayMode: .inline)
-                .onChange(of: viewModel.unit) { oldValue, newValue in
-                    Converter.convertAll(
-                        dailyGoal: &viewModel.dailyGoal,
-                        container1: &viewModel.container1,
-                        container2: &viewModel.container2,
-                        container3: &viewModel.container3,
-                        from: oldValue,
-                        to: newValue)
-                }
             }
         }
     }
