@@ -77,7 +77,7 @@ struct HydrationInputView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
                     inputValue = textFieldInput
-                    viewModel.saveValue(textFieldInput)
+                    viewModel.saveValue(inputValue)
                     dismiss()
                 }
             }
