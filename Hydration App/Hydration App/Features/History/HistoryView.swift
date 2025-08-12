@@ -27,12 +27,10 @@ struct HistoryView: View {
                                 .multilineTextAlignment(.center)
                                 .font(.title2)
                                 .padding(.top, 20)
-                        }
-                        
-                        else {
+                        } else {
                             makeChart(firstDate, lastDate)
-                                .frame(height: 300)
-                                .padding(.horizontal, 10)
+                                .frame(height: UIConstants.chartFrameHeight)
+                                .padding(.horizontal, UIConstants.chartHorizontalPadding)
                         }
                         
                         VStack {
@@ -111,7 +109,7 @@ struct HistoryView: View {
                         Image(systemName: "square.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 5, height: 5)
+                            .frame(width: UIConstants.chartDaySquareWidth, height: UIConstants.chartDaySquareHeight)
                             .foregroundColor(isFirst || isLast ? .white : .gray)
                     }
                 }

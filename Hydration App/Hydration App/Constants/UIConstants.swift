@@ -24,4 +24,9 @@ enum UIConstants {
     
     static let listSectionSpacing: CGFloat = 80
     static let separatorLeadingOffset: CGFloat = -20
+    
+    static let chartFrameHeight: CGFloat = 300
+    static let chartHorizontalPadding: CGFloat = 10
+    static let chartDaySquareWidth: CGFloat = 5
+    static let chartDaySquareHeight: CGFloat = 5
 }

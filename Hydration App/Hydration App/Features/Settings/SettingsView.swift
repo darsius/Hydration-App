@@ -19,7 +19,7 @@ struct SettingsView: View {
                 List {
                     Section("") {
                         NavigationLink(destination: UnitsView(viewModel: UnitsViewModel(selectedUnit: viewModel.unit))) {
-                                SettingsRowView(title: "Units", value:  viewModel.unit.rawValue)
+                                SettingsRowView(title: "Units", value: viewModel.unit.rawValue)
                         }
                         
                         NavigationLink(destination: HydrationInputView(
