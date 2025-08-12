@@ -8,34 +8,28 @@
 import Foundation
 import SwiftData
 
-
+@MainActor
 class TodayViewModel: ObservableObject {
     private let userDefaults = UserDefaults.standard
     private let dataSource: ChartDayDataSource
     
     @Published var dailyGoal: Int {
         didSet {
-            Task { @MainActor in
-                saveCurrentDay()
-            }
+            saveCurrentDay()
         }
     }
     
     @Published var currentAmount: Int {
         didSet {
             userDefaults.setValue(currentAmount, forKey: UserDefaultsKeys.currentAmount)
-            Task { @MainActor in
-                saveCurrentDay()
-            }
+            saveCurrentDay()
         }
     }
     
     @Published var unit: UnitType {
         didSet {
             userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
-            Task { @MainActor in
-                saveCurrentDay()
-            }
+            saveCurrentDay()
         }
     }
     
@@ -44,10 +38,7 @@ class TodayViewModel: ObservableObject {
     @Published var container3: Int
     
     init(dataSource: ChartDayDataSource) {
-//                Self.clearUserDefaults()
-        
         Self.setDefaultValues()
-        
         
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
         currentAmount = userDefaults.integer(forKey: UserDefaultsKeys.currentAmount)
@@ -92,7 +83,7 @@ class TodayViewModel: ObservableObject {
               newUnit != oldUnit else {
             return
         }
-
+        
         currentAmount = Converter.convert(amount: currentAmount, from: oldUnit, to: newUnit)
         
         Converter.convertAll(
@@ -114,7 +105,7 @@ class TodayViewModel: ObservableObject {
         unit = newUnit
     }
     
-    @MainActor func saveCurrentDay() {
+    private func saveCurrentDay() {
         guard let context = ContextManager.shared.container?.mainContext else { return }
         
         let todayDate = Date().startOfDay

@@ -56,7 +56,7 @@ class HistoryViewModel: ObservableObject {
     @objc func unitChanged(_ notification: Notification?) {
         let newUnit = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
 
-        Task { @MainActor in
+        Task {
             dataSource.updateUnitForAllChartDays(to: newUnit)
             let hydrationDays = dataSource.fetchChartDays()
             chartDays = mapHydrationDaysToChartDays(hydrationDays)
@@ -79,6 +79,7 @@ class HistoryViewModel: ObservableObject {
     
     private func mapHydrationDaysToChartDays(_ days: [HydrationDay]) -> [ChartDay] {
         let emptyDays = generateEmptyChartDays()
+        
         return emptyDays.map { emptyDay in
             if let existingDay = days.first(where: { $0.date.startOfDay == emptyDay.date.startOfDay }) {
                 
