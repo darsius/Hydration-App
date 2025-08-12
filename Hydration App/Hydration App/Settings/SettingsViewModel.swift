@@ -11,6 +11,7 @@ import SwiftUICore
 
 class SettingsViewModel: ObservableObject {
     private let userDefaults = UserDefaults.standard
+    
     @Published var unit: UnitType {
         didSet {
             convertAll(from: oldValue, to: unit)
@@ -45,10 +46,5 @@ class SettingsViewModel: ObservableObject {
         userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
         userDefaults.set(container3, forKey: UserDefaultsKeys.container3)
         userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
-    }
-    
-    private func saveUnit() {
-        userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
-        NotificationCenter.default.post(name: .unitDidChange, object: nil)
     }
 }
