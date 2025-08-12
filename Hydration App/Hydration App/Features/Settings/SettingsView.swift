@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @StateObject var viewModel: SettingsViewModel // Nu isi are sensul daca nu face altceva (save, post notif)
+    @StateObject var viewModel: SettingsViewModel
     
     var body: some View {
         NavigationStack {
@@ -18,8 +18,7 @@ struct SettingsView: View {
                 CustomDividerView()
                 List {
                     Section("") {
-                        NavigationLink(destination: UnitsView(
-                            selectedUnit: $viewModel.unit)) {
+                        NavigationLink(destination: UnitsView(viewModel: UnitsViewModel(selectedUnit: viewModel.unit))) {
                                 SettingsRowView(title: "Units", value:  viewModel.unit.rawValue)
                         }
                         

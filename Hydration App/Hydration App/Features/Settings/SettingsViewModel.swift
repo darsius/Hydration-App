@@ -12,11 +12,7 @@ import SwiftUICore
 class SettingsViewModel: ObservableObject {
     private let userDefaults = UserDefaults.standard
     
-    @Published var unit: UnitType {
-        didSet {
-            convertAll(from: oldValue, to: unit)
-        }
-    }
+    @Published var unit: UnitType
     @Published var dailyGoal: Int
     @Published var container1: Int
     @Published var container2: Int
@@ -28,11 +24,16 @@ class SettingsViewModel: ObservableObject {
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
     }
     
-    private func convertAll(from oldUnit: UnitType, to newUnit: UnitType) {
-        guard oldUnit != newUnit else { return }
-        
+    @objc func unitChanged(_ notification: Notification) {
+        let oldUnit = unit
+        guard let newUnitRaw = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit),
+              let newUnit = UnitType(rawValue: newUnitRaw),
+              newUnit != oldUnit else {
+            return
+        }
         Converter.convertAll(
             dailyGoal: &dailyGoal,
             container1: &container1,
@@ -45,6 +46,8 @@ class SettingsViewModel: ObservableObject {
         userDefaults.set(container1, forKey: UserDefaultsKeys.container1)
         userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
         userDefaults.set(container3, forKey: UserDefaultsKeys.container3)
-        userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
+        userDefaults.set(newUnit.rawValue, forKey: UserDefaultsKeys.unit)
+        
+        unit = newUnit
     }
 }
