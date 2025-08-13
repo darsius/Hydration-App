@@ -10,8 +10,10 @@ import SwiftData
 
 @MainActor
 class TodayViewModel: ObservableObject {
-    private let userDefaults = UserDefaults.standard
-    private let dataSource: ChartDayDataSource
+    var goalPrecentage: Double {
+        guard dailyGoal > 0 else { return 0 }
+        return Double(currentAmount) / Double(dailyGoal) * 100
+    }
     
     @Published var dailyGoal: Int {
         didSet {
@@ -36,6 +38,9 @@ class TodayViewModel: ObservableObject {
     @Published var container1: Int
     @Published var container2: Int
     @Published var container3: Int
+    
+    private let userDefaults = UserDefaults.standard
+    private let dataSource: ChartDayDataSource
     
     init(dataSource: ChartDayDataSource) {
 //        Self.clearUserDefaults()
@@ -106,7 +111,13 @@ class TodayViewModel: ObservableObject {
         unit = newUnit
     }
     
-    private func saveCurrentDay() {
+    func addAmount(amount: Int) {
+        currentAmount += amount
+    }
+}
+
+private extension TodayViewModel {
+    func saveCurrentDay() {
         guard let context = ContextManager.shared.container?.mainContext else { return }
         
         let todayDate = Date().startOfDay
@@ -135,7 +146,7 @@ class TodayViewModel: ObservableObject {
         }
     }
     
-    private func saveToUserDefaults(
+    func saveToUserDefaults(
         currentAmount: Int,
         dailyGoal: Int,
         container1: Int,
@@ -151,7 +162,7 @@ class TodayViewModel: ObservableObject {
         userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
     }
     
-    private static func setDefaultValues() {
+    static func setDefaultValues() {
         let defaults: [String: Any] = [
             UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
             UserDefaultsKeys.currentAmount: Defaults.currentAmount,
@@ -161,15 +172,6 @@ class TodayViewModel: ObservableObject {
             UserDefaultsKeys.unit: UnitType.ml.rawValue
         ]
         UserDefaults.standard.register(defaults: defaults)
-    }
-    
-    func addAmount(amount: Int) {
-        currentAmount += amount
-    }
-    
-    var goalPrecentage: Double {
-        guard dailyGoal > 0 else { return 0 }
-        return Double(currentAmount) / Double(dailyGoal) * 100
     }
     
     static func clearUserDefaults() {

@@ -8,10 +8,10 @@
 import Foundation
 
 class HydrationInputViewModel: ObservableObject {
-    private let inputType: HydrationType
-    
     @Published var initialValue: Int
     @Published var unit: UnitType
+    
+    private let inputType: HydrationType
     
     init(initialValue: Int, inputType: HydrationType, unit: UnitType) {
         self.initialValue = initialValue

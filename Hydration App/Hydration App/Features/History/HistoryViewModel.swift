@@ -9,21 +9,23 @@ import Foundation
 
 @MainActor
 class HistoryViewModel: ObservableObject {
-    @Published var chartDays: [ChartDay] = []
-    private let dataSource: ChartDayDataSource
-    private let chartDayGenerator: ChartDayGenerator
-    private var hasGeneratedInitialDays = false
     var hasOnlyEmptyDays = true
     
     var maxDailyGoal: Int {
         chartDays.map { $0.currentAmount }.max() ?? Defaults.dailyGoal
     }
     
+    @Published var chartDays: [ChartDay] = []
+    
+    private let dataSource: ChartDayDataSource
+    private let chartDayGenerator: ChartDayGenerator
+    private var hasGeneratedInitialDays = false
+    
     init(dataSource: ChartDayDataSource, chartDayGenerator: ChartDayGenerator) {
         self.dataSource = dataSource
         self.chartDayGenerator = chartDayGenerator
         
-//        deleteAllChartDays()
+        //        deleteAllChartDays()
         generateInitialChartDays(count: 2)
         
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
@@ -31,21 +33,23 @@ class HistoryViewModel: ObservableObject {
     
     @objc func unitChanged(_ notification: Notification?) {
         let newUnit = UserDefaults.standard.string(forKey: UserDefaultsKeys.unit) ?? "ml"
-
+        
         Task {
             dataSource.updateUnitForAllChartDays(to: newUnit)
             let hydrationDays = dataSource.fetchChartDays()
             chartDays = mapHydrationDaysToChartDays(hydrationDays)
         }
     }
-    
+}
+
+private extension HistoryViewModel {
     private func generateInitialChartDays(count: Int = 30) {
         var hydrationDays = dataSource.fetchChartDays()
         
         hydrationDays.forEach { day in
             print("\(day.dailyGoal), \(day.currentAmount), \(day.date)")
         }
-
+        
         if hydrationDays.isEmpty {
             for i in 1...count {
                 let day = chartDayGenerator.generateRandomHydrationDay(i)
