@@ -25,7 +25,7 @@ class HistoryViewModel: ObservableObject {
         self.dataSource = dataSource
         self.chartDayGenerator = chartDayGenerator
         
-        //        deleteAllChartDays()
+//                deleteAllChartDays()
         generateInitialChartDays(count: 2)
         
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
@@ -45,10 +45,6 @@ class HistoryViewModel: ObservableObject {
 private extension HistoryViewModel {
     private func generateInitialChartDays(count: Int = 30) {
         var hydrationDays = dataSource.fetchChartDays()
-        
-        hydrationDays.forEach { day in
-            print("\(day.dailyGoal), \(day.currentAmount), \(day.date)")
-        }
         
         if hydrationDays.isEmpty {
             for i in 1...count {
