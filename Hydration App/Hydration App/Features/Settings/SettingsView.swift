@@ -25,8 +25,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(
                                 initialValue: viewModel.dailyGoal,
-                                userDefaultsKey: UserDefaultsKeys.dailyGoal,
-                                notificationName: .dailyGoalDidChange,
+                                inputType: .dailyGoal,
                                 unit: viewModel.unit),
                             viewType: .dailyGoal)) {
                                 SettingsRowView(title: "Daily Goal", value: "\(viewModel.dailyGoal) \(viewModel.unit)")
@@ -43,8 +42,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(
                                 initialValue: viewModel.container1,
-                                userDefaultsKey: UserDefaultsKeys.container1,
-                                notificationName: .container1DidChange,
+                                inputType: .container(1),
                                 unit: viewModel.unit),
                             viewType: .container(1))) {
                                 SettingsRowView(title: "Container 1", value: "\(viewModel.container1) \(viewModel.unit)")
@@ -54,8 +52,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(
                                 initialValue: viewModel.container2,
-                                userDefaultsKey: UserDefaultsKeys.container2,
-                                notificationName: .container2DidChange,
+                                inputType: .container(2),
                                 unit: viewModel.unit),
                             viewType: .container(2))) {
                                 SettingsRowView(title: "Container 2", value: "\(viewModel.container2) \(viewModel.unit)")
@@ -65,8 +62,7 @@ struct SettingsView: View {
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(
                                 initialValue: viewModel.container3,
-                                userDefaultsKey: UserDefaultsKeys.container3,
-                                notificationName: .container3DidChange,
+                                inputType: .container(3),
                                 unit: viewModel.unit),
                             viewType: .container(3))) {
                                 SettingsRowView(title: "Container 3", value: "\(viewModel.container3) \(viewModel.unit)")
