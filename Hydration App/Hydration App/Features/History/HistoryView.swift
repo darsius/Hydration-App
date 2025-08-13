@@ -8,10 +8,6 @@ struct HistoryView: View {
         chartDayGenerator: ChartDayGenerator())
     
     var body: some View {
-        let sortedChartDays = viewModel.chartDays.sorted { $0.date < $1.date }
-        let firstDate = sortedChartDays.first?.date.startOfDay ?? Date().startOfDay
-        let lastDate = sortedChartDays.last?.date.startOfDay ?? Date().startOfDay
-        
         NavigationStack {
             VStack(spacing: 0) {
                 CustomDividerView()
@@ -28,7 +24,7 @@ struct HistoryView: View {
                                 .font(.title2)
                                 .padding(.top, UIConstants.historyTextHorizontalPadding)
                         } else {
-                            chartView(firstDate, lastDate)
+                            chartView()
                                 .frame(height: UIConstants.chartFrameHeight)
                                 .padding(.horizontal, UIConstants.chartHorizontalPadding)
                         }
@@ -80,7 +76,7 @@ struct HistoryView: View {
         }
     }
     
-    func chartView(_ firstDate: Date, _ lastDate: Date) -> some View {
+    func chartView() -> some View {
         Chart(viewModel.chartDays, id: \.id) { chartDay in
             BarMark(
                 x: .value("Day", chartDay.date, unit: .day),
@@ -100,30 +96,31 @@ struct HistoryView: View {
         }
         .chartXAxis {
             AxisMarks(values: viewModel.chartDays.map { $0.date.startOfDay }) { value in
-                if let date = value.as(Date.self) {
-                    let isFirst = date.startOfDay == firstDate
-                    let isLast = date.startOfDay == lastDate
-                    
-                    AxisValueLabel() {
-                        Image(systemName: "square.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: UIConstants.chartDaySquareWidth, height: UIConstants.chartDaySquareHeight)
-                            .foregroundColor(isFirst || isLast ? .white : .gray)
-                    }
+                let isFirst = value.index == 0
+                let isLast = value.index == viewModel.chartDays.count - 1
+                
+                AxisValueLabel() {
+                    Image(systemName: "square.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIConstants.chartDaySquareWidth, height: UIConstants.chartDaySquareHeight)
+                        .foregroundColor(isFirst || isLast ? .white : .gray)
                 }
+                
             }
             
-            AxisMarks(values: [firstDate, lastDate]) { value in
-                if let date = value.as(Date.self) {
+            AxisMarks(values: viewModel.chartDays.map { $0.date.startOfDay }) { value in
+                if let date = value.as(Date.self),
+                   let index = viewModel.chartDays.firstIndex(where: { $0.date.startOfDay == date }),
+                   index == 0 || index == viewModel.chartDays.count - 1 {
                     AxisValueLabel(
-                        anchor: value.index == 1 ? .topTrailing : .topLeading
+                        anchor: value.index == 0 ? .topTrailing : .topLeading
                     ) {
                         Text(date.shortFormat)
                             .padding(.top, UIConstants.datePadding)
                             .font(.chartLegend)
                             .foregroundStyle(Color.white)
-                            .offset(x: value.index == 1 ? UIConstants.dateOffset : 0)
+                            .offset(x: value.index == 0 ? UIConstants.dateOffset : 0)
                     }
                 }
             }
