@@ -8,22 +8,20 @@
 import Foundation
 
 class HydrationInputViewModel: ObservableObject {
-    private let userDefaultsKey: String
-    private let notificationName: Notification.Name
+    private let inputType: HydrationType
     
     @Published var initialValue: Int
     @Published var unit: UnitType
     
-    init(initialValue: Int, userDefaultsKey: String, notificationName: Notification.Name, unit: UnitType) {
+    init(initialValue: Int, inputType: HydrationType, unit: UnitType) {
         self.initialValue = initialValue
-        self.userDefaultsKey = userDefaultsKey
-        self.notificationName = notificationName
+        self.inputType = inputType
         self.unit = unit
     }
     
     func saveValue(_ newValue: Int) {
         initialValue = newValue
-        UserDefaults.standard.set(newValue, forKey: userDefaultsKey)
-        NotificationCenter.default.post(name: notificationName, object: nil)
+        UserDefaults.standard.set(newValue, forKey: inputType.userDefaultsKey)
+        NotificationCenter.default.post(name: inputType.notificationName, object: nil)
     }
 }
