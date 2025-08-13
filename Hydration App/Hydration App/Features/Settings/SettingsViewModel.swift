@@ -25,6 +25,23 @@ class SettingsViewModel: ObservableObject {
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDailyGoal), name: .dailyGoalDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateContainer1), name: .container1DidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateContainer2), name: .container2DidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateContainer3), name: .container3DidChange, object: nil)
+    }
+    
+    @objc private func updateDailyGoal() {
+        dailyGoal = UserDefaults.standard.integer(forKey: UserDefaultsKeys.dailyGoal)
+    }
+    @objc private func updateContainer1() {
+        container1 = UserDefaults.standard.integer(forKey: UserDefaultsKeys.container1)
+    }
+    @objc private func updateContainer2() {
+        container2 = UserDefaults.standard.integer(forKey: UserDefaultsKeys.container2)
+    }
+    @objc private func updateContainer3() {
+        container3 = UserDefaults.standard.integer(forKey: UserDefaultsKeys.container3)
     }
     
     @objc func unitChanged(_ notification: Notification) {

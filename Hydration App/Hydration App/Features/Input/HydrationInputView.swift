@@ -13,8 +13,6 @@ struct HydrationInputView: View {
     
     @ObservedObject var viewModel : HydrationInputViewModel
     
-    @Binding var inputValue: Int
-    @Binding var unit: UnitType
     @State private var textFieldInput: Int = 0
     
     let viewType: HydrationViewType
@@ -49,13 +47,13 @@ struct HydrationInputView: View {
                                     .stroke(Color.appGreen, lineWidth: UIConstants.textFieldBorderWidth)
                             }
                         
-                        Text(unit.label)
+                        Text(viewModel.unit.label)
                             .font(.title)
                             .padding(.bottom, UIConstants.textBottomPadding)
                     }
                     .onAppear {
                         focus = true
-                        textFieldInput = inputValue
+                        textFieldInput = viewModel.initialValue
                     }
                     Spacer()
                 }
@@ -74,8 +72,8 @@ struct HydrationInputView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
-                    inputValue = textFieldInput
-                    viewModel.saveValue(inputValue)
+                    viewModel.initialValue = textFieldInput
+                    viewModel.saveValue(viewModel.initialValue)
                     dismiss()
                 }
             }
