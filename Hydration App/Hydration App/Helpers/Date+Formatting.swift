@@ -1,5 +1,5 @@
 //
-//  DateHelper.swift
+//  Date+Formatting.swift
 //  Hydration App
 //
 //  Created by Paraschiv, Darius on 05.08.2025.
