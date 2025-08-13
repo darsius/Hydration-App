@@ -20,13 +20,13 @@ struct HistoryView: View {
                         Text("Here you can see your hydration data for the last 30 days")
                             .multilineTextAlignment(.center)
                             .font(.regularText)
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, UIConstants.historyTextHorizontalPadding)
                         
                         if viewModel.chartDays.isEmpty {
                             Text("No data from the last few days")
                                 .multilineTextAlignment(.center)
                                 .font(.title2)
-                                .padding(.top, 20)
+                                .padding(.top, UIConstants.historyTextHorizontalPadding)
                         } else {
                             makeChart(firstDate, lastDate)
                                 .frame(height: UIConstants.chartFrameHeight)
@@ -40,15 +40,15 @@ struct HistoryView: View {
                                 }
                             }
                         }
-                        .padding(.top, 2)
-                        .padding(.horizontal, 12)
+                        .padding(.top, UIConstants.containerSpacing)
+                        .padding(.horizontal, UIConstants.historyListRowHorizontalPadding)
                     }
                     .onAppear {
                         viewModel.unitChanged(nil)
                     }
                     .navigationBarTitle("History", displayMode: .inline)
                 }
-                .padding(.top, 20)
+                .padding(.top, UIConstants.scrollViewTopPadding)
             }
         }
     }
@@ -56,7 +56,7 @@ struct HistoryView: View {
     func makeListRow(chartDay: ChartDay) -> some View {
         VStack(alignment: .leading) {
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: UIConstants.listRowVerticalSpacing) {
                     Text(chartDay.date.longFormat)
                         .font(.bodyText)
                         .foregroundStyle(.gray)
@@ -73,9 +73,9 @@ struct HistoryView: View {
                 Image(.checkmarkGoal)
                     .opacity((chartDay.currentAmount >= chartDay.dailyGoal) && chartDay.dailyGoal != 0 ? 1 : 0)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, UIConstants.historyListRowHorizontalPadding)
             Divider()
-                .frame(height: 2)
+                .frame(height: UIConstants.dividerHeight)
                 .background(Color.lightGray)
         }
     }
@@ -87,7 +87,7 @@ struct HistoryView: View {
                 x: .value("Day", chartDay.date, unit: .day),
                 yStart: .value("Zero", 0),
                 yEnd: .value("Goal", chartDay.dailyGoal),
-                width: .ratio(0.4)
+                width: .ratio(UIConstants.barMarWidthRatio)
             )
             .foregroundStyle(Color.lightGray)
             
@@ -95,7 +95,7 @@ struct HistoryView: View {
                 x: .value("Day", chartDay.date, unit: .day),
                 yStart: .value("Zero", 0),
                 yEnd: .value("Amount", chartDay.currentAmount),
-                width: .ratio(0.4)
+                width: .ratio(UIConstants.barMarWidthRatio)
             )
             .foregroundStyle(chartDay.currentAmount < chartDay.dailyGoal ? Color.appYellow : Color.appGreen)
         }
@@ -121,10 +121,10 @@ struct HistoryView: View {
                         anchor: value.index == 1 ? .topTrailing : .topLeading
                     ) {
                         Text(date.shortFormat)
-                            .padding(.top, 10)
+                            .padding(.top, UIConstants.datePadding)
                             .font(.chartLegend)
                             .foregroundStyle(Color.white)
-                            .offset(x: value.index == 1 ? 15 : 0)
+                            .offset(x: value.index == 1 ? UIConstants.dateOffset : 0)
                     }
                 }
             }
