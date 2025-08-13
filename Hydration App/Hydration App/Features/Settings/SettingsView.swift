@@ -34,7 +34,7 @@ struct SettingsView: View {
                     .alignmentGuide(.listRowSeparatorLeading) { _ in
                         UIConstants.separatorLeadingOffset
                     }
-                    .listRowBackground(Color.lightGray)
+                    .listRowBackground(Color(UIColor.systemGray3))
                     .listRowSeparatorTint(.white)
                     .listSectionSpacing(UIConstants.listSectionSpacing)
                     
@@ -47,7 +47,7 @@ struct SettingsView: View {
                             viewType: .container(1))) {
                                 SettingsRowView(title: "Container 1", value: "\(viewModel.container1) \(viewModel.unit)")
                         }
-                        .listRowBackground(Color.lightGray)
+                        .listRowBackground(Color(UIColor.systemGray3))
                         
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(
@@ -57,7 +57,7 @@ struct SettingsView: View {
                             viewType: .container(2))) {
                                 SettingsRowView(title: "Container 2", value: "\(viewModel.container2) \(viewModel.unit)")
                         }
-                        .listRowBackground(Color.lightGray)
+                        .listRowBackground(Color(UIColor.systemGray3))
                         
                         NavigationLink(destination: HydrationInputView(
                             viewModel: HydrationInputViewModel(
@@ -67,7 +67,7 @@ struct SettingsView: View {
                             viewType: .container(3))) {
                                 SettingsRowView(title: "Container 3", value: "\(viewModel.container3) \(viewModel.unit)")
                         }
-                        .listRowBackground(Color.lightGray)
+                        .listRowBackground(Color(UIColor.systemGray3))
                         
                     }
                     header: {

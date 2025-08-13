@@ -59,7 +59,7 @@ struct HistoryView: View {
                     Text("\(chartDay.currentAmount) \(chartDay.unit)")
                         .font(.regularText)
                     Text("\(chartDay.goalPrecentage) % ")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color(UIColor.label))
                         .font(.bodyBold) +
                     Text("out of \(chartDay.dailyGoal) \(chartDay.unit) Goal")
                         .foregroundStyle(.gray)
@@ -72,7 +72,7 @@ struct HistoryView: View {
             .padding(.horizontal, UIConstants.historyListRowHorizontalPadding)
             Divider()
                 .frame(height: UIConstants.dividerHeight)
-                .background(Color.lightGray)
+                .background(Color(UIColor.systemGray4))
         }
     }
     
@@ -104,7 +104,7 @@ struct HistoryView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: UIConstants.chartDaySquareWidth, height: UIConstants.chartDaySquareHeight)
-                        .foregroundColor(isFirst || isLast ? .white : .gray)
+                        .foregroundColor(isFirst || isLast ? Color(UIColor.label) : .gray)
                 }
                 
             }
@@ -119,7 +119,7 @@ struct HistoryView: View {
                         Text(date.shortFormat)
                             .padding(.top, UIConstants.datePadding)
                             .font(.chartLegend)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(Color(UIColor.label))
                             .offset(x: value.index == 0 ? UIConstants.dateOffset : 0)
                     }
                 }
