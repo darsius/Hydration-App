@@ -10,13 +10,13 @@ import SwiftUICore
 
 
 class SettingsViewModel: ObservableObject {
-    private let userDefaults = UserDefaults.standard
-    
     @Published var unit: UnitType
     @Published var dailyGoal: Int
     @Published var container1: Int
     @Published var container2: Int
     @Published var container3: Int
+    
+    private let userDefaults = UserDefaults.standard
     
     init() {
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
