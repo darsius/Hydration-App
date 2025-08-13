@@ -1,5 +1,5 @@
 //
-//  NotificationNames.swift
+//  Notification+Names.swift
 //  Hydration App
 //
 //  Created by Paraschiv, Darius on 11.08.2025.
