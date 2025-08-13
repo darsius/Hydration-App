@@ -38,6 +38,7 @@ class TodayViewModel: ObservableObject {
     @Published var container3: Int
     
     init(dataSource: ChartDayDataSource) {
+//        Self.clearUserDefaults()
         Self.setDefaultValues()
         
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
