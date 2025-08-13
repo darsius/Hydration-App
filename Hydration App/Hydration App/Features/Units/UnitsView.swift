@@ -31,7 +31,7 @@ struct UnitsView: View {
                     }
                 }
                 .listRowSeparatorTint(.white)
-                .listRowBackground(Color.lightGray)
+                .listRowBackground(Color(UIColor.systemGray3))
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     UIConstants.separatorLeadingOffset
                 }

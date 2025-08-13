@@ -25,6 +25,7 @@ struct TodayView: View {
                             
                             Text("\(viewModel.currentAmount) \(viewModel.unit.rawValue)")
                                 .padding(.bottom, UIConstants.currentGlassVolume)
+                                .foregroundStyle(.white)
                                 .font(.bodyBold)
                         }
                         

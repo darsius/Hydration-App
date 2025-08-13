@@ -41,6 +41,7 @@ struct HydrationInputView: View {
                             .keyboardType(.numberPad)
                             .focused($focus)
                             .font(.largeTitle)
+                            .foregroundStyle(.white)
                             .frame(width: UIConstants.textFieldWidth, height:UIConstants.textFieldHeight)
                             .overlay {
                                 RoundedRectangle(cornerRadius: UIConstants.textFieldCornerRadius)
@@ -49,6 +50,7 @@ struct HydrationInputView: View {
                         
                         Text(viewModel.unit.label)
                             .font(.title)
+                            .foregroundStyle(.white)
                             .padding(.bottom, UIConstants.textBottomPadding)
                     }
                     .onAppear {
