@@ -20,7 +20,6 @@ class ChartDayDataSource {
 extension ChartDayDataSource {
     func insert(_ entity: HydrationDay) {
         self.container?.mainContext.insert(entity)
-        try? self.container?.mainContext.save()
     }
     
     func fetchChartDays() -> [HydrationDay] {
@@ -34,7 +33,6 @@ extension ChartDayDataSource {
         let fetchDescriptor = FetchDescriptor<HydrationDay>()
         if let chartDays = try? self.container?.mainContext.fetch(fetchDescriptor) {
             chartDays.forEach { self.container?.mainContext.delete($0) }
-            try? self.container?.mainContext.save()
         }
     }
     
@@ -47,7 +45,6 @@ extension ChartDayDataSource {
                     day.currentAmount = Converter.convert(amount: day.currentAmount, from: UnitType(rawValue: day.unit)!, to: UnitType(rawValue: newUnit)!)
                     day.unit = newUnit
                 }
-                try container?.mainContext.save()
             }
         } catch {
             print("Failed to update units: \(error)")

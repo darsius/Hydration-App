@@ -41,6 +41,10 @@ class HistoryViewModel: ObservableObject {
     
     private func generateInitialChartDays(count: Int = 30) {
         var hydrationDays = dataSource.fetchChartDays()
+        
+        hydrationDays.forEach { day in
+            print("\(day.dailyGoal), \(day.currentAmount), \(day.date)")
+        }
 
         if hydrationDays.isEmpty {
             for i in 1...count {
