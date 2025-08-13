@@ -30,11 +30,18 @@ extension ChartDayDataSource {
     }
     
     func deleteAllChartDays() {
+        guard let context = container?.mainContext else { return }
         let fetchDescriptor = FetchDescriptor<HydrationDay>()
-        if let chartDays = try? self.container?.mainContext.fetch(fetchDescriptor) {
-            chartDays.forEach { self.container?.mainContext.delete($0) }
+        
+        do {
+            let chartDays = try context.fetch(fetchDescriptor)
+            chartDays.forEach { context.delete($0) }
+            try context.save()
+        } catch {
+            print("Failed to delete all chart days: \(error)")
         }
     }
+
     
     func updateUnitForAllChartDays(to newUnit: String) {
         let fetchDescriptor = FetchDescriptor<HydrationDay>()

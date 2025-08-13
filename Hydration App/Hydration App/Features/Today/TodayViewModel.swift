@@ -118,31 +118,22 @@ class TodayViewModel: ObservableObject {
 
 private extension TodayViewModel {
     func saveCurrentDay() {
-        guard let context = ContextManager.shared.container?.mainContext else { return }
-        
         let todayDate = Date().startOfDay
-        let fetchDescriptor = FetchDescriptor<HydrationDay>(predicate: #Predicate { $0.date == todayDate }
-        )
-        do {
-            let results = try context.fetch(fetchDescriptor)
-            
-            if let existingDay = results.first {
-                if let model = context.registeredModel(for: existingDay.persistentModelID) as HydrationDay? {
-                    model.dailyGoal = dailyGoal
-                    model.currentAmount = currentAmount
-                    model.unit = unit.rawValue
-                }
-            } else {
-                let newDay = HydrationDay(
-                    dailyGoal: dailyGoal,
-                    currentAmount: currentAmount,
-                    date: todayDate,
-                    unit: unit.rawValue
-                )
-                context.insert(newDay)
-            }
-        } catch {
-            print("error\(error.localizedDescription)")
+        
+        let existingDay = dataSource.fetchChartDays().first { $0.date == todayDate }
+        
+        if let existingDay {
+            existingDay.dailyGoal = dailyGoal
+            existingDay.currentAmount = currentAmount
+            existingDay.unit = unit.rawValue
+        } else {
+            let newDay = HydrationDay(
+                dailyGoal: dailyGoal,
+                currentAmount: currentAmount,
+                date: todayDate,
+                unit: unit.rawValue
+            )
+            dataSource.insert(newDay)
         }
     }
     
