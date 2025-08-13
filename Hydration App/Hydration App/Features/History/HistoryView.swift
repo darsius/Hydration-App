@@ -28,7 +28,7 @@ struct HistoryView: View {
                                 .font(.title2)
                                 .padding(.top, UIConstants.historyTextHorizontalPadding)
                         } else {
-                            makeChart(firstDate, lastDate)
+                            chartView(firstDate, lastDate)
                                 .frame(height: UIConstants.chartFrameHeight)
                                 .padding(.horizontal, UIConstants.chartHorizontalPadding)
                         }
@@ -36,7 +36,7 @@ struct HistoryView: View {
                         VStack {
                             ForEach(viewModel.chartDays, id: \.id) { chartDay in
                                 if chartDay.dailyGoal > 0 {
-                                    makeListRow(chartDay: chartDay)
+                                    listRowView(chartDay: chartDay)
                                 }
                             }
                         }
@@ -53,7 +53,7 @@ struct HistoryView: View {
         }
     }
     
-    func makeListRow(chartDay: ChartDay) -> some View {
+    func listRowView(chartDay: ChartDay) -> some View {
         VStack(alignment: .leading) {
             HStack {
                 VStack(alignment: .leading, spacing: UIConstants.listRowVerticalSpacing) {
@@ -80,8 +80,7 @@ struct HistoryView: View {
         }
     }
     
-    func makeChart(_ firstDate: Date, _ lastDate: Date) -> some View {
-        
+    func chartView(_ firstDate: Date, _ lastDate: Date) -> some View {
         Chart(viewModel.chartDays, id: \.id) { chartDay in
             BarMark(
                 x: .value("Day", chartDay.date, unit: .day),
