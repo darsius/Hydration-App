@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct TodayView: View {
-    @StateObject private var viewModel = TodayViewModel(
-        dataSource: ChartDayDataSource(container: ContextManager.shared.container))
+    @StateObject var viewModel: TodayViewModel
+    @ObservedObject var coordinator: AppCoordinator
     
     var body: some View {
         NavigationStack {
@@ -55,7 +55,7 @@ struct TodayView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(
-                            destination: SettingsView(viewModel: SettingsViewModel())) {
+                            destination: coordinator.makeSettingsView()) {
                                 Image(.settings)
                             }
                     }
@@ -65,8 +65,4 @@ struct TodayView: View {
             }
         }
     }
-}
-
-#Preview {
-    TodayView()
 }

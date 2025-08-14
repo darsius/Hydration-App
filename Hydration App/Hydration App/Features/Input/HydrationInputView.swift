@@ -10,9 +10,7 @@ import SwiftUI
 struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
-    
-    @ObservedObject var viewModel : HydrationInputViewModel
-    
+    @ObservedObject var viewModel: HydrationInputViewModel
     @State private var textFieldInput: Int = 0
     
     let viewType: HydrationViewType

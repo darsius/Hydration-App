@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UnitsView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var viewModel: UnitsViewModel
+    @StateObject var viewModel: UnitsViewModel
     
     var body: some View {
         VStack {
