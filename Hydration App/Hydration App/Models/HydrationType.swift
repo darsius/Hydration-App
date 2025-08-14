@@ -45,3 +45,14 @@ enum HydrationType {
         }
     }
 }
+
+extension HydrationType {
+    var hydrationViewType: HydrationViewType {
+        switch self {
+        case .dailyGoal:
+            return .dailyGoal
+        case .container(let index):
+            return .container(index)
+        }
+    }
+}

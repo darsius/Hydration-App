@@ -11,6 +11,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
     @StateObject var viewModel: SettingsViewModel
+    var coordinator: AppCoordinator
     
     var body: some View {
         NavigationStack {
@@ -18,16 +19,14 @@ struct SettingsView: View {
                 CustomDividerView()
                 List {
                     Section("") {
-                        NavigationLink(destination: UnitsView(viewModel: UnitsViewModel(selectedUnit: viewModel.unit))) {
+                        NavigationLink(destination: coordinator.makeUnitsView(unit: viewModel.unit)) {
                                 SettingsRowView(title: "Units", value: viewModel.unit.rawValue)
                         }
                         
-                        NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(
-                                initialValue: viewModel.dailyGoal,
-                                inputType: .dailyGoal,
-                                unit: viewModel.unit),
-                            viewType: .dailyGoal)) {
+                        NavigationLink(destination: coordinator.makeInputView(
+                            initialValue: viewModel.dailyGoal,
+                            inputType: .dailyGoal,
+                            unit: viewModel.unit)) {
                                 SettingsRowView(title: "Daily Goal", value: "\(viewModel.dailyGoal) \(viewModel.unit)")
                         }
                     }
@@ -39,32 +38,26 @@ struct SettingsView: View {
                     .listSectionSpacing(UIConstants.listSectionSpacing)
                     
                     Section {
-                        NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(
-                                initialValue: viewModel.container1,
-                                inputType: .container(1),
-                                unit: viewModel.unit),
-                            viewType: .container(1))) {
+                        NavigationLink(destination: coordinator.makeInputView(
+                            initialValue: viewModel.container1,
+                            inputType: .container(1),
+                            unit: viewModel.unit)) {
                                 SettingsRowView(title: "Container 1", value: "\(viewModel.container1) \(viewModel.unit)")
                         }
                         .listRowBackground(Color(UIColor.systemGray3))
                         
-                        NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(
-                                initialValue: viewModel.container2,
-                                inputType: .container(2),
-                                unit: viewModel.unit),
-                            viewType: .container(2))) {
+                        NavigationLink(destination: coordinator.makeInputView(
+                            initialValue: viewModel.container2,
+                            inputType: .container(2),
+                            unit: viewModel.unit)) {
                                 SettingsRowView(title: "Container 2", value: "\(viewModel.container2) \(viewModel.unit)")
                         }
                         .listRowBackground(Color(UIColor.systemGray3))
                         
-                        NavigationLink(destination: HydrationInputView(
-                            viewModel: HydrationInputViewModel(
-                                initialValue: viewModel.container3,
-                                inputType: .container(3),
-                                unit: viewModel.unit),
-                            viewType: .container(3))) {
+                        NavigationLink(destination: coordinator.makeInputView(
+                            initialValue: viewModel.container3,
+                            inputType: .container(3),
+                            unit: viewModel.unit)) {
                                 SettingsRowView(title: "Container 3", value: "\(viewModel.container3) \(viewModel.unit)")
                         }
                         .listRowBackground(Color(UIColor.systemGray3))

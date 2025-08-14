@@ -3,9 +3,7 @@ import Charts
 import SwiftData
 
 struct HistoryView: View {
-    @StateObject var viewModel = HistoryViewModel(
-        dataSource: ChartDayDataSource(container: ContextManager.shared.container),
-        chartDayGenerator: ChartDayGenerator())
+    @StateObject var viewModel: HistoryViewModel
     
     var body: some View {
         NavigationStack {
@@ -84,7 +82,7 @@ struct HistoryView: View {
                 yEnd: .value("Goal", chartDay.dailyGoal),
                 width: .ratio(UIConstants.barMarWidthRatio)
             )
-            .foregroundStyle(Color.lightGray)
+            .foregroundStyle(Color(UIColor.systemGray4))
             
             BarMark(
                 x: .value("Day", chartDay.date, unit: .day),
@@ -106,7 +104,6 @@ struct HistoryView: View {
                         .frame(width: UIConstants.chartDaySquareWidth, height: UIConstants.chartDaySquareHeight)
                         .foregroundColor(isFirst || isLast ? Color(UIColor.label) : .gray)
                 }
-                
             }
             
             AxisMarks(values: viewModel.chartDays.map { $0.date.startOfDay }) { value in
@@ -138,8 +135,4 @@ struct HistoryView: View {
             }
         }
     }
-}
-
-#Preview {
-    HistoryView()
 }
