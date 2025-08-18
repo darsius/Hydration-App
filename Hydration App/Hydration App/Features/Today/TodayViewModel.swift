@@ -142,13 +142,15 @@ private extension TodayViewModel {
             existingDay.currentAmount = currentAmount
             existingDay.unit = unit.rawValue
         } else {
-            let newDay = HydrationDay(
-                dailyGoal: dailyGoal,
-                currentAmount: currentAmount,
-                date: todayDate,
-                unit: unit.rawValue
-            )
-            dataSource.insert(newDay)
+            if currentAmount > 0 {
+                let newDay = HydrationDay(
+                    dailyGoal: dailyGoal,
+                    currentAmount: currentAmount,
+                    date: todayDate,
+                    unit: unit.rawValue
+                )
+                dataSource.insert(newDay)
+            }
         }
     }
     
