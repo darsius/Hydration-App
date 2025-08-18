@@ -14,15 +14,12 @@ enum HydrationType {
     var userDefaultsKey: String {
         switch self {
         case .dailyGoal:
-            return UserDefaultsKeys.dailyGoal
+            UserDefaultsKeys.dailyGoal
         case .container(let index):
             switch index {
-            case 1:
-                return UserDefaultsKeys.container1
-            case 2:
-                return UserDefaultsKeys.container2
-            case 3:
-                return UserDefaultsKeys.container3
+            case 1: UserDefaultsKeys.container1
+            case 2: UserDefaultsKeys.container2
+            case 3: UserDefaultsKeys.container3
             default: fatalError("Invalid container index")
             }
         }
@@ -31,15 +28,12 @@ enum HydrationType {
     var notificationName: Notification.Name {
         switch self {
         case .dailyGoal:
-            return .dailyGoalDidChange
+            .dailyGoalDidChange
         case .container(let index):
             switch index {
-            case 1:
-                return .container1DidChange
-            case 2:
-                return .container2DidChange
-            case 3:
-                return .container3DidChange
+            case 1: .container1DidChange
+            case 2: .container2DidChange
+            case 3: .container3DidChange
             default: fatalError("Invalid container index")
             }
         }
