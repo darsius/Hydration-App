@@ -37,9 +37,6 @@ struct HistoryView: View {
                         .padding(.top, UIConstants.containerSpacing)
                         .padding(.horizontal, UIConstants.historyListRowHorizontalPadding)
                     }
-                    .onAppear {
-                        viewModel.unitChanged(nil)
-                    }
                     .navigationBarTitle("History", displayMode: .inline)
                 }
                 .padding(.top, UIConstants.scrollViewTopPadding)
