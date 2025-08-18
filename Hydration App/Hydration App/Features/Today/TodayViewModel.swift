@@ -43,7 +43,7 @@ class TodayViewModel: ObservableObject {
     private let dataSource: ChartDayDataSource
     
     init(dataSource: ChartDayDataSource) {
-//        Self.clearUserDefaults()
+        //        Self.clearUserDefaults()
         Self.setDefaultValues()
         
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
@@ -54,6 +54,13 @@ class TodayViewModel: ObservableObject {
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
         
         self.dataSource = dataSource
+        
+        if isNewDay() {
+            currentAmount = 0
+            userDefaults.set(0, forKey: UserDefaultsKeys.currentAmount)
+        }
+        
+        userDefaults.set(Date().startOfDay, forKey: UserDefaultsKeys.lastDay)
         
         NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(dailyGoalChanged(_:)), name: .dailyGoalDidChange, object: nil)
@@ -117,6 +124,14 @@ class TodayViewModel: ObservableObject {
 }
 
 private extension TodayViewModel {
+    func isNewDay() -> Bool {
+        let today = Date().startOfDay
+        if let lastDay = userDefaults.object(forKey: UserDefaultsKeys.lastDay) as? Date {
+            return !Calendar.current.isDate(today, inSameDayAs: lastDay)
+        }
+        return true
+    }
+    
     func saveCurrentDay() {
         let todayDate = Date().startOfDay
         
@@ -172,5 +187,6 @@ private extension TodayViewModel {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container2)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container3)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.unit)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.lastDay)
     }
 }

@@ -14,6 +14,7 @@ enum UserDefaultsKeys {
     static let container2 = "container2"
     static let container3 = "container3"
     static let unit = "unit"
+    static let lastDay = "lastDay"
 }
 
 enum Defaults {
