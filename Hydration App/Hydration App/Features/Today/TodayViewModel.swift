@@ -23,14 +23,12 @@ class TodayViewModel: ObservableObject {
     
     @Published var currentAmount: Int {
         didSet {
-            userDefaults.setValue(currentAmount, forKey: UserDefaultsKeys.currentAmount)
             saveCurrentDay()
         }
     }
     
     @Published var unit: UnitType {
         didSet {
-            userDefaults.set(unit.rawValue, forKey: UserDefaultsKeys.unit)
             saveCurrentDay()
         }
     }
@@ -45,28 +43,21 @@ class TodayViewModel: ObservableObject {
     init(dataSource: ChartDayDataSource) {
         //        Self.clearUserDefaults()
         Self.setDefaultValues()
+        self.dataSource = dataSource
         
+        let todayDate = Date().startOfDay
+        let existingDay = dataSource.fetchChartDays().first { $0.date == todayDate }
+        
+        currentAmount = existingDay?.currentAmount ?? 0
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
-        currentAmount = userDefaults.integer(forKey: UserDefaultsKeys.currentAmount)
         container1 = userDefaults.integer(forKey: UserDefaultsKeys.container1)
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
         
-        self.dataSource = dataSource
-        
-        if isNewDay() {
-            currentAmount = 0
-            userDefaults.set(0, forKey: UserDefaultsKeys.currentAmount)
-        }
-        
         userDefaults.set(Date().startOfDay, forKey: UserDefaultsKeys.lastDay)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(dailyGoalChanged(_:)), name: .dailyGoalDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(container1Changed(_:)), name: .container1DidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(container2Changed(_:)), name: .container2DidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(container3Changed(_:)), name: .container3DidChange, object: nil)
+        addObservers()
     }
     
     @objc func container3Changed(_ notification: Notification) {
@@ -124,6 +115,7 @@ class TodayViewModel: ObservableObject {
 }
 
 private extension TodayViewModel {
+    
     func isNewDay() -> Bool {
         let today = Date().startOfDay
         if let lastDay = userDefaults.object(forKey: UserDefaultsKeys.lastDay) as? Date {
@@ -162,7 +154,6 @@ private extension TodayViewModel {
         container3: Int,
         unit: UnitType
     ) {
-        userDefaults.set(currentAmount, forKey: UserDefaultsKeys.currentAmount)
         userDefaults.set(dailyGoal, forKey: UserDefaultsKeys.dailyGoal)
         userDefaults.set(container1, forKey: UserDefaultsKeys.container1)
         userDefaults.set(container2, forKey: UserDefaultsKeys.container2)
@@ -173,7 +164,6 @@ private extension TodayViewModel {
     static func setDefaultValues() {
         let defaults: [String: Any] = [
             UserDefaultsKeys.dailyGoal: Defaults.dailyGoal,
-            UserDefaultsKeys.currentAmount: Defaults.currentAmount,
             UserDefaultsKeys.container1: Defaults.container1,
             UserDefaultsKeys.container2: Defaults.container2,
             UserDefaultsKeys.container3: Defaults.container3,
@@ -190,5 +180,13 @@ private extension TodayViewModel {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container3)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.unit)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.lastDay)
+    }
+    
+    func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(unitChanged(_:)), name: .unitDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(dailyGoalChanged(_:)), name: .dailyGoalDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container1Changed(_:)), name: .container1DidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container2Changed(_:)), name: .container2DidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(container3Changed(_:)), name: .container3DidChange, object: nil)
     }
 }
