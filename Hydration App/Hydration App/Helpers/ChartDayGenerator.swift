@@ -15,7 +15,7 @@ struct ChartDayGenerator {
         return HydrationDay(
             dailyGoal: currentUnit == "ml" ? Int.random(in: 1600...2300) : Int.random(in: 54...78),
             currentAmount: currentUnit == "ml" ? Int.random(in: 1600...2300) : Int.random(in: 54...78),
-            date: calendar.date(byAdding: .day, value: -daysAgo, to: Date())!.startOfDay,
+            date: getDate(daysAgo: daysAgo).startOfDay,
             unit: currentUnit
         )
     }
@@ -24,8 +24,18 @@ struct ChartDayGenerator {
         return ChartDay (
             dailyGoal: 0,
             currentAmount: 0,
-            date: calendar.date(byAdding: .day, value: -daysAgo , to: Date())!.startOfDay,
+            date: getDate(daysAgo: daysAgo).startOfDay,
             unit: currentUnit
         )
+    }
+}
+
+private extension ChartDayGenerator {
+    func getDate(daysAgo: Int) -> Date {
+        guard let date = calendar.date(byAdding: .day, value: -daysAgo, to: Date()) else {
+            fatalError("can't get the date")
+        }
+        
+        return date
     }
 }

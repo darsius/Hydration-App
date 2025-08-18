@@ -9,8 +9,6 @@ import Foundation
 
 @MainActor
 class HistoryViewModel: ObservableObject {
-    var hasOnlyEmptyDays = true
-    
     var maxDailyGoal: Int {
         chartDays.map { $0.currentAmount }.max() ?? Defaults.dailyGoal
     }

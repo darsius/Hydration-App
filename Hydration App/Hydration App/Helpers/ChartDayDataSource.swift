@@ -11,7 +11,7 @@ import SwiftData
 @MainActor
 class ChartDayDataSource {
     private let container: ModelContainer?
-   
+    
     init(container: ModelContainer?) {
         self.container = container
     }
@@ -41,16 +41,19 @@ extension ChartDayDataSource {
             print("Failed to delete all chart days: \(error)")
         }
     }
-
+    
     
     func updateUnitForAllChartDays(to newUnit: String) {
         let fetchDescriptor = FetchDescriptor<HydrationDay>()
         do {
-            if let chartDays = try container?.mainContext.fetch(fetchDescriptor) {
+            if let chartDays = try container?.mainContext.fetch(fetchDescriptor),
+               let newUnitType = UnitType(rawValue: newUnit) {
                 for day in chartDays {
-                    day.dailyGoal = Converter.convert(amount: day.dailyGoal, from: UnitType(rawValue: day.unit)!, to: UnitType(rawValue: newUnit)!)
-                    day.currentAmount = Converter.convert(amount: day.currentAmount, from: UnitType(rawValue: day.unit)!, to: UnitType(rawValue: newUnit)!)
-                    day.unit = newUnit
+                    if let oldUnitType = UnitType(rawValue: day.unit) {
+                        day.dailyGoal = Converter.convert(amount: day.dailyGoal, from: oldUnitType, to: newUnitType)
+                        day.currentAmount = Converter.convert(amount: day.currentAmount, from: oldUnitType, to: newUnitType)
+                        day.unit = newUnit
+                    }
                 }
             }
         } catch {
