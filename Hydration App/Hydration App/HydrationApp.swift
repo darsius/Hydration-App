@@ -3,7 +3,7 @@ import SwiftData
 
 @main
 struct HydrationApp: App {
-    @StateObject private var coordinator: AppCoordinator
+    private var coordinator: AppCoordinator
     @State private var currentTab = 0
     
     init() {
@@ -11,7 +11,7 @@ struct HydrationApp: App {
             fatalError("Model container can't be initialized")
         }
         
-        _coordinator = StateObject(wrappedValue: AppCoordinator(container: container))
+        coordinator = AppCoordinator(container: container)
     }
     
     var body: some Scene {

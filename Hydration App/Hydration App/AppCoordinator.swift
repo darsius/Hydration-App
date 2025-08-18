@@ -9,7 +9,7 @@ import SwiftUICore
 import SwiftData
 
 @MainActor
-final class AppCoordinator: ObservableObject {
+final class AppCoordinator {
     let dataSource: ChartDayDataSource
     let chartDayGenerator: ChartDayGenerator
     
@@ -37,8 +37,6 @@ final class AppCoordinator: ObservableObject {
     func makeUnitsView(unit: UnitType) -> some View {
         UnitsView(viewModel: UnitsViewModel(selectedUnit: unit))
     }
-    
-    // TODO: map view type from the type itself
     
     func makeInputView(initialValue: Int, inputType: HydrationType, unit: UnitType) -> some View {
         HydrationInputView(

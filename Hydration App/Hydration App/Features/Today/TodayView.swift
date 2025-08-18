@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TodayView: View {
     @StateObject var viewModel: TodayViewModel
-    @ObservedObject var coordinator: AppCoordinator
+    var coordinator: AppCoordinator
     
     var body: some View {
         NavigationStack {

@@ -50,9 +50,9 @@ extension HydrationType {
     var hydrationViewType: HydrationViewType {
         switch self {
         case .dailyGoal:
-            return .dailyGoal
+            .dailyGoal
         case .container(let index):
-            return .container(index)
+            .container(index)
         }
     }
 }
