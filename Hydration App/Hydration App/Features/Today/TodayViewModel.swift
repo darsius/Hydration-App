@@ -43,6 +43,7 @@ class TodayViewModel: ObservableObject {
     
     init(dataSource: ChartDayDataSource) {
         Self.setDefaultValues()
+        Self.clearUserDefaults()
         self.dataSource = dataSource
         
         let todayDate = Date().startOfDay
@@ -54,8 +55,6 @@ class TodayViewModel: ObservableObject {
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
         container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
         unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
-        
-        userDefaults.set(Date().startOfDay, forKey: UserDefaultsKeys.lastDay)
         
         addObservers()
     }
@@ -165,7 +164,6 @@ private extension TodayViewModel {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container2)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.container3)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.unit)
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.lastDay)
     }
     
     func addObservers() {
