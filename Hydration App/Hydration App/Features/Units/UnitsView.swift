@@ -9,8 +9,7 @@ import SwiftUI
 
 struct UnitsView: View {
     @Environment(\.dismiss) private var dismiss
-    
-    @Binding var selectedUnit: UnitType
+    @StateObject var viewModel: UnitsViewModel
     
     var body: some View {
         VStack {
@@ -22,17 +21,17 @@ struct UnitsView: View {
                             Text(unit.label)
                             Spacer()
                             Image(.checkmarkGoal)
-                                .opacity(selectedUnit == unit ? 1 : 0)
+                                .opacity(viewModel.selectedUnit == unit ? 1 : 0)
                         }
                         .font(.regularText)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            selectedUnit = unit
+                            viewModel.selectedUnit = unit
                         }
                     }
                 }
                 .listRowSeparatorTint(.white)
-                .listRowBackground(Color.lightGray)
+                .listRowBackground(Color(UIColor.systemGray3))
                 .alignmentGuide(.listRowSeparatorLeading) { _ in
                     UIConstants.separatorLeadingOffset
                 }

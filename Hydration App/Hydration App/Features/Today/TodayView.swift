@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct TodayView: View {
-    @State private var viewModel = TodayViewModel()
+    @StateObject var viewModel: TodayViewModel
+    var coordinator: AppCoordinator
     
     var body: some View {
         NavigationStack {
@@ -24,6 +25,7 @@ struct TodayView: View {
                             
                             Text("\(viewModel.currentAmount) \(viewModel.unit.rawValue)")
                                 .padding(.bottom, UIConstants.currentGlassVolume)
+                                .foregroundStyle(.white)
                                 .font(.bodyBold)
                         }
                         
@@ -53,27 +55,17 @@ struct TodayView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(
-                            destination: SettingsView(
-                                dailyGoal: $viewModel.dailyGoal,
-                                container1: $viewModel.container1,
-                                container2: $viewModel.container2,
-                                container3: $viewModel.container3,
-                                unit: $viewModel.unit)) {
-                                    Image(.settings)
-                                }
+                            destination: coordinator.makeSettingsView()) {
+                                Image(.settings)
+                            }
                     }
                 }
                 .toolbarBackground(Color(.systemBackground),for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
-                
-                .onChange(of: viewModel.unit) { oldValue, newValue in
-                    viewModel.convertCurrentAmount(from: oldValue, to: newValue)
+                .onAppear {
+                    viewModel.loadData()
                 }
             }
         }
     }
-}
-
-#Preview {
-    TodayView()
 }

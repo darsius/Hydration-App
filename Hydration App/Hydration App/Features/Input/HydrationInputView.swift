@@ -10,9 +10,7 @@ import SwiftUI
 struct HydrationInputView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focus: Bool
-    
-    @Binding var inputValue: Int
-    @Binding var unit: UnitType
+    @ObservedObject var viewModel: HydrationInputViewModel
     @State private var textFieldInput: Int = 0
     
     let viewType: HydrationViewType
@@ -41,19 +39,21 @@ struct HydrationInputView: View {
                             .keyboardType(.numberPad)
                             .focused($focus)
                             .font(.largeTitle)
+                            .foregroundStyle(.white)
                             .frame(width: UIConstants.textFieldWidth, height:UIConstants.textFieldHeight)
                             .overlay {
                                 RoundedRectangle(cornerRadius: UIConstants.textFieldCornerRadius)
                                     .stroke(Color.appGreen, lineWidth: UIConstants.textFieldBorderWidth)
                             }
                         
-                        Text(unit.label)
+                        Text(viewModel.unit.label)
                             .font(.title)
+                            .foregroundStyle(.white)
                             .padding(.bottom, UIConstants.textBottomPadding)
                     }
                     .onAppear {
                         focus = true
-                        textFieldInput = inputValue
+                        textFieldInput = viewModel.initialValue
                     }
                     Spacer()
                 }
@@ -72,7 +72,7 @@ struct HydrationInputView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
-                    inputValue = textFieldInput
+                    viewModel.saveValue(textFieldInput)
                     dismiss()
                 }
             }
