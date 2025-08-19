@@ -19,7 +19,6 @@ class HistoryViewModel: ObservableObject {
     
     private let dataSource: ChartDayDataSource
     private let chartDayGenerator: ChartDayGenerator
-    private var hasGeneratedInitialDays = false
     
     init(dataSource: ChartDayDataSource, chartDayGenerator: ChartDayGenerator) {
         self.dataSource = dataSource
