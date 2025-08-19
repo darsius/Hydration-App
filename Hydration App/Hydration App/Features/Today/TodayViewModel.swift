@@ -30,6 +30,7 @@ class TodayViewModel: ObservableObject {
     @Published var unit: UnitType {
         didSet {
             saveCurrentDay()
+            updateUnits()
         }
     }
     
@@ -105,6 +106,10 @@ class TodayViewModel: ObservableObject {
 }
 
 private extension TodayViewModel {
+    func updateUnits() {
+        dataSource.updateUnitForAllChartDays(to: unit.rawValue)
+    }
+    
     func saveCurrentDay() {
         let todayDate = Date().startOfDay
         
