@@ -62,6 +62,9 @@ struct TodayView: View {
                 }
                 .toolbarBackground(Color(.systemBackground),for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
+                .onAppear {
+                    viewModel.loadData()
+                }
             }
         }
     }

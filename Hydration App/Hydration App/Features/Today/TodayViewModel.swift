@@ -41,14 +41,13 @@ class TodayViewModel: ObservableObject {
     private let dataSource: ChartDayDataSource
     
     init(dataSource: ChartDayDataSource) {
-        //        Self.clearUserDefaults()
         Self.setDefaultValues()
         self.dataSource = dataSource
         
         let todayDate = Date().startOfDay
         let existingDay = dataSource.fetchChartDays().first { $0.date == todayDate }
         
-        currentAmount = existingDay?.currentAmount ?? 0
+        currentAmount = existingDay?.currentAmount ?? Defaults.currentAmount
         dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
         container1 = userDefaults.integer(forKey: UserDefaultsKeys.container1)
         container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
@@ -89,41 +88,23 @@ class TodayViewModel: ObservableObject {
         }
         
         currentAmount = Converter.convert(amount: currentAmount, from: oldUnit, to: newUnit)
-        
-        Converter.convertAll(
-            dailyGoal: &dailyGoal,
-            container1: &container1,
-            container2: &container2,
-            container3: &container3,
-            from: oldUnit,
-            to: newUnit)
-        
-        saveToUserDefaults(
-            currentAmount: currentAmount,
-            dailyGoal: dailyGoal,
-            container1: container1,
-            container2: container2,
-            container3: container3,
-            unit: newUnit)
-        
         unit = newUnit
     }
     
     func addAmount(amount: Int) {
         currentAmount += amount
     }
+    
+    func loadData() {
+        dailyGoal = userDefaults.integer(forKey: UserDefaultsKeys.dailyGoal)
+        container1 = userDefaults.integer(forKey: UserDefaultsKeys.container1)
+        container2 = userDefaults.integer(forKey: UserDefaultsKeys.container2)
+        container3 = userDefaults.integer(forKey: UserDefaultsKeys.container3)
+        unit = UnitType(rawValue: userDefaults.string(forKey: UserDefaultsKeys.unit) ?? "") ?? .ml
+    }
 }
 
 private extension TodayViewModel {
-    
-    func isNewDay() -> Bool {
-        let today = Date().startOfDay
-        if let lastDay = userDefaults.object(forKey: UserDefaultsKeys.lastDay) as? Date {
-            return !Calendar.current.isDate(today, inSameDayAs: lastDay)
-        }
-        return true
-    }
-    
     func saveCurrentDay() {
         let todayDate = Date().startOfDay
         
